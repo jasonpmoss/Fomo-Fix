@@ -1,5 +1,4 @@
 #Author: Jason
-
 library(readr)
 full_set <- read_csv("/Volumes/GoogleDrive/My Drive/NYU MSBA/Courses/Capstone/dataset/Yelp Data Selection/full set without text.csv")
 reviews_full <- as.data.frame(full_set)
@@ -14,23 +13,17 @@ rec_table<-data.frame(matrix(NA, nrow = length(users), ncol = 1)) #create recomm
 (setattr(rec_table, "row.names", users)) #label rows as user ids
 rec_table[,businesses] <- NA #label column names as business ids
 rec_table <- rec_table[,-1] #remove first dummy column
-#View(rec_table)
 for (i in seq_len(nrow(full_set))){  #populate rec_table
   rec_table[full_set$user_id[i],full_set$business_id[i]] <- full_set$stars_1[i]
 }
-
-library(openxlsx) # may need to install this package
-#create excel file of rec table and save it to folder:
-write.xlsx(rec_table, "/Volumes/GoogleDrive/My Drive/NYU MSBA/Courses/Capstone/dataset/Yelp Data Selection/rec_table.xlsx", row.names = TRUE)
-#rownames(rec_table)[1] # get row name
-#colnames(rec_table)[1] # get col name
-#library(psych)
-#table(full_set$user_id)
-#table(full_set$business_id)
-#library(ggplot2)
-#qplot(full_set$user_id,geom="bar")
-
-# of reviews per row
-df<-rec_table
-rec_table_sub <- subset(rec_table, length(rec_table) - apply(is.na(rec_table),1,sum) >2)
-write.xlsx(rec_table_sub, "/Volumes/GoogleDrive/My Drive/NYU MSBA/Courses/Capstone/dataset/Yelp Data Selection/rec_table_sub.xlsx", row.names = TRUE)
+u<-0
+b<-0
+for (i in seq_len(nrow(rec_table))){  #create list of friendly user names
+  u[i] <- paste0("u_",i)
+}
+for (i in seq_len(ncol(rec_table))){  #create list of friendly business names 
+  b[i] <- paste0("b_",i)
+}
+#rename users to friendly names
+(setattr(rec_table, "row.names", u)) #label rows as user ids
+names(rec_table)<-b
