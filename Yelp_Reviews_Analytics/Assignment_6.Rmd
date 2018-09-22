@@ -1,0 +1,318 @@
+---
+title: "Assignment 6: Text Mining"
+author: "Capstone Group FOMO"
+date: "8 September 2018"
+output: html_document
+---
+## Group members:
+  * Janki Shah <js9952@stern.nyu.edu>
+  * Jason Moss <jm7755@stern.nyu.edu>
+  * Nader Albastaki <na2361@stern.nyu.edu>
+  * Rafael Guzman Robles <rgr296@stern.nyu.edu>
+  * Sheel Neoley <san407@stern.nyu.edu>
+  
+
+```{r loadLibrary, include=FALSE, warning=FALSE,results=FALSE, error=FALSE}
+##Loading Libraries
+library(quanteda)# for Corpus creation & manipulation, document term matrix creation etc.... 
+library(ggplot2)# for graphs
+library(plyr) # String manipulation
+library(wordcloud2) # to create wordcloud
+library(syuzhet) # To generate sentiment scores (bing,afinn,nrc)
+library(quanteda.dictionaries)# To generate sentiment scores (HuLiu,sentiws)
+
+```
+
+##Data load, corpus and document matrix creation
+Loading data.....
+```{r loadFiles, include=FALSE, warning=FALSE}
+reviews <- get(load("Reviews.RData"))
+r <- reviews[, c("stars", "text", "date","business_name")]
+#View(r)
+```
+
+Creating corpus for analysis...
+```{r createCorpus, include=FALSE, warning=FALSE}
+
+corpus <- corpus(r)
+summary(corpus)
+texts(corpus)[1]
+
+#Create document term matrix 
+dat <- dfm(corpus, remove = c(stopwords("en"), "vegas", "las", "ppl","realli","one", "anyth", "can","and","or", "just","get","said", "fri", "tri", "one","two","us","ok","us","and", "top","also","la"), remove_numbers = TRUE, remove_punct = TRUE)
+#dat
+
+##Removing further infrequent stuff from reviews
+dat <- dfm_trim(dat, min_termfreq = 2500)
+
+#Since we have over 800K reviews, keeping minimum word frequency to 2.5k is ok
+dat <- dfm_tfidf(dat)
+#summary(dat)
+
+```
+
+##Some basic statistics:
+Top features in entire corpus
+```{r topFeatures, echo=FALSE, warning=FALSE}
+topfeatures(dat, 5) #top 5 features by count
+tpf <- topfeatures(dat, 10, groups = "stars") # top 10 words by count for each star rating
+tpf1 <- topfeatures(dat, 10, groups = "business_name")# top 10 words by count for each restaurant 
+```
+
+
+```{r topWordFrequency, echo=FALSE, warning=FALSE}
+
+df <- data.frame(unlist(tpf))
+df$stars <- rownames(df)
+names(df) <- c('count', 'stars')
+rownames(df) <- NULL
+df$word <- substring(df$stars, 3)
+df$stars <- substring(df$stars, 1, 1)
+```
+
+###Top 10 words in Restaurant reviews (Ratings wise)
+####Graphs for each rating wise word frequency, let's see what's "happening" for each rating category of restaurants.
+
+```{r topWordFrequencyGraphrating, echo=FALSE, warning=FALSE, fig.height=10, fig.width=15}
+
+df$word <- reorder(df$word, df$count)
+ggplot(df, aes(word, count,fill=stars)) + geom_bar(stat = "identity", width = 0.8,show.legend = FALSE) + facet_wrap(~ stars, scales = "free", ncol = 3) + labs(title = "Top 10 words in Restaurant reviews (Ratings wise)", x = "Words", y = "# of Observations") + geom_text(aes(label=floor(count)), hjust=1.2) + coord_flip()
+
+```
+
+### Top 10 words in Restaurant review
+####Graphs for restaurant wise word frequency, let's see what's "happening" for each of 9 restaurants. We have taken subset of 9 restaurants
+
+```{r topWordFrequencyGraphrest, echo=FALSE, warning=FALSE, fig.height=15, fig.width=15,error=FALSE}
+
+
+df_r <- data.frame(unlist(tpf1))
+df_r$restaurant <- rownames(df_r)
+names(df_r) <- c('count', 'business_name')
+rownames(df_r) <- NULL
+df1 <- df_r[1:90,]
+
+spword <- strsplit(df1$business_name, "\\.")
+dff1 <- ldply(spword)
+df1$business_name <- dff1$V1
+df1$word <- dff1$V2
+
+df1$word <- reorder(df1$word, df1$count)
+ggplot(df1, aes(word, count,fill=business_name)) + geom_bar(stat = "identity", width = 0.8,show.legend = FALSE) + facet_wrap(~ business_name, scales = "free", ncol = 3) + labs(title = "Top 10 words in Restaurant review", x = "Words", y = "# of Observations") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + geom_text(aes(label=floor(count)), vjust=1.2) 
+
+```
+
+
+### Word Cloud (Overall Reviews)
+####Create a word cloud for the highest used words in overall reviews
+
+
+```{r topWordFrequencyWordCloud, echo=FALSE, warning=FALSE}
+
+textplot_wordcloud(dat, rotation = 0.25, max_words = 1500, color = "darkblue")
+
+```
+
+
+
+###Word cloud (Subset of Reviews)
+####Create a more beautiful word cloud for the highest used words in restaurant reviews (Top 1000)
+
+
+```{r topWordFrequencyWordCloud2, echo = FALSE, warning=FALSE}
+# Create a word cloud for the highest used words in ratings
+df2 <- df_r[1:1000,]
+
+spword <- strsplit(df2$business_name, "\\.")
+dff2 <- ldply(spword)
+df2$business_name <- dff2$V1
+df2$word <- dff2$V2
+df2$word <- reorder(df2$word, df2$count)
+df2 <- subset(df2,select=c("word","count")) 
+
+wordcloud2(df2, size = 0.5, color = "random-dark", shape = "circle") 
+
+```
+
+
+Generate sentiment scores using nrc, bing and afinn lexicon...
+(All three of these lexicons are based on unigrams.)
+
+```{r createScore, echo=FALSE, warning=FALSE}
+#Refernce: https://www.rdocumentation.org/packages/syuzhet/versions/1.0.4 
+
+#Using nrc, bing and afinn lexicon
+df2$word <- as.character(df2$word)
+sent_bing <- get_sentiment(df2$word, method="bing")
+sent_afinn <- get_sentiment(df2$word, method="afinn")
+sent_nrc <- get_sentiment(df2$word, method="nrc")
+
+#create a dataframe of sentiment scores
+sentiments_score <- data.frame(df2$word, sent_bing, sent_afinn, sent_nrc)
+names(sentiments_score) <- c("word","bingScore", "afinnScore","ncrScore")
+sentiments_score$count <- df2$count
+
+```
+
+
+### Positive/Negative words Classification by AFINN Lexicon.
+
+The AFINN lexicon assigns words with a score between -5 and 5. Negative scores indicate negative sentiment and positive scores indicate positive sentiment.
+
+```{r afinnScores, echo=FALSE, warning=FALSE, fig.height=12,fig.width=15}
+#negative_words <- c("not", "no", "never", "without")
+#negative_words_filter <- sentiments_score %>% filter(word %in% negation_words)
+#negative_words_filter
+
+afinn_df <- subset(sentiments_score,afinnScore > 0 | afinnScore < 0, select=c("word","count","afinnScore"))
+ggplot(afinn_df, aes(x = reorder(word, count), y = count, fill=afinnScore)) + geom_bar(stat = "identity", width = 0.7, show.legend = FALSE) + facet_wrap(~ afinnScore, scales = "free", ncol = 3) + labs(title = "Positive/Negative Sentiments by AFINN Lexicon", x = "Words", y = "# of Observations") + coord_flip()
+```
+
+### Positive/Negative words Classification by Bing Lexicon.
+
+The Bing lexicon assigns words with a binary score (-1,1). Negative scores indicate negative sentiment and positive scores indicate positive sentiment.
+
+```{r bingScores, echo=FALSE, warning=FALSE}
+# top 10 positive/negative sentiment words by Bing lexicon
+sentiments_score$total_count_bing <- sentiments_score$count * sentiments_score$bingScore
+sentiments_score %>%
+        arrange(desc(abs(total_count_bing))) %>%
+        head(10) %>%
+        ggplot(aes(reorder(word, total_count_bing), total_count_bing, fill = total_count_bing > 0)) +
+        geom_bar(stat = "identity", show.legend = FALSE) +
+        labs(title="Top 10 Positive/Negative sentiments by Bing Lexicon",x="Words", y="# of Observation") +
+        ylab("# of Observation") +
+        coord_flip() 
+
+```
+
+
+### Positive/Negative words Classification by NRC Lexicon.
+
+The NRC lexicon assigns words with a binary score (-1,1). Negative scores indicate negative sentiment and positive scores indicate positive sentiment.
+```{r nrcScores, echo=FALSE, warning=FALSE}
+# top 10 positive/negative sentiment words by NRC lexicon
+sentiments_score$total_count_nrc <- sentiments_score$count * sentiments_score$ncrScore
+sentiments_score %>%
+        arrange(desc(abs(total_count_nrc))) %>%
+        head(10) %>%
+        ggplot(aes(reorder(word, total_count_nrc), total_count_nrc, fill = total_count_nrc > 0)) +
+        geom_bar(stat = "identity", show.legend = FALSE) +
+        labs(title="Top 10 Positive/Negative sentiments by NRC Lexicon",x="Words", y="Sentiment score") +
+        ylab("# of Observation") +
+        coord_flip()
+```
+
+
+### Classification of words by emotions 
+
+Calculating the presence of emotions such as anger, disgust, fear, sadness, anticipation, joy, surprise, trsut using NRC Lexicon.
+
+```{r calculateEmotions, warning=TRUE, echo=FALSE,error=FALSE}
+
+colors_palette <- c("#913530","#B9883E","#C91854","#E29358","#B83580","#94B371","#537780","#D4886D")
+sentiments_ncr <- get_nrc_sentiment(df2$word)
+
+e <- as.data.frame(colSums(sentiments_ncr[,1:8]))
+e$emotions <- rownames(e)
+names(e) <- c('count', 'emotions')
+
+ggplot(e, aes(x=reorder(e$emotions,e$count), y=count)) + geom_bar(stat = "identity", width = 0.8, fill = colors_palette) + labs(title = "Classification of words by Emotions", x = "Emotions", y = "Count") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + geom_text(aes(label=floor(count)), vjust=1.2) 
+
+#Classification by Polarity
+#s <- as.data.frame(colSums(sentiments_ncr[,9:10]),)
+#s$emotions <- rownames(s)
+#names(s) <- c('count', 'emotions')
+#s <- arrange(s, count)
+#ggplot(s, aes(x=reorder(s$emotions,s$count), y=count)) + geom_bar(stat = "identity", width = 0.8, #fill=c("#AC5E3A","#4D8035")) + labs(title = "Classification by Positive/Negative Polarity", x = "Sentiments", y #= "Count") + theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+```
+
+```{r removeObjects, echo=FALSE, warning=FALSE}
+#Removing heavy objects
+rm(dat, r, t, df, tpf)
+```
+
+
+## Predict the rating based on sentiment of the review
+####Basic numbers on corpus:-
+```{r corpusBackgroundInfo, echo=FALSE, warning=FALSE}
+head(summary(corpus), 2)
+table(docvars(corpus)$stars)
+```
+
+####Create a smaller corpus for smaller machines:-
+```{r corpusSmallerSet, echo=FALSE, warning=FALSE}
+corp <- corpus_subset(corpus, date >= "2017-01-01" & date <= "2017-01-31")
+#summary(corp)
+```
+
+####Use dictionaries to do +ve / -ve sentiments
+```{r useSentimentDictionaries, echo=FALSE}
+
+sentiHuLiu <- liwcalike(corp, data_dictionary_HuLiu)
+sentiWS <- liwcalike(corp, data_dictionary_sentiws)
+
+summary(sentiHuLiu)
+#summary(sentiWS)
+```
+
+####Create data frames of sentiments
+```{r createSentimentDataFrame, echo=FALSE, warning=FALSE}
+sHL <- sentiHuLiu[, c("docname", "positive", "negative")]
+names(sHL) <-  c("docname", "positiveHL", "negativeHL")
+
+sWS <- sentiWS[, c("docname", "positive", "negative")]
+names(sWS) <-  c("docname", "positiveWS", "negativeWS")
+
+#Merge sentiments with ratings
+senti <- merge(sHL, sWS, by.x = "docname", by.y = "docname")
+
+#names(corp)
+#docvars(corp)
+s <- docvars(corp)
+s$DocName <- rownames(s)
+s <- s[, c("DocName", "stars")]
+rownames(s) <- NULL
+
+senti <- merge(s, senti, by.x = "DocName", by.y = "docname")
+rm(sHL, sWS, sentiHuLiu, sentiWS, s)
+
+senti$stars <- factor(senti$stars)
+senti <- senti[, c("stars", "positiveHL", "negativeHL", "positiveWS", "negativeWS")]
+```
+
+####Worflow creation, evaluation and graph
+The workflow evaluates ratings prediction by postive & negative sentiment classification of reviews using 2 different dictionaries: HuLiu & Wortschatz
+The workflow also evalutes 2 different models - SVM & NaiveBayes
+The current setting for HoldOut number of reps is just 1, since it's time consuming to increase number of repetitions.
+```{r ratingPrediction, echo=FALSE,warning=FALSE}
+library(e1071)
+library(performanceEstimation)
+
+res <- performanceEstimation(
+                              c(
+                                  PredTask(stars ~ ., senti[, c("stars", "positiveHL", "negativeHL")]),
+                                  PredTask(stars ~ ., senti[, c("stars", "positiveWS", "negativeWS")])
+                              ),
+                              c(
+                                  workflowVariants(learner="svm",learner.pars=list(cost=c(1,5,10))),
+                                  workflowVariants(learner="naiveBayes",learner.pars=list(laplace=c(0,1)))
+                              ),
+                              EstimationTask(metrics = "err", method = Holdout(nReps=1, hldSz=0.3, strat=TRUE))
+                            )
+
+plot(res)
+```
+
+####As seen, the HuLiu dictionary is generally better for sentiment analysis pertaining to predicting the star rating for a given review.
+####Also, the SVM model performs better than NaiveBayes model. 
+
+###This completes our text analysis of reviews. 
+###We have covered following as part of this assignment:-
+  * Corpus / DFM creation
+  * Identification of top 10 "happening" words, ratings and restaurant wise
+  * Created word clouds for overall reviews and a more beautiful one with a subset of reviews
+  * Positive / Negative words classification by three different dictionaries - AFINN Lexicon, Bing Lexicon & NRC Lexicon
+  * Calssification of words in reviews by emotions using NRC Lexicon
+  * Lastly, we have evaluated the prediction of ratings given, using positive / negative sentiments classification from 2 dictionaries. 2 models have been compared.
