@@ -27,9 +27,8 @@ ratings_matrix<-function(users, businesses, ratings){
   ratingmat = as(ratingmat, "realRatingMatrix")
   return(ratingmat)
 }
-#----------------------------------------Data import and creation-----------------------------------------------#
+#----------------------------------------testing the function-----------------------------------------------#
 
-# #testing the function
 # input <- c(reviews_full2$user_id,reviews_full2$business_id, reviews_full2$stars) #this is a smaller data frame
 # #input <- c(reviews_full$user_id,reviews_full$business_id, reviews_full$stars)
 # x<-ratings_matrix(reviews_full2$user_id,reviews_full2$business_id, reviews_full2$stars) 
