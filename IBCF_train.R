@@ -1,9 +1,10 @@
 #Author: Jason
-
-library(dplyr)
-library(recommenderlab)
-
 IBCF_train<-function(ratings_matrix){
+  # Start the clock!
+  ptm <- proc.time()
+  
+  library(dplyr)
+  library(recommenderlab)
   
   which_train <- sample(x = c(TRUE, FALSE), size = nrow(ratings_matrix), replace = TRUE, prob = c(0.8, 0.2))
   
@@ -22,4 +23,7 @@ IBCF_train<-function(ratings_matrix){
   
   # save the model to disk
   saveRDS(recc_model, "./IBCF_model.rds")
+  
+  # Stop the clock
+  proc.time() - ptm
 }

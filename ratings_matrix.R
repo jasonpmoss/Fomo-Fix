@@ -15,6 +15,6 @@ ratings_matrix<-function(users, businesses, stars){
 }
 #----------------------------------------testing the function-----------------------------------------------#
 
-#ratings_matrix(ratings$small$user_id, ratings$small$business_id, ratings$small$stars)
+#ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 
 #------------------------------------------------------------------------------------------------------#
