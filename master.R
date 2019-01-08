@@ -1,6 +1,7 @@
 #Author: Jason
 
 library(dplyr)
+library(magrittr)
 
 #----------------------------------------Inputs-----------------------------------------------#
 sql <- "SELECT
