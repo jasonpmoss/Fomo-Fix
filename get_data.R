@@ -4,6 +4,8 @@ library(bigrquery)
 # we need to define data input requirements !!!!
 
 get_dataframe <-function(sql_query){
+  #INPUT: a string containing the sql query
+  #OUTPUT: a dataframe with 3 variables: business_id (character), user_id (character) and stars (int)
   project <- "fomofix-217307" #project ID 
   output <- bq_project_query(project, sql, destination_table = NULL, quiet = NA)
   
