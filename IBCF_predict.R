@@ -1,6 +1,6 @@
 #Author: Jason
 
-library(dplyr)
+library(plyr)
 library(recommenderlab)
 
 IBCF<-function(ratings_matrix,user_number,n_recommended){
