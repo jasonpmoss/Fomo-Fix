@@ -6,3 +6,9 @@ require(devtools)
 install_version("arules", version = "1.5-2", repos = "http://cran.us.r-project.org")
 install_version("proxy", version = "0.4-17", repos = "http://cran.us.r-project.org")
 install.packages("recommenderlab", dependencies = FALSE)
+
+#other packages you may need
+install.packages("bigrquery")
+install.packages("magrittr")
+install.packages("dplyr")
+install.packages("plyr")
