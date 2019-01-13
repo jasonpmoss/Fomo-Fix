@@ -26,9 +26,9 @@ top_n_recommended_restaurants_per_user <- function(matrix, user, num_recommendat
 }
 #------- test ---------------------------
 
-matrix <- recc_predicted #where recc_predicted is the output of the function "predict" of a recommender model
-user <- "DTo6vHKzyx8RmMrVbTgowg"
-n <- 2
-top_n_recommended_restaurants_per_user(matrix, user, n)
-all_recommended_restaurants_per_user(matrix, user)
+# matrix <- recc_predicted #where recc_predicted is the output of the function "predict" of a recommender model
+# user <- "DTo6vHKzyx8RmMrVbTgowg"
+# n <- 2
+# top_n_recommended_restaurants_per_user(matrix, user, n)
+# all_recommended_restaurants_per_user(matrix, user)
 

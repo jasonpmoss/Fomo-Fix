@@ -14,9 +14,11 @@ WHERE
 
 number_of_records<-10000
 #user to be recommended for:
-#user<-ratings$small$user_id[17]
-user<-"_91FxFZYTaUGVIEnQhB5cw"
+#user<-ratings$user_id[17]
+user<-"_ijx1PqANQVFLGNWCibdig"
 n_recommended<-3
+#ratings$user_id[17]
+#which(grepl("_ijx1PqANQVFLGNWCibdig", ratings$user_id))
 #return user rating table:
 
 #----------------------------------------Main code-----------------------------------------------#
@@ -53,3 +55,8 @@ IBCF_predict<-IBCF_predict(recc_data_test, n_recommended)
 source("UBCF_predict.R")
 UBCF_predict<-UBCF_predict(recc_data_test, n_recommended)
 
+source("Popular_predict.R")
+Popular_predict<-Popular_train(ratings_mat)
+
+source("recommended_restaurants_per_user.R")
+top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
