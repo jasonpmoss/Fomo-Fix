@@ -52,3 +52,6 @@ Popular_predict<-Popular_train(ratings_mat)
 
 source("recommended_restaurants_per_user.R")
 top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
+
+## Jason, this rocks
+
