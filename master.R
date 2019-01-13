@@ -1,5 +1,5 @@
-#Author: Jasonpmoss
-
+#Author: Jason
+#----------------------------------------Attach packages--------------------------------------
 library(dplyr)
 library(magrittr)
 
@@ -18,8 +18,7 @@ user<-"_ijx1PqANQVFLGNWCibdig" #this will always need to be updated because this
 n_recommended<-3
 #which(grepl("_ijx1PqANQVFLGNWCibdig", ratings$user_id))
 
-#----------------------------------------Main code-----------------------------------------------
-
+#----------------------------------------Create ratings matrix-----------------------------------------------
 source("get_data.R") # has to be in the same working directory or specify full path
 ratings<- get_dataframe(sql)
 ratings %<>% dplyr::sample_n(number_of_records) #shrink dataframe so that it doesn't take as long to train and run code
@@ -29,8 +28,7 @@ ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 #user_table<-ratings[ratings$user_id == user, ]
 #user_locations<-which(grepl(user, ratings$user_id))
 
-#train models:
-
+#-----------------------------------------train models---------------------------------------------
 source("split_train_test_data.R")
 split_train_test_data(ratings_mat,0.8)
 source("IBCF_train.R")
@@ -39,8 +37,7 @@ IBCF_train(ratings_mat)
 source("UBCF_train.R")
 UBCF_train(ratings_mat)
 
-#run predictions:
-
+#----------------------------------------run predictions-------------------------------------------
 source("IBCF_predict.R")
 IBCF_predict<-IBCF_predict(recc_data_test, n_recommended)
 
@@ -57,3 +54,21 @@ top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
 IBCF_list<-as(IBCF_predict, "list")
 UBCF_list<-as(UBCF_predict, "list")
 Popular_list<-Popular_predict
+
+# the following code is using dummy data to get the hybrid recommender working
+
+#-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
+IBCF_top_n <- IBCF_list[[25]] # dummy predictions
+UBCF_top_n <- UBCF_list[[1]] # dummy predictions
+Popular_top_n <- Popular_predict[[1]] # dummy predictions
+  
+final_recommendations <- c(IBCF_top_n, UBCF_top_n, Popular_top_n)
+final_recommendations <- unique(unlist(strsplit(final_recommendations, " "))) # bring back unique items only
+final_recommendations %<>% data.frame(stringsAsFactors = FALSE)
+names(final_recommendations) <- "business_id"
+user_restaurants_visits<-(subset(ratings,user_id==user))[,1] #restaurants the user has previously visited
+final_recommendations <- anti_join(final_recommendations,user_restaurants_visits) # eliminate restaurants the user has previously visited
+
+#---------------------this hybrid has ability to vary weightings per recommender---------------------------------
+
+
