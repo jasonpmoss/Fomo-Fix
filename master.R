@@ -57,18 +57,24 @@ Popular_list<-Popular_predict
 
 # the following code is using dummy data to get the hybrid recommender working
 
-#-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
 IBCF_top_n <- IBCF_list[[25]] # dummy predictions
 UBCF_top_n <- UBCF_list[[1]] # dummy predictions
 Popular_top_n <- Popular_predict[[1]] # dummy predictions
-  
-final_recommendations <- c(IBCF_top_n, UBCF_top_n, Popular_top_n)
-final_recommendations <- unique(unlist(strsplit(final_recommendations, " "))) # bring back unique items only
-final_recommendations %<>% data.frame(stringsAsFactors = FALSE)
-names(final_recommendations) <- "business_id"
-user_restaurants_visits<-(subset(ratings,user_id==user))[,1] #restaurants the user has previously visited
-final_recommendations <- anti_join(final_recommendations,user_restaurants_visits) # eliminate restaurants the user has previously visited
 
-#---------------------this hybrid has ability to vary weightings per recommender---------------------------------
+#-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
+source("Hybrid_recommender.R")
+Hybrid_predict_unweighted <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
+#---------------------this hybrid has ability to vary weightings per recommender and uses the recommenderlab package---------------------------------
+
+IBCF_weight<-0.4
+UBCF_weight<-0.4
+Popular_weight<-0.2
+
+UBCF_model <- readRDS("./UBCF_model.rds")
+IBCF_model <- readRDS("./IBCF_model.rds")
+Popular_model <- readRDS("./Popular_model.rds")
+
+source("Hybrid_recommender.R")
+Hybrid_predict <- Hybrid_predict(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
 
 
