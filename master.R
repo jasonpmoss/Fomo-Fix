@@ -3,7 +3,7 @@
 library(dplyr)
 library(magrittr)
 
-#----------------------------------------Inputs-----------------------------------------------#
+#----------------------------------------Inputs-----------------------------------------------
 sql <- "SELECT
   *
 FROM
@@ -18,7 +18,7 @@ user<-"_ijx1PqANQVFLGNWCibdig" #this will always need to be updated because this
 n_recommended<-3
 #which(grepl("_ijx1PqANQVFLGNWCibdig", ratings$user_id))
 
-#----------------------------------------Main code-----------------------------------------------#
+#----------------------------------------Main code-----------------------------------------------
 
 source("get_data.R") # has to be in the same working directory or specify full path
 ratings<- get_dataframe(sql)
