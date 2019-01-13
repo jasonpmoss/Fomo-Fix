@@ -10,4 +10,4 @@ split_train_test_data <- function(ratingmat, train_proportion){
 }
 
 #----Test------------------
-test <- split_train_test_data(ratingmat,0.8)
+#test <- split_train_test_data(ratingmat,0.8)
