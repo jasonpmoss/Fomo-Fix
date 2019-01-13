@@ -53,5 +53,7 @@ Popular_predict<-Popular_train(ratings_mat)
 source("recommended_restaurants_per_user.R")
 top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
 
-## Jason, this rocks
-
+# Convert recommendations to lists (hopefully, this will ease extraction of user specific recommendations)
+IBCF_list<-as(IBCF_predict, "list")
+UBCF_list<-as(UBCF_predict, "list")
+Popular_list<-Popular_predict
