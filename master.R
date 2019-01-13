@@ -48,8 +48,8 @@ UBCF_train(ratings_mat)
 #run predictions:
 
 source("IBCF_predict.R")
-IBCF_predict<-IBCF_predict(recc_data_train, n_recommended)
+IBCF_predict<-IBCF_predict(recc_data_test, n_recommended)
 
 source("UBCF_predict.R")
-UBCF_predict<-UBCF_predict(recc_data_train, n_recommended)
+UBCF_predict<-UBCF_predict(recc_data_test, n_recommended)
 
