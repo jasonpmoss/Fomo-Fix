@@ -13,28 +13,21 @@ WHERE
 
 number_of_records<-10000
 #user to be recommended for:
-#user<-ratings$user_id[17]
-user<-"_ijx1PqANQVFLGNWCibdig"
+#user<-ratings$user_id[17] #find a random user at location 17
+user<-"_ijx1PqANQVFLGNWCibdig" #this will always need to be updated because this user might not be in the sample
 n_recommended<-3
-#ratings$user_id[17]
 #which(grepl("_ijx1PqANQVFLGNWCibdig", ratings$user_id))
-#return user rating table:
 
 #----------------------------------------Main code-----------------------------------------------#
 
 source("get_data.R") # has to be in the same working directory or specify full path
 ratings<- get_dataframe(sql)
-#ratings$full #this is the large dataframe
-#ratings$small #this is a smaller dataframe to deal with challenges from large dataframes
-ratings %<>% dplyr::sample_n(number_of_records)
+ratings %<>% dplyr::sample_n(number_of_records) #shrink dataframe so that it doesn't take as long to train and run code
 
 source("ratings_matrix.R")
 ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 #user_table<-ratings[ratings$user_id == user, ]
 #user_locations<-which(grepl(user, ratings$user_id))
-source("ratings_matrix.R")
-user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_table$stars)
-
 
 #train models:
 
