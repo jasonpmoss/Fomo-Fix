@@ -9,7 +9,7 @@ all_recommended_restaurants_per_user <- function(matrix, user){
   
   #returns the names of thoese restaurants
   return(matrix@itemLabels[restaurants_index])
-  
+  #
 }
 
 
