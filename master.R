@@ -1,5 +1,6 @@
 #Author: Jason
 #----------------------------------------Attach packages--------------------------------------
+library(plyr)
 library(dplyr)
 library(magrittr)
 
@@ -46,7 +47,7 @@ IBCF_model <- readRDS("./IBCF_model.rds")
 Popular_model <- readRDS("./Popular_model.rds")
 
 source("Hybrid_train.R")
-Hybrid_train <- Hybrid_predict(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
+Hybrid_train <- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
 
 #----------------------------------------run predictions-------------------------------------------
 source("IBCF_predict.R")
@@ -78,6 +79,5 @@ Popular_top_n <- Popular_predict[[1]] # dummy predictions
 #-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
 source("Hybrid_predict.R")
 Hybrid_predict_unweighted <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
-
 
 

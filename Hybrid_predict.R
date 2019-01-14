@@ -1,5 +1,5 @@
 #two recommender models here. See notes on master.
-
+library(recommenderlab)
 
 Hybrid_predict<-function(recom){
   return(as(predict(recom, recc_data_test), "list"))
