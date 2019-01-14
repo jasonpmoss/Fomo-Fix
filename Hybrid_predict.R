@@ -1,22 +1,10 @@
+#two recommender models here. See notes on master.
 
-Hybrid_predict<-function(model_1,model_2,model_3, weight_1,weight_2,weight_3){
 
-recom <- HybridRecommender(
-  model_1,
-  model_2,
-  model_3,
-  weights = c(weight_1, weight_2, weight_3)
-)
-return(as(predict(recom, recc_data_test), "list"))
+Hybrid_predict<-function(recom){
+
+  return(as(predict(recom, recc_data_test), "list"))
 }
-
-#------------------------test function------------------------------------------
-# UBCF_model <- readRDS("./UBCF_model.rds")
-# IBCF_model <- readRDS("./IBCF_model.rds")
-# Popular_model <- readRDS("./Popular_model.rds")
-#Hybrid_predict(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
-#recom
-#getModel(recom)
 
 Hybrid_predict_unweighted<-function(IBCF,UBCF,Popular){
   final_recommendations <- c(IBCF, UBCF, Popular)

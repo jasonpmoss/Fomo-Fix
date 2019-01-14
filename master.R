@@ -37,6 +37,17 @@ IBCF_train(ratings_mat)
 source("UBCF_train.R")
 UBCF_train(ratings_mat)
 
+IBCF_weight<-0.4
+UBCF_weight<-0.4
+Popular_weight<-0.2
+
+UBCF_model <- readRDS("./UBCF_model.rds")
+IBCF_model <- readRDS("./IBCF_model.rds")
+Popular_model <- readRDS("./Popular_model.rds")
+
+source("Hybrid_train.R")
+Hybrid_train <- Hybrid_predict(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
+
 #----------------------------------------run predictions-------------------------------------------
 source("IBCF_predict.R")
 IBCF_predict<-IBCF_predict(recc_data_test, n_recommended)
@@ -47,6 +58,9 @@ UBCF_predict<-UBCF_predict(recc_data_test, n_recommended)
 source("Popular_predict.R")
 Popular_predict<-Popular_train(ratings_mat)
 
+source("Hybrid_predict.R")
+Hybrid_predict<-Hybrid_predict(readRDS("./Hybrid_model.rds"))
+
 source("recommended_restaurants_per_user.R")
 top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
 
@@ -55,26 +69,15 @@ IBCF_list<-as(IBCF_predict, "list")
 UBCF_list<-as(UBCF_predict, "list")
 Popular_list<-Popular_predict
 
-# the following code is using dummy data to get the hybrid recommender working
+# the following code is using dummy data to get an ALTERNATE hybrid recommender working
 
 IBCF_top_n <- IBCF_list[[25]] # dummy predictions
 UBCF_top_n <- UBCF_list[[1]] # dummy predictions
 Popular_top_n <- Popular_predict[[1]] # dummy predictions
 
 #-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
-source("Hybrid_recommender.R")
+source("Hybrid_predict.R")
 Hybrid_predict_unweighted <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
-#---------------------this hybrid has ability to vary weightings per recommender and uses the recommenderlab package---------------------------------
 
-IBCF_weight<-0.4
-UBCF_weight<-0.4
-Popular_weight<-0.2
-
-UBCF_model <- readRDS("./UBCF_model.rds")
-IBCF_model <- readRDS("./IBCF_model.rds")
-Popular_model <- readRDS("./Popular_model.rds")
-
-source("Hybrid_recommender.R")
-Hybrid_predict <- Hybrid_predict(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
 
 
