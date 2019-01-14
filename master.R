@@ -14,11 +14,11 @@ library(magrittr)
 
 number_of_records<-10000
 #user to be recommended for:
-#user<-ratings$user_id[17] #find a random user at location 17
-user<-"_ijx1PqANQVFLGNWCibdig" #this will always need to be updated because this user might not be in the sample
+
+#user<-"_ijx1PqANQVFLGNWCibdig" #this will always need to be updated because this user might not be in the sample
 n_recommended<-3
 #which(grepl("_ijx1PqANQVFLGNWCibdig", ratings$user_id))
-model_training_required <- TRUE #set this to TRUE to train new models
+model_training_required <- FALSE #set this to TRUE to train new models
 
 #----------------------------------------Create ratings matrix-----------------------------------------------
 # source("get_data.R") # has to be in the same working directory or specify full path
@@ -27,7 +27,7 @@ model_training_required <- TRUE #set this to TRUE to train new models
 # save(ratings,file="ratings.Rda") #create saved dataset so we can re-use it on the models that we've saved.
 
 load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
-
+user<-ratings$user_id[17] #find a random user at location 17
 source("ratings_matrix.R")
 ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 #user_table<-ratings[ratings$user_id == user, ]
@@ -39,7 +39,7 @@ ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 source("split_train_test_data.R") 
 split_train_test_data(ratings_mat,0.8)
 
-If (model_training_required == TRUE){
+if (model_training_required == TRUE){
   source("IBCF_train.R")
   IBCF_train(ratings_mat)
   
@@ -87,3 +87,7 @@ Popular_top_n <- Popular_predict[[1]] # dummy predictions
 #-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
 source("Hybrid_predict.R")
 Hybrid_predict_unweighted <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
+
+#------------------------map recommendations--------------------------------------------
+source("map_recommendations.R")
+res_plot(get_restaurants(Hybrid_predict_unweighted)) #Hybrid_predict_unweighted is a dataframe of business_ids
