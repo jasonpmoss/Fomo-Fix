@@ -2,7 +2,6 @@
 
 
 Hybrid_predict<-function(recom){
-
   return(as(predict(recom, recc_data_test), "list"))
 }
 
