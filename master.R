@@ -46,9 +46,9 @@ if (model_training_required == TRUE){
   source("UBCF_train.R")
   UBCF_train(ratings_mat)
   
-  IBCF_weight<-0
-  UBCF_weight<-0.5
-  Popular_weight<-0.5
+  IBCF_weight<-0.45
+  UBCF_weight<-0.45
+  Popular_weight<-0.1
   
   UBCF_model <- readRDS("./UBCF_model.rds")
   IBCF_model <- readRDS("./IBCF_model.rds")
