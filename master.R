@@ -68,7 +68,7 @@ source("Popular_predict.R")
 Popular_predict<-Popular_train(ratings_mat)
 
 source("Hybrid_predict.R")
-Hybrid_predict<-Hybrid_predict(readRDS("./Hybrid_model.rds"))
+Hybrid_predict_rec_list<-Hybrid_predict(readRDS("./Hybrid_model.rds"))
 
 source("recommended_restaurants_per_user.R")
 top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
@@ -89,5 +89,7 @@ source("Hybrid_predict.R")
 Hybrid_predict_unweighted <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
 
 #------------------------map recommendations--------------------------------------------
+source("transform_predictions_to_matrix.R")
+res_df<-recommendations_for_user(user,Hybrid_predict_rec_list)
 source("map_recommendations.R")
-res_plot(get_restaurants(Hybrid_predict_unweighted)) #Hybrid_predict_unweighted is a dataframe of business_ids
+res_plot(get_restaurants(res_df)) #Hybrid_predict_unweighted is a dataframe of business_ids

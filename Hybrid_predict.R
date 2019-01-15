@@ -2,7 +2,7 @@
 library(recommenderlab)
 
 Hybrid_predict<-function(recom){
-  return(as(predict(recom, recc_data_test), "list"))
+  return(as(predict(recom, recc_data_test), "topNList"))
 }
 
 Hybrid_predict_unweighted<-function(IBCF,UBCF,Popular){
