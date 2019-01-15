@@ -1,4 +1,4 @@
-library(dplyr)
+library(dplyr) 
 #add the restaurants ids
 recc_list <- sapply(IBCF_predict@items, function(x){
   colnames(ratings_mat)[x]
