@@ -9,7 +9,7 @@ recc_list <- sapply(Hybrid_predict_rec_list@items, function(x){
 recc_matrix <- plyr::ldply(recc_list, rbind)
 
 #We retrieve only those users having at least one recommendation (first recommended business different than "NA" --second column of the matrix != NA--)
-recc_matrix_not_empty <- recc_matrix[!is.na(recc_matrix[1]),]
+recc_matrix_not_empty <- recc_matrix[!is.na(recc_matrix[2]),]
 head(recc_matrix_not_empty)
 
 #To access to the recommendations for a given user, we create the following function:
