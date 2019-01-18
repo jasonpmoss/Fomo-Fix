@@ -93,3 +93,5 @@ source("transform_predictions_to_matrix.R")
 res_df<-recommendations_for_user(user,Hybrid_predict_rec_list)
 source("map_recommendations.R")
 res_plot(get_restaurants(res_df)) #Hybrid_predict_unweighted is a dataframe of business_ids
+
+save.image(file='variable_environment_20190118.RData')
