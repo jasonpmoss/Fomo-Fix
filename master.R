@@ -30,7 +30,9 @@ load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
 user<-ratings$user_id[17] #find a random user at location 17
 source("ratings_matrix.R")
 ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
-#user_table<-ratings[ratings$user_id == user, ]
+user_table<-ratings[ratings$user_id == user, ]
+source("ratings_matrix.R")
+user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_table$stars)
 #user_locations<-which(grepl(user, ratings$user_id))
 
 #-----------------------------------------train models---------------------------------------------
