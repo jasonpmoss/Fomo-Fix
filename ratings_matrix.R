@@ -9,6 +9,7 @@ library(data.table) #use this library to change row and column names below and h
 ratings_matrix<-function(users, businesses, stars){
   reviews<-data.frame(users,businesses,stars)
   ratingmat = dcast(reviews, users~businesses, value.var = "stars")
+  row.names(ratingmat) <- ratingmat$users
   ratingmat = as.matrix(ratingmat[,-1])
   ratingmat = as(ratingmat, "realRatingMatrix")
   return(ratingmat)

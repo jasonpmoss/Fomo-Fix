@@ -30,7 +30,9 @@ load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
 user<-ratings$user_id[17] #find a random user at location 17
 source("ratings_matrix.R")
 ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
-#user_table<-ratings[ratings$user_id == user, ]
+user_table<-ratings[ratings$user_id == user, ]
+source("ratings_matrix.R")
+user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_table$stars)
 #user_locations<-which(grepl(user, ratings$user_id))
 
 #-----------------------------------------train models---------------------------------------------
@@ -68,7 +70,7 @@ source("Popular_predict.R")
 Popular_predict<-Popular_train(ratings_mat)
 
 source("Hybrid_predict.R")
-Hybrid_predict<-Hybrid_predict(readRDS("./Hybrid_model.rds"))
+Hybrid_predict_rec_list<-Hybrid_predict(readRDS("./Hybrid_model.rds"))
 
 source("recommended_restaurants_per_user.R")
 top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
@@ -89,5 +91,9 @@ source("Hybrid_predict.R")
 Hybrid_predict_unweighted <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
 
 #------------------------map recommendations--------------------------------------------
+source("transform_predictions_to_matrix.R")
+res_df<-recommendations_for_user(user,Hybrid_predict_rec_list)
 source("map_recommendations.R")
-res_plot(get_restaurants(Hybrid_predict_unweighted)) #Hybrid_predict_unweighted is a dataframe of business_ids
+res_plot(get_restaurants(res_df)) #Hybrid_predict_unweighted is a dataframe of business_ids
+
+save.image(file='variable_environment_20190118.RData')
