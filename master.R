@@ -97,3 +97,9 @@ source("map_recommendations.R")
 res_plot(get_restaurants(res_df)) #Hybrid_predict_unweighted is a dataframe of business_ids
 
 save.image(file='variable_environment_20190118.RData')
+
+
+#-------------------------doing recommendations for a specific user-------------
+source("recommended_restaurants_per_user.R")
+
+predictions_per_user(UBCF_model, recc_data_test, "_7A9uRTB8MEUGrloUdo8Fw", 10)
