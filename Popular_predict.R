@@ -3,17 +3,14 @@
 library(dplyr)
 library(recommenderlab)
 
-Popular_train<-function(ratings_matrix){
-  # Start the clock!
-  ptm <- proc.time()
+Popular_train<-function(ratings_matrix, n_recommended){
+
+  Popular_model <- readRDS("./Popular_model.rds")
   
-  rec=Recommender(ratings_matrix[1:nrow(ratings_matrix)],method="POPULAR")
-  # save the model to disk
-  saveRDS(rec, "./Popular_model.rds")
-  recom <- predict(rec, ratings_matrix, n=3)
-  return(as(recom, "list"))
-  # Stop the clock
-  proc.time() - ptm
+  popular_recc_predicted <- predict(object = Popular_model, ratings_matrix, n=n_recommended)
+  
+  return(popular_recc_predicted)
+
 }
 
 #----------------------------------------testing the function-----------------------------------------------#

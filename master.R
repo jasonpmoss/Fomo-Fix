@@ -48,6 +48,9 @@ if (model_training_required == TRUE){
   source("UBCF_train.R")
   UBCF_train(ratings_mat)
   
+  source("Popular_train.R")
+  Popular_train(ratings_mat)
+  
   IBCF_weight<-0.45
   UBCF_weight<-0.45
   Popular_weight<-0.1
@@ -67,7 +70,7 @@ source("UBCF_predict.R")
 UBCF_predict<-UBCF_predict(recc_data_test, n_recommended)
 
 source("Popular_predict.R")
-Popular_predict<-Popular_train(ratings_mat)
+Popular_predict<-Popular_train(ratings_mat, n_recommended)
 
 source("Hybrid_predict.R")
 Hybrid_predict_rec_list<-Hybrid_predict(readRDS("./Hybrid_model.rds"))
@@ -78,13 +81,13 @@ top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
 # Convert recommendations to lists (hopefully, this will ease extraction of user specific recommendations)
 IBCF_list<-as(IBCF_predict, "list")
 UBCF_list<-as(UBCF_predict, "list")
-Popular_list<-Popular_predict
+Popular_list<-as(Popular_predict, "list")
 
 # the following code is using dummy data to get an ALTERNATE hybrid recommender working
 
-IBCF_top_n <- IBCF_list[[25]] # dummy predictions
+IBCF_top_n <- IBCF_list[[2]] # dummy predictions
 UBCF_top_n <- UBCF_list[[1]] # dummy predictions
-Popular_top_n <- Popular_predict[[1]] # dummy predictions
+Popular_top_n <- Popular_list[[1]] # dummy predictions
 
 #-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
 source("Hybrid_predict.R")
@@ -101,5 +104,6 @@ save.image(file='variable_environment_20190118.RData')
 
 #-------------------------doing recommendations for a specific user-------------
 source("recommended_restaurants_per_user.R")
-
+source("UBCF_train.R")
+UBCF_train(ratings_mat)
 predictions_per_user(UBCF_model, recc_data_test, "_7A9uRTB8MEUGrloUdo8Fw", 10)
