@@ -1,11 +1,11 @@
 library(dplyr)
 library(recommenderlab)
 
-Popular_train<-function(ratings_matrix){
+Popular_train<-function(ratings_matrix, norm = "center"){
   # Start the clock!
   ptm <- proc.time()
   
-  rec=Recommender(ratings_matrix[1:nrow(ratings_matrix)],method="POPULAR")
+  rec=Recommender(ratings_matrix[1:nrow(ratings_matrix)],method="POPULAR", normalize = norm)
   # save the model to disk
   saveRDS(rec, "./Popular_model.rds")
   # Stop the clock
