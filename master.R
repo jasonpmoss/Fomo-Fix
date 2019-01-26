@@ -73,7 +73,7 @@ source("Popular_predict.R")
 Popular_predict<-Popular_train(ratings_mat, n_recommended)
 
 source("Hybrid_predict.R")
-Hybrid_predict_rec_list<-Hybrid_predict(readRDS("./Hybrid_model.rds"))
+Hybrid_predict_rec_list<-Hybrid_predict(ratings_mat)
 
 source("recommended_restaurants_per_user.R")
 top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
@@ -91,7 +91,7 @@ Popular_top_n <- Popular_list[[1]] # dummy predictions
 
 #-----------------------this hybrid recommender uses equal weightings with no ability to change weightings--------------------
 source("Hybrid_predict.R")
-Hybrid_predict_unweighted <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
+Hybrid_predict <- Hybrid_predict_unweighted(IBCF_top_n, UBCF_top_n, Popular_top_n)
 
 #------------------------map recommendations--------------------------------------------
 source("transform_predictions_to_matrix.R")
