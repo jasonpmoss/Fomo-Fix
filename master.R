@@ -27,7 +27,7 @@ model_training_required <- FALSE #set this to TRUE to train new models
 # save(ratings,file="ratings.Rda") #create saved dataset so we can re-use it on the models that we've saved.
 
 load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
-user<-ratings$user_id[17] #find a random user at location 17
+user<-"_7A9uRTB8MEUGrloUdo8Fw" #ratings$user_id[17] #find a random user at location 17
 source("ratings_matrix.R")
 ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 user_table<-ratings[ratings$user_id == user, ]
@@ -104,6 +104,9 @@ save.image(file='variable_environment_20190118.RData')
 
 #-------------------------doing recommendations for a specific user-------------
 source("recommended_restaurants_per_user.R")
-source("UBCF_train.R")
-UBCF_train(ratings_mat)
-predict_per_user(UBCF_model, recc_data_test, "_7A9uRTB8MEUGrloUdo8Fw", 10)
+#source("UBCF_train.R")
+#UBCF_train(ratings_mat)
+predictions<-predict_per_user(UBCF_model, recc_data_test, user, 10)
+user_restaurants_visits<-(subset(ratings,user_id==user))[,1]
+
+table_for_user<-c(predictions, user_restaurants_visits)
