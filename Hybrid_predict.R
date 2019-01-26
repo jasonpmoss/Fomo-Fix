@@ -8,5 +8,4 @@ Hybrid_predict<-function(ratings_matrix){
   Hybrid_recc_predicted <- predict(Hybrid_model, ratings_matrix)
   
   return(Hybrid_recc_predicted)
-  # return(as(Hybrid_recc_predicted, "topNList"))
 }

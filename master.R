@@ -12,7 +12,7 @@ library(magrittr)
 # WHERE
 #   stars>0;"
 
-number_of_records<-1000
+number_of_records<-10000
 #user to be recommended for:
 
 #user<-"_ijx1PqANQVFLGNWCibdig" #this will always need to be updated because this user might not be in the sample
@@ -61,6 +61,7 @@ if (model_training_required == TRUE){
   
   source("Hybrid_train.R")
   Hybrid_train <- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
+  Hybrid_model <- readRDS("./Hybrid_model.rds")
 }
 #----------------------------------------run predictions-------------------------------------------
 source("IBCF_predict.R")
@@ -73,16 +74,11 @@ source("Popular_predict.R")
 Popular_predict<-Popular_predict(ratings_mat, n_recommended)
 
 source("Hybrid_predict.R")
-Hybrid_predict_rec_list<-Hybrid_predict(ratings_mat)
-
-#source("recommended_restaurants_per_user.R")
-#top_n_recommended_restaurants_per_user(UBCF_predict,user,n_recommended)
+Hybrid_predict<-Hybrid_predict(ratings_mat)
 
 #-------------------------doing recommendations for a specific user-------------
 source("recommended_restaurants_per_user.R")
-#source("UBCF_train.R")
-#UBCF_train(ratings_mat)
-predictions<-predict_per_user(UBCF_model, recc_data_test, user, 10)
+predictions<-predict_per_user(Hybrid_mo, recc_data_test, user, 10)
 user_restaurants_visits<-(subset(ratings,user_id==user))[,1]
 predictions<-as.data.frame(predictions)
 #------------------------map recommendations--------------------------------------------
