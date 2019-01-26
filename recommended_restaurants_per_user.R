@@ -29,7 +29,7 @@ top_n_recommended_restaurants_per_user <- function(topNlist_predictions, user, n
 #It computes the recommendation on the fly only for that user, it does not require to predict for the whole test data
 #INPUT: a recommender model object, the realRatingMatrix object containing ratings (the test dataset), the user name as a string and the number of recommendations to get
 #OUTPUT: the list of string of characters containing the names of the restaurants recommended for that particula user
-predictions_per_user <- function(recommender_model, ratings_dataset, user, n_recommendations){
+predict_per_user <- function(recommender_model, ratings_dataset, user, n_recommendations){
   #get the index of the user in the ratings dataset
   user_position <- match(user,rownames(ratings_dataset@data))
   
