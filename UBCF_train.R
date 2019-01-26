@@ -11,8 +11,11 @@ UBCF_train<-function(training_data, nearest_neighbors =30 , distance = "cosine",
   library(dplyr)
   library(recommenderlab)
 
-  UBCF_recc_model <- Recommender(data = training_data, method = "UBCF", 
-                            parameter = list(nn = nearest_neighbors, method = distance, normalize = normalize_ratings))
+  UBCF_recc_model <- Recommender(data = training_data, 
+                                 method = "UBCF", 
+                                 parameter = list(nn = nearest_neighbors, 
+                                                  method = distance, 
+                                                  normalize = normalize_ratings))
   
   # save the model to disk
   saveRDS(UBCF_recc_model, "./UBCF_model.rds")
