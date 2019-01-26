@@ -83,7 +83,7 @@ source("recommended_restaurants_per_user.R")
 #source("UBCF_train.R")
 #UBCF_train(ratings_mat)
 predictions<-predict_per_user(UBCF_model, recc_data_test, user, 10)
-user_restaurants_visits<-(subset(ratings,user_id==user))[,2]
+user_restaurants_visits<-(subset(ratings,user_id==user))[,1]
 predictions<-as.data.frame(predictions)
 #------------------------map recommendations--------------------------------------------
 source("map_recommendations.R")
