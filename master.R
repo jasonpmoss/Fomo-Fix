@@ -1,4 +1,6 @@
 #Author: Jason
+# Start the clock!
+ptm <- proc.time()
 #----------------------------------------Attach packages--------------------------------------
 library(plyr)
 library(dplyr)
@@ -111,4 +113,7 @@ table_for_user<-c(user_restaurants_visited, predictions)
 table_for_user %<>% as.data.frame()
 names(table_for_user)<-c("restaurants_visited", "predictions")
 table_for_user
+# Stop the clock
+time_to_run_code<-proc.time() - ptm
+time_to_run_code
 save.image(file='variable_environment_20190126.RData')
