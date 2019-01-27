@@ -3,7 +3,7 @@
 #Description: this function returns all predicted items for a given user given the prediction for several users
 #INPUT: a "topNList" object containing predictions, the name of an user as a string of characters and an integer indicating the number of recommendations to return
 #OUTPUT: the list of string of characters containing the names of the restaurants recommended for that particula user
-recommendations_from_prediction_topNlist <- function(topNlist_predictions, user){
+recommendations_from_topNlist <- function(topNlist_predictions, user){
   #extract the list of index of the recommended restaurants for the user
   restaurants_index <- matrix@items[[user]]
   
@@ -16,7 +16,7 @@ recommendations_from_prediction_topNlist <- function(topNlist_predictions, user)
 #Description: this function returns the top "n" predicted items for a given user given the prediction for several users
 #INPUT: a "topNList" object containing predictions and the name of an user as a string of characters
 #OUTPUT: the list of string of characters containing the names of the restaurants recommended for that particula user
-top_n_recommended_restaurants_per_user <- function(topNlist_predictions, user, num_recommendations){
+top_n_recommendations_from_topNlist <- function(topNlist_predictions, user, num_recommendations){
   #extract the list of index of the recommended restaurants for the user
   restaurants_index <- matrix@items[[user]][1:num_recommendations]
   
