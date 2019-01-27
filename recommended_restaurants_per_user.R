@@ -12,7 +12,6 @@ recommendations_from_topNlist <- function(topNlist_predictions, user){
   
 }
 
-
 #Description: this function returns the top "n" predicted items for a given user given the prediction for several users
 #INPUT: a "topNList" object containing predictions and the name of an user as a string of characters
 #OUTPUT: the list of string of characters containing the names of the restaurants recommended for that particula user
@@ -22,7 +21,6 @@ top_n_recommendations_from_topNlist <- function(topNlist_predictions, user, num_
   
   #returns the names of thoese restaurants
   return(matrix@itemLabels[restaurants_index])
-  
 }
 
 #Description: this function predicts restaurants for an user given a recommender model. 
@@ -42,6 +40,24 @@ predict_per_user <- function(recommender_model, ratings_dataset, user, n_recomme
   #returns the list of restaurants in a "cleaner" way
   return(predictions_list[[user]])
 }
+
+predict_ratings_per_user <- function(recommender_model, ratings_dataset, user){
+  #get the index of the user in the ratings dataset
+  user_position <- match(user,rownames(ratings_dataset@data))
+  
+  #returns the names of the predicted restaurants
+  predictions <- predict(recommender_model,user_position, data = ratings_dataset, type = "ratings")
+  
+  #convert the topNList object into a List
+  #predictions_list <- as(predictions, "list")
+  
+  #returns the list of restaurants in a "cleaner" way
+  #return(as(predictions, "matrix")[,1:10])
+  return(predictions)
+}
+
+
+
 #------- test ---------------------------
 
 # matrix <- recc_predicted #where recc_predicted is the output of the function "predict" of a recommender model
