@@ -41,6 +41,7 @@ predict_per_user <- function(recommender_model, ratings_dataset, user, n_recomme
   return(predictions_list[[user]])
 }
 
+#THE FOLLOWING CODE HAS NOT BEEN PROPERLY TESTED. WE NEED TO CHECK IF IT GETS THE TOPN "N" RESTAURANTS
 predict_ratings_per_user <- function(recommender_model, ratings_dataset, user){
   #get the index of the user in the ratings dataset
   user_position <- match(user,rownames(ratings_dataset@data))
@@ -50,6 +51,7 @@ predict_ratings_per_user <- function(recommender_model, ratings_dataset, user){
   
   #convert the topNList object into a List
   #predictions_list <- as(predictions, "list")
+  
   
   #returns the list of restaurants in a "cleaner" way
   #return(as(predictions, "matrix")[,1:10])
