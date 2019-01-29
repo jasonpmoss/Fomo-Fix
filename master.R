@@ -43,39 +43,10 @@ source("split_train_test_data.R")
 split_train_test_data(ratings_mat,0.8)
 
 if (model_training_required == TRUE){
-  source("IBCF_train.R")
-  IBCF_train(ratings_mat)
-  
-  source("UBCF_train.R")
-  UBCF_train(ratings_mat)
-  
-  source("Popular_train.R")
-  Popular_train(ratings_mat)
-  
-  IBCF_weight<-0.45
-  UBCF_weight<-0.45
-  Popular_weight<-0.1
-  
-  UBCF_model <- readRDS("./UBCF_model.rds")
-  IBCF_model <- readRDS("./IBCF_model.rds")
-  Popular_model <- readRDS("./Popular_model.rds")
-  
-  source("Hybrid_train.R")
-  Hybrid_train <- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
-  Hybrid_model <- readRDS("./Hybrid_model.rds")
+  source("model_training.R")
 }
 #----------------------------------------run predictions-------------------------------------------
-source("IBCF_predict.R")
-IBCF_predict<-IBCF_predict(recc_data_test, n_recommended)
-
-source("UBCF_predict.R")
-UBCF_predict<-UBCF_predict(recc_data_test, n_recommended)
-
-source("Popular_predict.R")
-Popular_predict<-Popular_predict(ratings_mat, n_recommended)
-
-source("Hybrid_predict.R")
-Hybrid_predict<-Hybrid_predict(ratings_mat)
+source("predictions_on_test_data.R")
 
 #-------------------------doing recommendations for a specific user-------------
 source("recommended_restaurants_per_user.R")

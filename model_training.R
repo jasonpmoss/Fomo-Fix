@@ -39,13 +39,17 @@ Hybrid_future<- future({IBCF_weight<-0.45
 
 IBCF_future
 UBCF_future
-Hybrid_future
-resolved(IBCF_future)
-#list_to_train<-list(IBCF_future, UBCF_future, Hybrid_future)
-#values(list_to_train) %plan% multiprocess
-while ((!resolved(IBCF_future)) & (!resolved(UBCF_future)) & (!resolved(Popular_future)) {
-  Sys.sleep(5)
-}
-Hybrid_future
+Popular_future
+
+hold_for_traing_hybrid_future<-future({
+                                while ((!resolved(IBCF_future)) | (!resolved(UBCF_future)) | (!resolved(Popular_future))) {
+                                Sys.sleep(5)
+                              }
+                              Hybrid_future}
+                                , envir = parent.frame(),
+                                globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
+
+hold_for_traing_hybrid_future
+
 time_to_run_code<-proc.time() - ptm
 time_to_run_code
