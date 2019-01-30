@@ -34,22 +34,16 @@ Hybrid_future<- future({IBCF_weight<-0.45
                 Hybrid_train <- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
                 Hybrid_model <- readRDS("./Hybrid_model.rds")}
                   , envir = parent.frame(),
-                  globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL,
-                  evaluator = plan("next"))
+                  globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
 IBCF_future
 UBCF_future
 Popular_future
 
-hold_for_traing_hybrid_future<-future({
-                                while ((!resolved(IBCF_future)) | (!resolved(UBCF_future)) | (!resolved(Popular_future))) {
-                                Sys.sleep(5)
-                              }
-                              Hybrid_future}
-                                , envir = parent.frame(),
-                                globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
-
-hold_for_traing_hybrid_future
-
+while ((!resolved(IBCF_future)) |
+       (!resolved(UBCF_future)) | (!resolved(Popular_future))) {
+  Sys.sleep(5)
+}
+Hybrid_future
 time_to_run_code<-proc.time() - ptm
 time_to_run_code

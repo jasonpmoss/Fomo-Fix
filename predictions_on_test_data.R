@@ -7,7 +7,7 @@ IBCF_predict_future<-future({
                               while (!resolved(IBCF_future)) {
                               Sys.sleep(5)}
                               source("IBCF_predict.R")
-                              IBCF_predict<-IBCF_predict(recc_data_test, n_recommended)
+                              IBCF_predict<<-IBCF_predict(recc_data_test, n_recommended)
                               }, 
                               envir = parent.frame(), globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
@@ -16,7 +16,7 @@ UBCF_predict_future <- future({
     Sys.sleep(5)
   }
   source("UBCF_predict.R")
-  UBCF_predict <- UBCF_predict(recc_data_test, n_recommended)
+  UBCF_predict <<- UBCF_predict(recc_data_test, n_recommended)
 },
 envir = parent.frame(), globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
@@ -25,7 +25,7 @@ Popular_predict_future <- future({
     Sys.sleep(5)
   }
   source("Popular_predict.R")
-  Popular_predict <- Popular_predict(ratings_mat, n_recommended)
+  Popular_predict <<- Popular_predict(ratings_mat, n_recommended)
 },
 envir = parent.frame(), globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
@@ -35,7 +35,7 @@ Hybrid_predict_future <- future({
     Sys.sleep(5)
   }
   source("Hybrid_predict.R")
-  Hybrid_predict <- Hybrid_predict(ratings_mat)
+  Hybrid_predict <<- Hybrid_predict(ratings_mat)
 },
 envir = parent.frame(), globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
@@ -43,11 +43,6 @@ IBCF_predict_future
 UBCF_predict_future
 Popular_predict_future
 Hybrid_predict_future
-
-resolved(IBCF_predict_future)
-resolved(UBCF_predict_future)
-resolved(Popular_predict_future)
-resolved(Hybrid_predict_future)
 
 time_to_run_code_predict<-proc.time() - ptm_predict
 time_to_run_code_predict
