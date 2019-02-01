@@ -71,7 +71,17 @@ predict_ratings_per_user <- function(recommender_model, ratings_dataset, user){
   return(predictions)
 }
 
+predictions_as_dataframe <- function(predicted_restaurants, predicted_ratings, test_dataset){
+  predicted_restaurants_index <- match(predicted_restaurants,colnames(test_dataset@data))
 
+  #filter predicted ratings by the indexes to get only those that has been recommended
+  predicted_restaurant_names <- predicted_ratings@data@Dimnames[[2]][predicted_restaurants_index]
+  
+  #create a dataframe with the recommended restaurants and their predicted ratings
+  predicted_restaurant_with_rating <- data.frame(as.table(setNames(predicted_ratings@data@x, predicted_restaurant_names)))
+  colnames(predicted_restaurant_with_rating) <- c("Restaurant", "Predicted_Rating")
+  return (predicted_restaurant_with_rating)
+}
 
 #------- test ---------------------------
 
