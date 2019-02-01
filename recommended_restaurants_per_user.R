@@ -30,15 +30,22 @@ top_n_recommendations_from_topNlist <- function(topNlist_predictions, user, num_
 predict_per_user <- function(recommender_model, ratings_dataset, user, n_recommendations){
   #get the index of the user in the ratings dataset
   user_position <- match(user,rownames(ratings_dataset@data))
+
+  if(!is.na(user_position)){  
+    #returns the names of the predicted restaurants
+    predictions <- predict(recommender_model,user_position, data = ratings_dataset,n=n_recommendations)
   
-  #returns the names of the predicted restaurants
-  predictions <- predict(recommender_model,user_position, data = ratings_dataset,n=n_recommendations)
+    #convert the topNList object into a List
+    predictions <- as(predictions, "list")
+    
+    #get only the user recommendations
+    predictions <- predictions[[user]]
+  }else {
+    predictions <- "error"
+    warning("FOMOFIX Warning in predict_per_user function: the user passed to the function is not present in the dataset passed. The function will return the string error. Make sure you use an user available in the test dataset")
+  }
   
-  #convert the topNList object into a List
-  predictions_list <- as(predictions, "list")
-  
-  #returns the list of restaurants in a "cleaner" way
-  return(predictions_list[[user]])
+  return(predictions)
 }
 
 #THE FOLLOWING CODE HAS NOT BEEN PROPERLY TESTED. WE NEED TO CHECK IF IT GETS THE TOPN "N" RESTAURANTS
@@ -46,15 +53,21 @@ predict_ratings_per_user <- function(recommender_model, ratings_dataset, user){
   #get the index of the user in the ratings dataset
   user_position <- match(user,rownames(ratings_dataset@data))
   
-  #returns the names of the predicted restaurants
-  predictions <- predict(recommender_model,user_position, data = ratings_dataset, type = "ratings")
-  
-  #convert the topNList object into a List
-  #predictions_list <- as(predictions, "list")
-  
-  
-  #returns the list of restaurants in a "cleaner" way
-  #return(as(predictions, "matrix")[,1:10])
+  if(!is.na(user_position)){ 
+    #returns the names of the predicted restaurants
+    predictions <- predict(recommender_model,user_position, data = ratings_dataset, type = "ratings")
+    
+    #convert the topNList object into a List
+    #predictions_list <- as(predictions, "list")
+    
+    #returns the list of restaurants in a "cleaner" way
+    #return(as(predictions, "matrix")[,1:10])
+  }else {
+    predictions <- "error"
+    warning("FOMOFIX Warning in predict_per_user function: the user passed to the function is not present in the dataset passed. The function will return the string error. Make sure you use an user available in the test dataset")
+    
+  }
+
   return(predictions)
 }
 
