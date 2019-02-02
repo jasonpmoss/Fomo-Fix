@@ -67,3 +67,4 @@ res_plot(get_restaurants(predictions)) #important to use get_restaurants functio
 save.image(file='variable_environment_20190202.RData')
 
 ptm <- proc.time() - ptm
+ptm
