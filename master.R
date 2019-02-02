@@ -2,10 +2,7 @@
 # Start the clock!
 ptm <- proc.time()
 #----------------------------------------Attach packages--------------------------------------
-library(plyr)
-library(dplyr)
-library(magrittr)
-
+source("libraries_required.R")
 #----------------------------------------Inputs-----------------------------------------------
 # sql <- "SELECT
 #   *
@@ -68,3 +65,5 @@ res_plot(get_restaurants(predictions)) #important to use get_restaurants functio
 # names(table_for_user)<-c("restaurants_visited", "predictions")
 # table_for_user
 save.image(file='variable_environment_20190202.RData')
+
+ptm <- proc.time() - ptm

@@ -22,15 +22,6 @@ Popular_future<-future({source("Popular_train.R")
                   , envir = parent.frame(),
                   globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
 
-
-IBCF_weight<-0.45
-UBCF_weight<-0.45
-Popular_weight<-0.1
-
-UBCF_model <- readRDS("./UBCF_model.rds")
-IBCF_model <- readRDS("./IBCF_model.rds")
-Popular_model <- readRDS("./Popular_model.rds")
-
 Hybrid_future<- future({
                 source("Hybrid_train.R")
                 Hybrid_train <<- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
@@ -48,8 +39,20 @@ while ((!resolved(IBCF_future)) |
        (!resolved(UBCF_future)) | (!resolved(Popular_future))) {
   Sys.sleep(5)
 }
+
+IBCF_weight<-0.45
+UBCF_weight<-0.45
+Popular_weight<-0.1
+
+UBCF_model <- readRDS("./UBCF_model.rds")
+IBCF_model <- readRDS("./IBCF_model.rds")
+Popular_model <- readRDS("./Popular_model.rds")
+
 Hybrid_future
+while (!resolved(Hybrid_future)) {
+  Sys.sleep(5)
+}
+Hybrid_model<-readRDS("./Hybrid_model.rds")
+
 time_to_run_code<-proc.time() - ptm
 time_to_run_code
-
-Hybrid_model<-readRDS("./Hybrid_model.rds")
