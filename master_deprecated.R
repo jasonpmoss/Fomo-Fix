@@ -85,6 +85,7 @@ predicted_ratings
 # predicted_ratings$Restaurant to see only the restaurants name 
 
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
+predictions<-predicted_ratings[,1]
 predictions %<>% as.data.frame()
 #------------------------map recommendations--------------------------------------------
 source("map_recommendations.R")
