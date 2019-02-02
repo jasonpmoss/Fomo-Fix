@@ -26,7 +26,8 @@ model_training_required <- TRUE #set this to TRUE to train new models
 # save(ratings,file="ratings.Rda") #create saved dataset so we can re-use it on the models that we've saved.
 
 load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
-user<-"JhWKw3FTZoRZ9riDd020LQ" #choose a random user
+#user<-"L7Ti9kJxsI3_VZ7_4Nk7tQ" #choose a random user
+user<- "kTny8RFBPj9du2aIRb8V0A"
 source("ratings_matrix.R")
 ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 user_table<-ratings[ratings$user_id == user, ]
@@ -77,17 +78,10 @@ Hybrid_predict<-Hybrid_predict(ratings_mat)
 
 #-------------------------doing recommendations for a specific user-------------
 source("recommended_restaurants_per_user.R")
-#get predicted list of top N restaunrants
-predicted_restaurants<-predict_per_user(UBCF_model, recc_data_test, user, 3)
 
-#get  predicted ratings from top N restaurants
-predicted_ratings<-predict_ratings_per_user(UBCF_model, recc_data_test, user)
-
-#convert predicted ratings into a dataframe with two columns: predicted restaurant and predicted rating
-#NOTE: predicted_restaurant_with_rating contains the same info than "as(predicted_ratings,"matrix")" but with a different format
-predicted_restaurant_with_rating <- predictions_as_dataframe(predicted_restaurants, predicted_ratings, recc_data_test)
-predicted_restaurant_with_rating
-
+#get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
+predicted_ratings<-predict_ratings_per_user(UBCF_model, recc_data_test, user, 10)
+predicted_ratings
 
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
 predictions %<>% as.data.frame()
