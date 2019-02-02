@@ -23,65 +23,45 @@ top_n_recommendations_from_topNlist <- function(topNlist_predictions, user, num_
   return(matrix@itemLabels[restaurants_index])
 }
 
-#Description: this function predicts restaurants for an user given a recommender model. 
-#It computes the recommendation on the fly only for that user, it does not require to predict for the whole test data
-#INPUT: a recommender model object, the realRatingMatrix object containing ratings (the test dataset), the user name as a string and the number of recommendations to get
-#OUTPUT: the list of string of characters containing the names of the restaurants recommended for that particula user
-predict_per_user <- function(recommender_model, ratings_dataset, user, n_recommendations){
-  #get the index of the user in the ratings dataset
-  user_position <- match(user,rownames(ratings_dataset@data))
-
-  if(!is.na(user_position)){  
-    #returns the names of the predicted restaurants
-    predictions <- predict(recommender_model,user_position, data = ratings_dataset,n=n_recommendations)
-  
-    #convert the topNList object into a List
-    predictions <- as(predictions, "list")
-    
-    #get only the user recommendations
-    predictions <- predictions[[user]]
-  }else {
-    predictions <- "error"
-    warning("FOMOFIX Warning in predict_per_user function: the user passed to the function is not present in the dataset passed. The function will return the string error. Make sure you use an user available in the test dataset")
-  }
-  
-  return(predictions)
-}
-
-#THE FOLLOWING CODE HAS NOT BEEN PROPERLY TESTED. WE NEED TO CHECK IF IT GETS THE TOPN "N" RESTAURANTS
-predict_ratings_per_user <- function(recommender_model, ratings_dataset, user){
+#This function returns a dataframe with the top n restaurants and their ratings. The number of recommendations
+#by default is 100, but if indicated when calling the function it can be adapted
+predict_ratings_per_user <- function(recommender_model, ratings_dataset, user, n_recommend=100){
   #get the index of the user in the ratings dataset
   user_position <- match(user,rownames(ratings_dataset@data))
   
+  ##check if the user is present in the dataset
   if(!is.na(user_position)){ 
-    #returns the names of the predicted restaurants
+    #returns the predicted restaurants and their ratings
     predictions <- predict(recommender_model,user_position, data = ratings_dataset, type = "ratings")
     
-    #convert the topNList object into a List
-    #predictions_list <- as(predictions, "list")
+    #check if the model didn´t predict any restaurant, and in that case it raises a warning
+    if(rowCounts(predictions) == 0){
+      warning("FOMOFIX Warning in predict_ratings_per_user function: The model did not recommend any restaurant for this user")
+    }
     
-    #returns the list of restaurants in a "cleaner" way
-    #return(as(predictions, "matrix")[,1:10])
+    #reformat the realRatingMatrix into a dataframe with two columns: restaraunt and predicted_rating
+    predictions <- as(predictions,"data.frame")
+    
+    #remove user column
+    predictions <- predictions[,-1]
+    
+    #rename columns
+    colnames(predictions) <- c("Restaurant","Predicted_Rating")
+    
+    #sort dataframe by Predicted_Rating in descendent order
+    predictions <- predictions[order(predictions$Predicted_Rating, decreasing = TRUE),]
+    
+    #get only the top "n_recommend" results
+    predictions <- head(predictions,n_recommend)
+    
   }else {
-    predictions <- "error"
+    predictions <- "Error: the user passed to the function is not present in the dataset"
     warning("FOMOFIX Warning in predict_per_user function: the user passed to the function is not present in the dataset passed. The function will return the string error. Make sure you use an user available in the test dataset")
-    
   }
 
   return(predictions)
 }
 
-predictions_as_dataframe <- function(predicted_restaurants, predicted_ratings, test_dataset){
-  predicted_restaurants_index <- match(predicted_restaurants,colnames(test_dataset@data))
-
-  #filter predicted ratings by the indexes to get only those that has been recommended
-  predicted_restaurant_names <- predicted_ratings@data@Dimnames[[2]][predicted_restaurants_index]
-  
-  #create a dataframe with the recommended restaurants and their predicted ratings
-  predicted_restaurant_with_rating <- data.frame(as.table(setNames(predicted_ratings@data@x, predicted_restaurant_names)))
-  colnames(predicted_restaurant_with_rating) <- c("Restaurant", "Predicted_Rating")
-  return (predicted_restaurant_with_rating)
-}
 
 #------- test ---------------------------
 
