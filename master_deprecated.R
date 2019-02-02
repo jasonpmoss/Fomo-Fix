@@ -83,6 +83,7 @@ predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
 predictions<-predicted_ratings[,1]
 # predicted_ratings$Restaurant to see only the restaurants name 
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
+predictions<-predicted_ratings[,1]
 predictions %<>% as.data.frame()
 
 #------------------------map recommendations--------------------------------------------
