@@ -6,33 +6,37 @@ library("future")
 plan(multiprocess)
 IBCF_future<- future({source("IBCF_train.R")
               IBCF_train(ratings_mat)
-              print("IBCF Done")}
+              print("IBCF training Done")}
               , envir = parent.frame(),
              globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
 
 UBCF_future<- future({source("UBCF_train.R")
                 UBCF_train(ratings_mat)
-                print("UBCF Done")}
+                print("UBCF training Done")}
                 , envir = parent.frame(),
                 globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
 
 Popular_future<-future({source("Popular_train.R")
                   Popular_train(ratings_mat)
-                  print("Popular done")}
+                  print("Popular training done")}
                   , envir = parent.frame(),
                   globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
-                
-Hybrid_future<- future({IBCF_weight<-0.45
-                UBCF_weight<-0.45
-                Popular_weight<-0.1
-                
-                UBCF_model <- readRDS("./UBCF_model.rds")
-                IBCF_model <- readRDS("./IBCF_model.rds")
-                Popular_model <- readRDS("./Popular_model.rds")
-                
+
+
+IBCF_weight<-0.45
+UBCF_weight<-0.45
+Popular_weight<-0.1
+
+UBCF_model <- readRDS("./UBCF_model.rds")
+IBCF_model <- readRDS("./IBCF_model.rds")
+Popular_model <- readRDS("./Popular_model.rds")
+
+Hybrid_future<- future({
                 source("Hybrid_train.R")
-                Hybrid_train <- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
-                Hybrid_model <- readRDS("./Hybrid_model.rds")}
+                Hybrid_train <<- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
+                Hybrid_model <<- readRDS("./Hybrid_model.rds")
+                print("Hybrid training done")
+                }
                   , envir = parent.frame(),
                   globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
@@ -47,3 +51,5 @@ while ((!resolved(IBCF_future)) |
 Hybrid_future
 time_to_run_code<-proc.time() - ptm
 time_to_run_code
+
+Hybrid_model<-readRDS("./Hybrid_model.rds")

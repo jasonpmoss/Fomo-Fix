@@ -1,8 +1,6 @@
 #Author: Jason
 #----------------------------------------Attach packages--------------------------------------
-library(plyr)
-library(dplyr)
-library(magrittr)
+source("libraries_required.R")
 
 #----------------------------------------Inputs-----------------------------------------------
 # sql <- "SELECT
@@ -26,8 +24,8 @@ model_training_required <- TRUE #set this to TRUE to train new models
 # save(ratings,file="ratings.Rda") #create saved dataset so we can re-use it on the models that we've saved.
 
 load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
-#user<-"L7Ti9kJxsI3_VZ7_4Nk7tQ" #choose a random user
-user<- "kTny8RFBPj9du2aIRb8V0A"
+user<-"Khmnj9gYXhIbl1dvoWHgCQ" #choose a random user
+#user<- "kTny8RFBPj9du2aIRb8V0A"
 source("ratings_matrix.R")
 ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
 user_table<-ratings[ratings$user_id == user, ]
@@ -40,6 +38,7 @@ user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_tab
 # run predictions
 source("split_train_test_data.R") 
 split_train_test_data(ratings_mat,0.8)
+#user<-recc_data_test@data@Dimnames[[1]][17] #choose a random user from the training set
 
 if (model_training_required == TRUE){
   source("IBCF_train.R")
@@ -77,20 +76,22 @@ source("Hybrid_predict.R")
 Hybrid_predict<-Hybrid_predict(ratings_mat)
 
 #-------------------------doing recommendations for a specific user-------------
-source("recommended_restaurants_per_user.R")
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
-predicted_ratings<-predict_ratings_per_user(UBCF_model, recc_data_test, user, 10)
-predicted_ratings
+source("recommended_restaurants_per_user.R")
+predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
+predictions<-predicted_ratings[,1]
 # predicted_ratings$Restaurant to see only the restaurants name 
-
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
 predictions %<>% as.data.frame()
+
 #------------------------map recommendations--------------------------------------------
 source("map_recommendations.R")
-res_plot(get_restaurants(predictions)) #Hybrid_predict_unweighted is a dataframe of business_ids
-table_for_user<-c(user_restaurants_visited, predictions)
-table_for_user %<>% as.data.frame()
-names(table_for_user)<-c("restaurants_visited", "predictions")
-table_for_user
-save.image(file='variable_environment_20190126.RData')
+res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
+
+#-----------------------show restaurants visited by user---------------------------------------
+# table_for_user<-c(user_restaurants_visited, predictions)
+# table_for_user %<>% as.data.frame()
+# names(table_for_user)<-c("restaurants_visited", "predictions")
+# table_for_user
+save.image(file='variable_environment_20190202.RData')

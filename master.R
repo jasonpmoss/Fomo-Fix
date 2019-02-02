@@ -49,42 +49,22 @@ if (model_training_required == TRUE){
 source("predictions_on_test_data.R")
 
 #-------------------------doing recommendations for a specific user-------------
+
+#get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
-#get predicted list of top N restaunrants
-predicted_restaurants<-predict_per_user(Hybrid_model, recc_data_test, user, 10)
-predicted_restaurants
-
-#------the following code is just an experiment, when refined, it has to be encapsulated into a function
-#------ for the sake of clarity
-#get the indexes of those restaurants in the dataset
-predicted_restaurants_index <- match(predicted_restaurants,colnames(recc_data_test@data))
-predicted_restaurants_index
-
-#get  predicted ratings from top N restaurants
-predicted_ratings<-predict_ratings_per_user(Hybrid_model, recc_data_test, user)
-
-#filter predicted ratings by the indexes to get only those that has been recommended
-predicted_ratings@data@x[predicted_restaurants_index]
-
-#create a dataframe with the recommended restaurants and their predicted ratings
-predicted_restaurant_with_rating <- data.frame(as.table(setNames(predicted_ratings@data@x[predictions_index], predictions)))
-colnames(predicted_restaurant_with_rating) <- c("Restaurant", "Predicted_Rating")
-predicted_restaurant_with_rating
-#----------------- till here is just experimenta code.
-#NOTE: the code above seems to work for Popular and Hybrid, as their predict function return
-#the rating values when using the argument type="ratings". IBCF and UBCF return only NAs
-#This should happend for the restaurant they already rated, but not for new ones.... need to investigate this
-
+predicted_ratings<-predict_ratings_per_user(Hybrid_model, recc_data_test, user, 10)
+predictions<-predicted_ratings[,1]
+# predicted_ratings$Restaurant to see only the restaurants name 
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
 predictions %<>% as.data.frame()
+
 #------------------------map recommendations--------------------------------------------
 source("map_recommendations.R")
-res_plot(get_restaurants(predictions)) #Hybrid_predict_unweighted is a dataframe of business_ids
-table_for_user<-c(user_restaurants_visited, predictions)
-table_for_user %<>% as.data.frame()
-names(table_for_user)<-c("restaurants_visited", "predictions")
-table_for_user
-# Stop the clock
-time_to_run_code<-proc.time() - ptm
-time_to_run_code
-save.image(file='variable_environment_20190126.RData')
+res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
+
+#-----------------------show restaurants visited by user---------------------------------------
+# table_for_user<-c(user_restaurants_visited, predictions)
+# table_for_user %<>% as.data.frame()
+# names(table_for_user)<-c("restaurants_visited", "predictions")
+# table_for_user
+save.image(file='variable_environment_20190202.RData')
