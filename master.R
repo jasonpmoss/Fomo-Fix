@@ -23,11 +23,20 @@ model_training_required <- TRUE #set this to TRUE to train new models
 # ratings<- get_dataframe(sql)
 # ratings %<>% dplyr::sample_n(number_of_records) #shrink dataframe so that it doesn't take as long to train and run code
 # save(ratings,file="ratings.Rda") #create saved dataset so we can re-use it on the models that we've saved.
-
-load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
 user<-"JhWKw3FTZoRZ9riDd020LQ" #choose a random user
+
+#Create the ratings matrix
+load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
 source("ratings_matrix.R")
-ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
+#ratings_mat<-ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
+
+#creating the rating matrix from a sparse matrix just in case it optimize computation time afterwards
+ratings_mat<-ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings$stars)
+
+#In case we normalize the ratings matrix:
+#ratings_mat_normalized <- normalize(ratings_mat)
+
+
 user_table<-ratings[ratings$user_id == user, ]
 source("ratings_matrix.R")
 user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_table$stars)
@@ -70,3 +79,8 @@ save.image(file='variable_environment_20190202.RData')
 
 #------------------------Models Evaluation--------------------------------------------
 #the evaluation scheme is already created and stored in the variable eval_sets
+
+eval_accuracy <- calcPredictionAccuracy(x = UBCF_predict_ratings, 
+                                        data = recc_data_eval, 
+                                        byUser = TRUE)
+head(eval_accuracy)
