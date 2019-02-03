@@ -24,8 +24,7 @@ Popular_future<-future({source("Popular_train.R")
 
 Hybrid_future<- future({
                 source("Hybrid_train.R")
-                Hybrid_train <<- Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
-                Hybrid_model <<- readRDS("./Hybrid_model.rds")
+                Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
                 print("Hybrid training done")
                 }
                   , envir = parent.frame(),
