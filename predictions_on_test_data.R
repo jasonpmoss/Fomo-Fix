@@ -42,6 +42,20 @@ IBCF_predict_future <- values(IBCF_predict_future)
 UBCF_predict_future <- values(UBCF_predict_future)
 Popular_predict_future <- values(Popular_predict_future)
 Hybrid_predict_future <- values(Hybrid_predict_future)
-resolved(Hybrid_predict_future)
+
+#Predict Ratings
+source("IBCF_predict.R")
+IBCF_predict_ratings<-IBCF_predict_ratings(recc_data_test)
+
+source("UBCF_predict.R")
+UBCF_predict_ratings<-UBCF_predict_ratings(recc_data_test)
+
+source("Popular_predict.R")
+Popular_predict_ratings<-Popular_predict_ratings(ratings_mat)
+
+source("Hybrid_predict.R")
+Hybrid_predict_ratings<-Hybrid_predict_ratings(ratings_mat)
+
+
 time_to_run_code_predict<-proc.time() - ptm_predict
 time_to_run_code_predict
