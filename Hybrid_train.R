@@ -15,6 +15,6 @@ saveRDS(recom, "./Hybrid_model.rds")
 # UBCF_model <- readRDS("./UBCF_model.rds")
 # IBCF_model <- readRDS("./IBCF_model.rds")
 # Popular_model <- readRDS("./Popular_model.rds")
-#Hybrid_predict(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
+#Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
 #recom
 #getModel(recom)
