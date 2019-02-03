@@ -3,7 +3,7 @@
 library(plyr)
 library(recommenderlab)
 
-IBCF_predict<-function(ratings_matrix,n_recommended){
+IBCF_predict_restaurants<-function(ratings_matrix,n_recommended){
   # load the model
   IBCF_model <- readRDS("./IBCF_model.rds")
   

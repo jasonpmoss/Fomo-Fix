@@ -3,7 +3,7 @@
 library(dplyr)
 library(recommenderlab)
 
-Popular_predict<-function(ratings_matrix, n_recommended){
+Popular_predict_restaurants<-function(ratings_matrix, n_recommended){
 
   Popular_model <- readRDS("./Popular_model.rds")
   

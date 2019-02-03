@@ -1,6 +1,6 @@
 library(recommenderlab)
 
-Hybrid_predict<-function(ratings_matrix){
+Hybrid_predict_restaurants<-function(ratings_matrix){
   
   # load the model
   Hybrid_model <- readRDS("./Hybrid_model.rds")
