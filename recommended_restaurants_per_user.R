@@ -48,6 +48,8 @@ predict_ratings_per_user <- function(recommender_model, ratings_dataset, user, n
     #rename columns
     colnames(predictions) <- c("Restaurant","Predicted_Rating")
     
+    #change column Restaurant type, from factor to character
+    predictions$Restaurant <- as.character(predictions$Restaurant)
     #sort dataframe by Predicted_Rating in descendent order
     predictions <- predictions[order(predictions$Predicted_Rating, decreasing = TRUE),]
     
