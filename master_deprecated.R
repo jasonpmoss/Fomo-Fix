@@ -81,11 +81,9 @@ Hybrid_predict<-Hybrid_predict(ratings_mat)
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
-predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
-predictions<-predicted_ratings[,1]
-# predicted_ratings$Restaurant to see only the restaurants name 
+predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 20)
+predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
-predictions<-predicted_ratings[,1]
 predictions %<>% as.data.frame()
 
 #------------------------map recommendations--------------------------------------------
