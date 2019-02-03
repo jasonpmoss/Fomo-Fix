@@ -49,9 +49,8 @@ source("predictions_on_test_data.R")
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
-predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
-predictions<-predicted_ratings[,1]
-# predicted_ratings$Restaurant to see only the restaurants name 
+predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 20)
+predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
 predictions %<>% as.data.frame()
 
@@ -64,7 +63,7 @@ res_plot(get_restaurants(predictions)) #important to use get_restaurants functio
 # table_for_user %<>% as.data.frame()
 # names(table_for_user)<-c("restaurants_visited", "predictions")
 # table_for_user
-save.image(file='variable_environment_20190202.RData')
-
 ptm <- proc.time() - ptm
 ptm
+
+save.image(file='variable_environment_20190202.RData')
