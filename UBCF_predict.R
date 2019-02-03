@@ -3,7 +3,7 @@
 library(plyr)
 library(recommenderlab)
 
-UBCF_predict<-function(test_ratings_matrix,n_recommended){
+UBCF_predict_restaurants<-function(test_ratings_matrix,n_recommended){
   # load the model
   UBCF_model <- readRDS("./UBCF_model.rds")
   
