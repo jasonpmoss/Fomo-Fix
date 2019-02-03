@@ -1,4 +1,6 @@
 #Author: Jason
+# Start the clock!
+ptm <- proc.time()
 #----------------------------------------Attach packages--------------------------------------
 source("libraries_required.R")
 
@@ -95,4 +97,7 @@ res_plot(get_restaurants(predictions)) #important to use get_restaurants functio
 # table_for_user %<>% as.data.frame()
 # names(table_for_user)<-c("restaurants_visited", "predictions")
 # table_for_user
+ptm <- proc.time() - ptm
+ptm
+
 save.image(file='variable_environment_20190202.RData')
