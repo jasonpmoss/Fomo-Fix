@@ -45,7 +45,20 @@ if (model_training_required == TRUE){
 #----------------------------------------run predictions-------------------------------------------
 source("predictions_on_test_data.R")
 
-#-------------------------doing recommendations for a specific user-------------
+#Predict Ratings
+source("IBCF_predict.R")
+IBCF_predict_ratings<-IBCF_predict_ratings(recc_data_test)
+
+source("UBCF_predict.R")
+UBCF_predict_ratings<-UBCF_predict_ratings(recc_data_test)
+
+source("Popular_predict.R")
+Popular_predict_ratings<-Popular_predict_ratings(ratings_mat)
+
+source("Hybrid_predict.R")
+Hybrid_predict_ratings<-Hybrid_predict_ratings(ratings_mat)
+
+#-------------------------Doing recommendations for a specific user-------------
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
@@ -54,7 +67,7 @@ predictions<-predicted_ratings$Restaurant #to see only the restaurants name
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
 predictions %<>% as.data.frame()
 
-#------------------------map recommendations--------------------------------------------
+#------------------------Map recommendations--------------------------------------------
 source("map_recommendations.R")
 res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
 
@@ -67,3 +80,6 @@ ptm <- proc.time() - ptm
 ptm
 
 save.image(file='variable_environment_20190202.RData')
+
+#------------------------Models Evaluation--------------------------------------------
+#the evaluation scheme is already created and stored in the variable eval_sets
