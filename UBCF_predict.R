@@ -13,6 +13,15 @@ UBCF_predict_restaurants<-function(test_ratings_matrix,n_recommended){
   return(UBCF_recc_predicted)
 }
 
+UBCF_predict_ratings<-function(test_ratings_matrix){
+  # load the model
+  UBCF_model <- readRDS("./UBCF_model.rds")
+  
+  # make a predictions on "new data" using the final model stored
+  UBCF_recc_predicted <- predict(object = UBCF_model, newdata = test_ratings_matrix, type = "ratings")
+  
+  return(UBCF_recc_predicted)
+}
 #-----------------------test the function----------------------------------------------
 
 # n_recommended<-3
