@@ -14,6 +14,23 @@ ratings_matrix<-function(users, businesses, stars){
   ratingmat = as(ratingmat, "realRatingMatrix")
   return(ratingmat)
 }
+
+
+ratings_matrix_sparse<-function(users, businesses, stars){
+  reviews<-data.frame(users,businesses,stars)
+  ratingmat = dcast(reviews, users~businesses, value.var = "stars")
+  row.names(ratingmat) <- ratingmat$users
+  ratingmat = as.matrix(ratingmat[,-1])
+  #substitude NAs by zeros
+  ratingmat[is.na(ratingmat)] <- 0
+  #convert it into sparseMatrix
+  ratingmat <- as(ratingmat, "sparseMatrix")
+  #create a new reaRatingMatrix using the sparse matrix
+  ratingmat_sparse = new("realRatingMatrix", data = ratingmat)
+  #remove the ratingmat matrix to optimize memory usage
+  rm(ratingmat)
+  return(ratingmat_sparse)
+}
 #----------------------------------------testing the function-----------------------------------------------#
 
 #ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
