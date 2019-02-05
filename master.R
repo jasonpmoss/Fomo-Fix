@@ -80,7 +80,11 @@ save.image(file='variable_environment_20190202.RData')
 #------------------------Models Evaluation--------------------------------------------
 #the evaluation scheme is already created and stored in the variable eval_sets
 
-eval_accuracy <- calcPredictionAccuracy(x = UBCF_predict_ratings, 
+eval_accuracy <- calcPredictionAccuracy(x = Popular_predict_ratings, 
                                         data = recc_data_eval, 
                                         byUser = TRUE)
-head(eval_accuracy)
+head(eval_accuracy,100)
+#visualize only those users with no NaN values
+head(eval_accuracy[complete.cases(eval_accuracy), ],10)
+
+
