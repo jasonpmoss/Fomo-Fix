@@ -80,11 +80,77 @@ save.image(file='variable_environment_20190202.RData')
 #------------------------Models Evaluation--------------------------------------------
 #the evaluation scheme is already created and stored in the variable eval_sets
 
-eval_accuracy <- calcPredictionAccuracy(x = Popular_predict_ratings, 
+#FIRST WE EVALUATE ONE SINGLE MODEL:
+eval_accuracy <- calcPredictionAccuracy(x = IBCF_predict_ratings, 
                                         data = recc_data_eval, 
-                                        byUser = TRUE)
-head(eval_accuracy,100)
-#visualize only those users with no NaN values
+                                        byUser = FALSE)
+eval_accuracy
+#visualize only those users with no NaN values when evaluating with param byUser = TRUE
 head(eval_accuracy[complete.cases(eval_accuracy), ],10)
 
+##THEN BUILD DIFFERENT MODELS TO COMPARE EVALUATION
 
+#1. Train IBCF cosine similarity models
+# Non-normalized - Cosine distance
+IBCF_N_C <- Recommender(recc_data_train, "IBCF", 
+                        param=list(normalize = NULL, method="Cosine"))
+# Centered - Cosine distance
+IBCF_C_C <- Recommender(recc_data_train, "IBCF", 
+                        param=list(normalize = "center",method="Cosine"))
+# Z-score normalization - Cosine distance
+IBCF_Z_C <- Recommender(recc_data_train, "IBCF", 
+                        param=list(normalize = "Z-score",method="Cosine"))
+
+#2. Train IBCF Euclidean Distance models
+# Non-normalized - Euclidean Distance
+IBCF_N_E <- Recommender(recc_data_train, "IBCF", 
+                        param=list(normalize = NULL, method="Euclidean"))
+# centered - Euclidean Distance
+IBCF_C_E <- Recommender(recc_data_train, "IBCF", 
+                        param=list(normalize = "center",method="Euclidean"))
+# Z-score normalization  - Euclidean Distance
+IBCF_Z_E <- Recommender(recc_data_train, "IBCF", 
+                        param=list(normalize = "Z-score",method="Euclidean"))
+#3. Compute predicted ratings
+p_IBCF_N_C <- predict(IBCF_N_C, recc_data_test, type="ratings")
+p_IBCF_C_C <- predict(IBCF_C_C, recc_data_test, type="ratings")
+p_IBCF_Z_C <- predict(IBCF_Z_C, recc_data_test, type="ratings")
+p_IBCF_N_E <- predict(IBCF_N_E, recc_data_test, type="ratings")
+p_IBCF_N_E <- predict(IBCF_C_E, recc_data_test, type="ratings")
+p_IBCF_N_E <- predict(IBCF_Z_E, recc_data_test, type="ratings")
+
+#4. Set all predictions that fall outside the valid range to the boundary values
+p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] < 1] <- 1
+p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] > 5] <- 5
+
+p_IBCF_C_C@data@x[p_IBCF_C_C@data@x[] < 1] <- 1
+p_IBCF_C_C@data@x[p_IBCF_C_C@data@x[] > 5] <- 5
+
+p_IBCF_Z_C@data@x[p_IBCF_Z_C@data@x[] < 1] <- 1
+p_IBCF_Z_C@data@x[p_IBCF_Z_C@data@x[] > 5] <- 5
+
+p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
+p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
+
+p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
+p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
+
+p_IBCF_N_E@data@x[p_IBCF_N_C@data@x[] < 1] <- 1
+p_IBCF_N_E@data@x[p_IBCF_N_C@data@x[] > 5] <- 5
+
+#4. Evaluate performance  
+library(knitr)
+error_IEUC <- rbind(
+  e_IBCF_N_C = calcPredictionAccuracy(p_IBCF_N_C, recc_data_eval),
+  e_IBCF_C_C = calcPredictionAccuracy(p_IBCF_C_C, recc_data_eval),
+  e_IBCF_Z_C = calcPredictionAccuracy(p_IBCF_Z_C, recc_data_eval),
+  e_IBCF_N_E = calcPredictionAccuracy(p_IBCF_N_E, recc_data_eval),
+  e_IBCF_C_E = calcPredictionAccuracy(p_IBCF_C_E, recc_data_eval),
+  e_IBCF_Z_E = calcPredictionAccuracy(p_IBCF_Z_E, recc_data_eval) 
+)
+kable(error_IEUC)
+
+c_res <- data.frame(error_IEUC)
+c_res <- c_res[order(c_res$RMSE ),]
+
+kable(c_res)
