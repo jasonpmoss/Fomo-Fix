@@ -5,22 +5,22 @@ ptm <- proc.time()
 library("future")
 plan(multiprocess)
 IBCF_future<- future({source("IBCF_train.R")
-              IBCF_train(ratings_mat)
+              IBCF_train(recc_data_train)
               print("IBCF training Done")}
               , envir = parent.frame(),
-             globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
+             globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
 UBCF_future<- future({source("UBCF_train.R")
-                UBCF_train(ratings_mat)
+                UBCF_train(recc_data_train)
                 print("UBCF training Done")}
                 , envir = parent.frame(),
-                globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
+                globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
 Popular_future<-future({source("Popular_train.R")
-                  Popular_train(ratings_mat)
+                  Popular_train(recc_data_train)
                   print("Popular training done")}
                   , envir = parent.frame(),
-                  globals = list(ratings_mat = ratings_mat), packages = NULL, lazy = FALSE, seed = NULL)
+                  globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
 
 
