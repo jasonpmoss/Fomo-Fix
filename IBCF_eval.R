@@ -1,4 +1,5 @@
 library(recommenderlab)
+library(ggplot2)
 
 n_fold<-4
 n_eval<-2
@@ -20,6 +21,8 @@ getData(eval_sets,"train")
 eval_recommender<-Recommender(data=getData(eval_sets,"train"), method=model_to_evaluate, parameter = model_parameters)
 
 eval_prediction<-predict(object = eval_recommender, newdata = getData(eval_sets,"known"), n=items_to_recommend, type = "ratings")
+
+qplot(rowCounts(eval_prediction)) + geom_histogram(binwdith=50) + ggtitle("dist")
 
 eval_accuracy<- calcPredictionAccuracy(x=eval_prediction, data = getData(eval_sets,"known"),byUser=TRUE)
 head(eval_accuracy)
