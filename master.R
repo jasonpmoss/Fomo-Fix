@@ -117,7 +117,7 @@ p_UBCF_C_C <- predict(UBCF_C_C, recc_data_test, type="ratings")
 p_UBCF_Z_C <- predict(UBCF_Z_C, recc_data_test, type="ratings")
 p_UBCF_N_E <- predict(UBCF_N_E, recc_data_test, type="ratings")
 p_UBCF_C_E <- predict(UBCF_C_E, recc_data_test, type="ratings")
-p_UBCF_N_E <- predict(UBCF_Z_E, recc_data_test, type="ratings")
+p_UBCF_Z_E <- predict(UBCF_Z_E, recc_data_test, type="ratings")
 
 #4. Set all predictions that fall outside the valid range to the boundary values
 p_UBCF_N_C@data@x[p_UBCF_N_C@data@x[] < 1] <- 1
@@ -135,8 +135,8 @@ p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
 p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
 p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
 
-p_UBCF_N_E@data@x[p_UBCF_N_C@data@x[] < 1] <- 1
-p_UBCF_N_E@data@x[p_UBCF_N_C@data@x[] > 5] <- 5
+p_UBCF_Z_E@data@x[p_UBCF_N_C@data@x[] < 1] <- 1
+p_UBCF_Z_E@data@x[p_UBCF_N_C@data@x[] > 5] <- 5
 
 #4. Evaluate performance  
 library(knitr)
