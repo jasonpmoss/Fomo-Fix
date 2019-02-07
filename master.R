@@ -116,7 +116,7 @@ p_UBCF_N_C <- predict(UBCF_N_C, recc_data_test, type="ratings")
 p_UBCF_C_C <- predict(UBCF_C_C, recc_data_test, type="ratings")
 p_UBCF_Z_C <- predict(UBCF_Z_C, recc_data_test, type="ratings")
 p_UBCF_N_E <- predict(UBCF_N_E, recc_data_test, type="ratings")
-p_UBCF_N_E <- predict(UBCF_C_E, recc_data_test, type="ratings")
+p_UBCF_C_E <- predict(UBCF_C_E, recc_data_test, type="ratings")
 p_UBCF_N_E <- predict(UBCF_Z_E, recc_data_test, type="ratings")
 
 #4. Set all predictions that fall outside the valid range to the boundary values
@@ -141,12 +141,12 @@ p_UBCF_N_E@data@x[p_UBCF_N_C@data@x[] > 5] <- 5
 #4. Evaluate performance  
 library(knitr)
 error_IEUC <- rbind(
-  e_UBCF_N_C = calcPredictionAccuracy(p_UBCF_N_C, recc_data_eval),
-  e_UBCF_C_C = calcPredictionAccuracy(p_UBCF_C_C, recc_data_eval),
-  e_UBCF_Z_C = calcPredictionAccuracy(p_UBCF_Z_C, recc_data_eval),
-  e_UBCF_N_E = calcPredictionAccuracy(p_UBCF_N_E, recc_data_eval),
-  e_UBCF_C_E = calcPredictionAccuracy(p_UBCF_C_E, recc_data_eval),
-  e_UBCF_Z_E = calcPredictionAccuracy(p_UBCF_Z_E, recc_data_eval) 
+  calcPredictionAccuracy(p_UBCF_N_C, recc_data_eval),
+  calcPredictionAccuracy(p_UBCF_C_C, recc_data_eval),
+  calcPredictionAccuracy(p_UBCF_Z_C, recc_data_eval),
+  calcPredictionAccuracy(p_UBCF_N_E, recc_data_eval),
+  calcPredictionAccuracy(p_UBCF_C_E, recc_data_eval),
+  calcPredictionAccuracy(p_UBCF_Z_E, recc_data_eval) 
 )
 kable(error_IEUC)
 
