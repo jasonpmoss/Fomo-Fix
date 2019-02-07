@@ -51,10 +51,10 @@ source("UBCF_predict.R")
 UBCF_predict_ratings<-UBCF_predict_ratings(recc_data_test)
 
 source("Popular_predict.R")
-Popular_predict_ratings<-Popular_predict_ratings(ratings_mat)
+Popular_predict_ratings<-Popular_predict_ratings(recc_data_test)
 
 source("Hybrid_predict.R")
-Hybrid_predict_ratings<-Hybrid_predict_ratings(ratings_mat)
+Hybrid_predict_ratings<-Hybrid_predict_ratings(recc_data_test)
 
 
 time_to_run_code_predict<-proc.time() - ptm_predict
