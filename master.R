@@ -92,3 +92,6 @@ if (massive_models_ratings_evaluation == TRUE){
   source("Evaluate_ratings_all_models.R")
 }
 
+#if we already run the evaluation of all models, we can see the results here:
+eval_ratings_results
+
