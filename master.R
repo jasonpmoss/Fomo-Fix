@@ -45,7 +45,7 @@ user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_tab
 # these two lines are outside the if statement because we currently use the test set to
 # run predictions
 source("split_train_test_data.R") 
-split_train_test_data(ratings_mat,0.8)
+eval_set <- split_train_test_data(ratings_mat,0.8)
 
 if (model_training_required == TRUE){
   source("model_training.R")
@@ -79,7 +79,7 @@ save.image(file='variable_environment_20190202.RData')
 #----------------------- Models Evaluation ----------------------------------------
 #NOTE:the evaluation scheme is already created and stored in the variable eval_sets
 
-#We can evaluate a single model:
+#1. Evaluate Ratings: We can evaluate the ratings of a single model:
 eval_accuracy <- calcPredictionAccuracy(x = UBCF_predict_ratings, 
                                         data = recc_data_eval, 
                                         byUser = FALSE)
@@ -87,11 +87,24 @@ eval_accuracy
 #visualize only those users with no NaN values when evaluating with param byUser = TRUE
 head(eval_accuracy[complete.cases(eval_accuracy), ],10) #if byUser was set to FALSE, this will give an error
 
-##To evaluate all models by ratings and compare them
+#To evaluate ratings of all models to compare them:
 if (massive_models_ratings_evaluation == TRUE){
   source("Evaluate_ratings_all_models.R")
 }
 
 #if we already run the evaluation of all models, we can see the results here:
 eval_ratings_results
+
+
+#2. Evaluate Recommendations:
+eval_results <- evaluate(eval_set, 
+                         "UBCF",
+                         type="topNList",
+                         n=c(1, 3, 5, 10, 15, 20))
+
+plot(eval_results, annotate=c(1,3), legend="bottomright", main = "ROC curve") # Receiver Operating Characteristic (ROC) Curve
+
+plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
+
+getConfusionMatrix(eval_results)[[1]]
 
