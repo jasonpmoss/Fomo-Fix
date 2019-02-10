@@ -80,7 +80,7 @@ save.image(file='variable_environment_20190202.RData')
 #NOTE:the evaluation scheme is already created and stored in the variable eval_sets
 
 #1. Evaluate Ratings: We can evaluate the ratings of a single model:
-eval_accuracy <- calcPredictionAccuracy(x = UBCF_predict_ratings, 
+eval_accuracy <- calcPredictionAccuracy(x = Hybrid_predict_ratings, 
                                         data = recc_data_eval, 
                                         byUser = FALSE)
 eval_accuracy
@@ -95,7 +95,6 @@ if (massive_models_ratings_evaluation == TRUE){
 #if we already run the evaluation of all models, we can see the results here:
 eval_ratings_results
 
-
 #2. Evaluate Recommendations:
 eval_results <- evaluate(eval_set, 
                          "UBCF",
@@ -107,4 +106,7 @@ plot(eval_results, annotate=c(1,3), legend="bottomright", main = "ROC curve") # 
 plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
 
 getConfusionMatrix(eval_results)[[1]]
+
+
+
 
