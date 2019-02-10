@@ -51,3 +51,20 @@ avg(eval_results$UBCF_N_C)
 
 #for all results: 
 #avg(eval_results)
+
+
+#STILL UNDER TEST: how to test the performance of a model with different nearest_neighbours
+vector_k <- c(5, 10, 20, 30, 40)
+models_to_evaluate <- lapply(vector_k, function(k){
+  list(name = "UBCF", param = list(method = "cosine", nn = vector_k))
+}
+)
+
+names(models_to_evaluate) <- paste0("UBCF_k_", vector_k)
+
+n_recommendations <- c(1, 5, 10, 15, 20, 50, 100)
+list_results <- evaluate(x = eval_set, 
+                         method = models_to_evaluate, 
+                         n = n_recommendations)
+
+
