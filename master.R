@@ -17,7 +17,7 @@ number_of_records<-10000
 n_recommended<-3
 #which(grepl("_ijx1PqANQVFLGNWCibdig", ratings$user_id))
 model_training_required <- TRUE #set this to TRUE to train new models
-massive_models_ratings_evaluation <- FALSE #set this to TRUE to evaluate all models
+massive_models_ratings_evaluation <- TRUE #set this to TRUE to evaluate all models
 #----------------------- Create ratings matrix ---------------------------------
 # source("get_data.R") # has to be in the same working directory or specify full path
 # ratings<- get_dataframe(sql)
