@@ -39,6 +39,10 @@ algorithms <- list("UBCF_N_C" = list(name="UBCF", param=list(normalize = NULL, m
                    "IBCF_N_C_15" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=15)),
                    "IBCF_N_C_50" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=50)),
                    "IBCF_N_C_100" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=100)),
+                   "IBCF_N_C_alpha_0.1" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.1)),
+                   "IBCF_N_C_alpha_0.25" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.25)),
+                   "IBCF_N_C_alpha_0.75" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.75)),
+                   "IBCF_N_C_alpha_0.9" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.9)),
                    "Popular_N" = list(name="Popular", param=list(normalize = NULL)),
                    "Popular_C" = list(name="Popular", param=list(normalize = "center")),
                    "Popular_Z" = list(name="Popular", param=list(normalize = "Z-score")))
