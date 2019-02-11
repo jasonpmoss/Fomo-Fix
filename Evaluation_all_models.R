@@ -45,7 +45,10 @@ algorithms <- list("UBCF_N_C" = list(name="UBCF", param=list(normalize = NULL, m
                    "IBCF_N_C_alpha_0.9" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.9)),
                    "Popular_N" = list(name="Popular", param=list(normalize = NULL)),
                    "Popular_C" = list(name="Popular", param=list(normalize = "center")),
-                   "Popular_Z" = list(name="Popular", param=list(normalize = "Z-score")))
+                   "Popular_Z" = list(name="Popular", param=list(normalize = "Z-score")),
+                   "SVD_N" = list(name="SVD", param=list(normalize = NULL)),
+                   "SVD_C" = list(name="SVD", param=list(normalize = "center")),
+                   "SVD_Z" = list(name="SVD", param=list(normalize = "Z-score")))
   
 eval_results <- evaluate(scheme, algorithms, type="topNList", n=c(1, 5, 10, 15, 20, 50, 100))
 
