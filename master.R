@@ -71,10 +71,8 @@ res_plot(get_restaurants(predictions)) #important to use get_restaurants functio
 # table_for_user %<>% as.data.frame()
 # names(table_for_user)<-c("restaurants_visited", "predictions")
 # table_for_user
-ptm <- proc.time() - ptm
-ptm
 
-save.image(file='variable_environment_20190202.RData')
+
 
 #----------------------- Models Evaluation ----------------------------------------
 #NOTE:the evaluation scheme is already created and stored in the variable eval_sets
@@ -107,6 +105,7 @@ plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend=
 
 getConfusionMatrix(eval_results)[[1]]
 
-
-
+ptm <- proc.time() - ptm
+ptm
+save.image(file='variable_environment_20190211.RData')
 
