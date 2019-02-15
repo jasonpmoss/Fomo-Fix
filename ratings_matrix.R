@@ -31,6 +31,11 @@ ratings_matrix_sparse<-function(users, businesses, stars){
   rm(ratingmat)
   return(ratingmat_sparse)
 }
+
+filter_relevant_data<-function(ratingmat){
+  #Implement here the function depending on what needs to be filtered
+  return(ratingmat)
+}
 #----------------------------------------testing the function-----------------------------------------------#
 
 #ratings_matrix(ratings$user_id, ratings$business_id, ratings$stars)
