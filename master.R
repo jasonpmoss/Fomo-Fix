@@ -36,9 +36,9 @@ ratings_mat<-ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings
 #In case we normalize the ratings matrix:
 #ratings_mat_normalized <- normalize(ratings_mat)
 
-user_table<-ratings[ratings$user_id == user, ]
-source("ratings_matrix.R")
-user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_table$stars)
+# user_table<-ratings[ratings$user_id == user, ]
+# source("ratings_matrix.R")
+# user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_table$stars)
 #user_locations<-which(grepl(user, ratings$user_id)) #show the location of users in data frame
 
 #----------------------- Train models ------------------------------------------
