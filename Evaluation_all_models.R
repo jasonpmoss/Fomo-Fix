@@ -3,14 +3,6 @@ library(recommenderlab)
 #we already have the evaluationScheme saved in the eval_set variable. We will use it
 scheme <- evaluationScheme(ratings_mat, method="cross-validation", k=4, given=-1, goodRating=3.5)
 
-# algorithms <- list("UBCF_N_C" = list(name="UBCF", param=list(normalize = NULL, method="Cosine")), 
-#                    "UBCF_C_C" = list(name="UBCF", param=list(normalize = "center", method="Cosine")), 
-#                    "UBCF_Z_C" = list(name="UBCF", param=list(normalize = "Z-score", method="Cosine")), 
-#                    "UBCF_N_E" = list(name="UBCF", param=list(normalize = NULL, method="Euclidean")),
-#                    "UBCF_C_E" = list(name="UBCF", param=list(normalize = "center", method="Euclidean")),
-#                    "UBCF_Z_E" = list(name="UBCF", param=list(normalize = "Z-score", method="Euclidean"))
-#                    )
-# A more exhaustive list of models to evaluate:
 algorithms <- list("UBCF_N_C" = list(name="UBCF", param=list(normalize = NULL, method="Cosine")),
                    "UBCF_C_C" = list(name="UBCF", param=list(normalize = "center", method="Cosine")),
                    "UBCF_Z_C" = list(name="UBCF", param=list(normalize = "Z-score", method="Cosine")),
@@ -45,10 +37,10 @@ algorithms <- list("UBCF_N_C" = list(name="UBCF", param=list(normalize = NULL, m
                    "IBCF_N_C_alpha_0.9" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.9)),
                    "Popular_N" = list(name="Popular", param=list(normalize = NULL)),
                    "Popular_C" = list(name="Popular", param=list(normalize = "center")),
-                   "Popular_Z" = list(name="Popular", param=list(normalize = "Z-score")),
-                   "SVD_N" = list(name="SVD", param=list(normalize = NULL)),
-                   "SVD_C" = list(name="SVD", param=list(normalize = "center")),
-                   "SVD_Z" = list(name="SVD", param=list(normalize = "Z-score")))
+                   "Popular_Z" = list(name="Popular", param=list(normalize = "Z-score")))
+                   #"SVD_N" = list(name="SVD", param=list(normalize = NULL)),
+                   #"SVD_C" = list(name="SVD", param=list(normalize = "center")),
+                   #"SVD_Z" = list(name="SVD", param=list(normalize = "Z-score")))
   
 eval_results <- evaluate(scheme, algorithms, type="topNList", n=c(1, 5, 10, 15, 20, 50, 100))
 

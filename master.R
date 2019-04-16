@@ -23,7 +23,7 @@ massive_models_ratings_evaluation <- TRUE #set this to TRUE to evaluate all mode
 # ratings<- get_dataframe(sql)
 # ratings %<>% dplyr::sample_n(number_of_records) #shrink dataframe so that it doesn't take as long to train and run code
 # save(ratings,file="ratings.Rda") #create saved dataset so we can re-use it on the models that we've saved.
-user<-"JhWKw3FTZoRZ9riDd020LQ" #choose a random user
+user<-"5nEA3NHq2bdjjo3hBDp6xg" #choose a random user
 
 #Create the ratings matrix
 load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
@@ -57,13 +57,18 @@ source("predictions_on_test_data.R")
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
-predicted_ratings<-predict_ratings_per_user(Popular_model, ratings_mat, user, 20)
+predicted_ratings<-predict_ratings_per_user(UBCF_model, ratings_mat, user, 20)
 predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
+
+#check if the recommended restaurants have been already rated by the user
 user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
-predictions %<>% as.data.frame()
+if(sum(user_restaurants_visited %in% predicted_ratings)){
+  print("FOMOFIX error: Restaurant recommended has already been rated by this user")
+}
 
 #----------------------- Map recommendations -------------------------------------
 source("map_recommendations.R")
+predictions %<>% as.data.frame()
 res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
 
 #----------------------- Show restaurants visited by user ------------------------
@@ -78,7 +83,7 @@ res_plot(get_restaurants(predictions)) #important to use get_restaurants functio
 #NOTE:the evaluation scheme is already created and stored in the variable eval_sets
 
 #1. Evaluate Ratings: We can evaluate the ratings of a single model:
-eval_accuracy <- calcPredictionAccuracy(x = Hybrid_predict_ratings, 
+eval_accuracy <- calcPredictionAccuracy(x = UBCF_predict_ratings, 
                                         data = recc_data_eval, 
                                         byUser = FALSE)
 eval_accuracy
