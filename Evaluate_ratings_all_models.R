@@ -1,6 +1,6 @@
 library(recommenderlab)
 
-#we build several models with different configurations to evaluate them:
+#we build several models with different configurations to evaluate them
 
 # UBCF Models
 # Train UBCF cosine similarity models
@@ -248,12 +248,7 @@ rownames(eval_ratings_results) <- c("UBCF_N_C",
                                     "p_Popular_C",
                                     "p_Popular_Z")
 eval_ratings_results <- eval_ratings_results[order(eval_ratings_results$RMSE ),]
+eval_ratings_results
 
-kable(eval_ratings_results)
-
-##NOTE1: we can do this again for all models: IBCF, Popular and Hybrid
-##NOTE2: we have to include variation on other parameters: nearest neighbours for IBCF and UBCF 
-##      and paramenter alpha in IBCF model only. 
-##NOTE·: We can also change the way we split trainig/test dataset and compare evaluation of
+##NOTE: We can also change the way we split trainig/test dataset and compare evaluation of
 ##      different values of k for the cross-validation method with 2, 4, 6,... k-folds
-##NOTE4: This will require a huge amount of time to run!!! current code took a whole night in my PC
