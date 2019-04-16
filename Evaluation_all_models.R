@@ -54,21 +54,21 @@ plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend=
 #JUST THE OPPOSITE TO OUR CASE!!!
 
 #we can display the results of the evaluation of one model, including all the splits:
+avg(eval_results)
+
+#or we can observe each confusion matrix separetly. 
+#Note: if we use k-fold then we get "k" confusion matrix per model, one per fold  
 getConfusionMatrix(eval_results$UBCF_N_C)
 
 #If we want to take account of all the splits at the same time, we can just sum up the indices:
-columns_to_sum <- c("TP", "FP", "FN", "TN")
-indices_summed <- Reduce("+", getConfusionMatrix(eval_results$UBCF_N_C))[,columns_to_sum]
-head(indices_summed)
-
-#or just compute the average of them
-avg(eval_results$UBCF_N_C)
-
-#for all results: 
-#avg(eval_results)
+# columns_to_sum <- c("TP", "FP", "FN", "TN")
+# indices_summed <- Reduce("+", getConfusionMatrix(eval_results$UBCF_N_C))[,columns_to_sum]
+# head(indices_summed)
 
 
+#-----------------------------------------------------------------------------
 #STILL UNDER TEST: how to test the performance of a model with different nearest_neighbours
+#in an automatized way 
 vector_k <- c(5, 10, 20, 30, 40)
 models_to_evaluate <- lapply(vector_k, function(k){
   list(name = "UBCF", param = list(method = "cosine", nn = vector_k))
