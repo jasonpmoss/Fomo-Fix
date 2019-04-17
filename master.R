@@ -21,7 +21,7 @@ if(ratings_mat_loaded == TRUE){
   SELECT  user_id 
   FROM `fomofix-217307.fomofixds.lv_testset`
   GROUP BY user_id
-  having count(user_id)>80
+  having count(user_id)>90
   )
   GROUP BY business_id
   HAVING count(business_id) > 90
@@ -47,7 +47,7 @@ ratings_mat_normalized <- normalize(ratings_mat)
 
 #----------------------- Train models ------------------------------------------
 source("split_train_test_data.R") 
-eval_set <- split_train_test_data(ratings_mat,0.8)
+eval_set <- split_train_test_data(ratings_mat,0.95)
 model_training_required <- TRUE #set this to TRUE to train new models
 if (model_training_required == TRUE){
   source("model_training.R")
@@ -131,7 +131,8 @@ plot(eval_results, annotate=c(1,3), legend="bottomright", main = "ROC curve") # 
 #Precision-Recall:
 plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
 #Confusion Matrix:
-getConfusionMatrix(eval_results)[[1]]
+getConfusionMatrix(eval_results[[1]])
+avg(eval_results)
 
 ptm <- proc.time() - ptm
 ptm

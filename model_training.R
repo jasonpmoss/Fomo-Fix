@@ -1,61 +1,37 @@
-#I'm trying to use multiple cores. This file isn't used for any part of our solution
-
 # Start the clock!
 ptm <- proc.time()
-library("future")
-plan(multiprocess)
-IBCF_future<- future({source("IBCF_train.R")
-              IBCF_train(recc_data_train)
-              print("IBCF training Done")}
-              , envir = parent.frame(),
-             globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
 
-UBCF_future<- future({source("UBCF_train.R")
-                UBCF_train(recc_data_train)
-                print("UBCF training Done")}
-                , envir = parent.frame(),
-                globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
+#Train the IBCF model
+source("IBCF_train.R")
+IBCF_train(recc_data_train)
+print("IBCF training Done")
+IBCF_model <- readRDS("./IBCF_model.rds")
+gc()
 
-Popular_future<-future({source("Popular_train.R")
-                  Popular_train(recc_data_train)
-                  print("Popular training done")}
-                  , envir = parent.frame(),
-                  globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
+#Train the UBCF model
+source("UBCF_train.R")
+UBCF_train(recc_data_train)
+print("UBCF training Done")
+UBCF_model <- readRDS("./UBCF_model.rds")
+gc()
 
+#Train the Popular model
+source("Popular_train.R")
+Popular_train(recc_data_train)
+print("Popular training done")
+Popular_model <- readRDS("./Popular_model.rds")
+gc()
 
-
-IBCF_future
-UBCF_future
-Popular_future
-
-while ((!resolved(IBCF_future)) |
-       (!resolved(UBCF_future)) | (!resolved(Popular_future))) {
-  Sys.sleep(5)
-}
-
+#Train the Hybrid model
+source("Hybrid_train.R")
+#set up the weights of each model into the Hybrid model:
 IBCF_weight<-0.45
 UBCF_weight<-0.45
 Popular_weight<-0.1
-
-UBCF_model <- readRDS("./UBCF_model.rds")
-IBCF_model <- readRDS("./IBCF_model.rds")
-Popular_model <- readRDS("./Popular_model.rds")
-
-
-Hybrid_future<- future({
-  source("Hybrid_train.R")
-  Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight, IBCF_weight, Popular_weight)
-  print("Hybrid training done")
-}
-, envir = parent.frame(),
-globals = TRUE, packages = NULL, lazy = FALSE, seed = NULL)
-
-Hybrid_future
-
-while (!resolved(Hybrid_future)) {
-  Sys.sleep(5)
-}
+Hybrid_train(UBCF_model, IBCF_model, Popular_model, UBCF_weight,IBCF_weight, Popular_weight)
+print("Hybrid training done")
 Hybrid_model<-readRDS("./Hybrid_model.rds")
+gc()
 
 time_to_run_code<-proc.time() - ptm
 time_to_run_code
