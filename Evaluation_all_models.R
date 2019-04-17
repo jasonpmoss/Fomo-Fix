@@ -26,11 +26,11 @@ algorithms <- list("UBCF_N_C" = list(name="UBCF", param=list(normalize = NULL, m
                    "IBCF_N_J" = list(name="IBCF", param=list(normalize = NULL, method="Jaccard")),
                    "IBCF_C_J" = list(name="IBCF", param=list(normalize = "center", method="Jaccard")),
                    "IBCF_Z_J" = list(name="IBCF", param=list(normalize = "Z-score", method="Jaccard")),
-                   "IBCF_N_C_5" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=5)),
-                   "IBCF_N_C_10" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=10)),
-                   "IBCF_N_C_15" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=15)),
-                   "IBCF_N_C_50" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=50)),
-                   "IBCF_N_C_100" = list(name="UBCF", param=list(normalize = NULL, method="Cosine", k=100)),
+                   "IBCF_N_C_5" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", k=5)),
+                   "IBCF_N_C_10" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", k=10)),
+                   "IBCF_N_C_15" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", k=15)),
+                   "IBCF_N_C_50" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", k=50)),
+                   "IBCF_N_C_100" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", k=100)),
                    "IBCF_N_C_alpha_0.1" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.1)),
                    "IBCF_N_C_alpha_0.25" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.25)),
                    "IBCF_N_C_alpha_0.75" = list(name="IBCF", param=list(normalize = NULL, method="Cosine", alpha = 0.75)),
@@ -58,7 +58,7 @@ avg(eval_results)
 
 #or we can observe each confusion matrix separetly. 
 #Note: if we use k-fold then we get "k" confusion matrix per model, one per fold  
-getConfusionMatrix(eval_results$UBCF_N_C)
+#getConfusionMatrix(eval_results$UBCF_N_C)
 
 #If we want to take account of all the splits at the same time, we can just sum up the indices:
 # columns_to_sum <- c("TP", "FP", "FN", "TN")
@@ -69,17 +69,18 @@ getConfusionMatrix(eval_results$UBCF_N_C)
 #-----------------------------------------------------------------------------
 #STILL UNDER TEST: how to test the performance of a model with different nearest_neighbours
 #in an automatized way 
-vector_k <- c(5, 10, 20, 30, 40)
-models_to_evaluate <- lapply(vector_k, function(k){
-  list(name = "UBCF", param = list(method = "cosine", nn = vector_k))
-}
-)
 
-names(models_to_evaluate) <- paste0("UBCF_k_", vector_k)
-
-n_recommendations <- c(1, 5, 10, 15, 20, 50, 100)
-list_results <- evaluate(x = eval_set, 
-                         method = models_to_evaluate, 
-                         n = n_recommendations)
+# vector_k <- c(5, 10, 20, 30, 40)
+# models_to_evaluate <- lapply(vector_k, function(k){
+#   list(name = "UBCF", param = list(method = "cosine", nn = vector_k))
+# }
+# )
+# 
+# names(models_to_evaluate) <- paste0("UBCF_k_", vector_k)
+# 
+# n_recommendations <- c(1, 5, 10, 15, 20, 50, 100)
+# list_results <- evaluate(x = eval_set, 
+#                          method = models_to_evaluate, 
+#                          n = n_recommendations)
 
 

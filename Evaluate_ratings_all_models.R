@@ -201,28 +201,72 @@ p_Popular_Z@data@x[p_Popular_Z@data@x[] > 5] <- 5
 
 # Evaluate performance  
 library(knitr)
+
+accuracy_UBCF_N_C <- calcPredictionAccuracy(p_UBCF_N_C, recc_data_eval)
+gc()
+accuracy_UBCF_C_C <- calcPredictionAccuracy(p_UBCF_C_C, recc_data_eval)
+gc()
+accuracy_UBCF_Z_C <- calcPredictionAccuracy(p_UBCF_Z_C, recc_data_eval)
+gc()
+accuracy_UBCF_N_E <- calcPredictionAccuracy(p_UBCF_N_E, recc_data_eval)
+gc()
+accuracy_UBCF_C_E <- calcPredictionAccuracy(p_UBCF_C_E, recc_data_eval)
+gc()
+accuracy_UBCF_Z_E <- calcPredictionAccuracy(p_UBCF_Z_E, recc_data_eval)
+gc()
+accuracy_UBCF_N_J <- calcPredictionAccuracy(p_UBCF_N_J, recc_data_eval)
+gc()
+accuracy_UBCF_C_J <- calcPredictionAccuracy(p_UBCF_C_J, recc_data_eval)
+gc()
+accuracy_UBCF_Z_J <- calcPredictionAccuracy(p_UBCF_Z_J, recc_data_eval)
+gc()
+accuracy_UBCF_N_C_5 <- calcPredictionAccuracy(p_UBCF_N_C_5, recc_data_eval)
+gc()
+accuracy_UBCF_N_C_10 <- calcPredictionAccuracy(p_UBCF_N_C_10, recc_data_eval)
+gc()
+accuracy_UBCF_N_C_15 <- calcPredictionAccuracy(p_UBCF_N_C_15, recc_data_eval)
+gc()
+accuracy_UBCF_N_C_50 <- calcPredictionAccuracy(p_UBCF_N_C_50, recc_data_eval)
+gc()
+accuracy_UBCF_N_C_100 <- calcPredictionAccuracy(p_UBCF_N_C_100, recc_data_eval)
+gc()
+accuracy_IBCF_N_C_alpha_0.1 <- calcPredictionAccuracy(p_IBCF_N_C_alpha_0.1, recc_data_eval)
+gc()
+accuracy_IBCF_N_C_alpha_0.25 <- calcPredictionAccuracy(p_IBCF_N_C_alpha_0.25, recc_data_eval)
+gc()
+accuracy_IBCF_N_C_alpha_0.75 <- calcPredictionAccuracy(p_IBCF_N_C_alpha_0.75, recc_data_eval)
+gc()
+accuracy_IBCF_N_C_alpha_0.9 <- calcPredictionAccuracy(p_IBCF_N_C_alpha_0.9, recc_data_eval)
+gc()
+accuracy_Popular_N <- calcPredictionAccuracy(p_Popular_N, recc_data_eval)
+gc()
+accuracy_Popular_C <- calcPredictionAccuracy(p_Popular_C, recc_data_eval)
+gc()
+accuracy_Popular_Z <- calcPredictionAccuracy(p_Popular_Z, recc_data_eval)
+gc()
+
 eval_ratings_results <- rbind(
-  calcPredictionAccuracy(p_UBCF_N_C, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_C_C, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_Z_C, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_N_E, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_C_E, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_Z_E, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_N_J, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_C_J, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_Z_J, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_N_C_5, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_N_C_10, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_N_C_15, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_N_C_50, recc_data_eval),
-  calcPredictionAccuracy(p_UBCF_N_C_100, recc_data_eval),
-  calcPredictionAccuracy(p_IBCF_N_C_alpha_0.1, recc_data_eval),
-  calcPredictionAccuracy(p_IBCF_N_C_alpha_0.25, recc_data_eval),
-  calcPredictionAccuracy(p_IBCF_N_C_alpha_0.75, recc_data_eval),
-  calcPredictionAccuracy(p_IBCF_N_C_alpha_0.9, recc_data_eval),
-  calcPredictionAccuracy(p_Popular_N, recc_data_eval),
-  calcPredictionAccuracy(p_Popular_C, recc_data_eval),
-  calcPredictionAccuracy(p_Popular_Z, recc_data_eval)
+  accuracy_UBCF_N_C,
+  accuracy_UBCF_C_C, 
+  accuracy_UBCF_Z_C,
+  accuracy_UBCF_N_E,
+  accuracy_UBCF_C_E,
+  accuracy_UBCF_Z_E,
+  accuracy_UBCF_N_J,
+  accuracy_UBCF_C_J,
+  accuracy_UBCF_Z_J,
+  accuracy_UBCF_N_C_5,
+  accuracy_UBCF_N_C_10,
+  accuracy_UBCF_N_C_15,
+  accuracy_UBCF_N_C_50,
+  accuracy_UBCF_N_C_100,
+  accuracy_IBCF_N_C_alpha_0.1,
+  accuracy_IBCF_N_C_alpha_0.25,
+  accuracy_IBCF_N_C_alpha_0.75,
+  accuracy_IBCF_N_C_alpha_0.9,
+  accuracy_Popular_N,
+  accuracy_Popular_C,
+  accuracy_Popular_Z
 )
 
 eval_ratings_results <- data.frame(eval_ratings_results)
