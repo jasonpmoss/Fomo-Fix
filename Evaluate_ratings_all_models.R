@@ -119,85 +119,85 @@ p_Popular_Z <- predict(Popular_Z, recc_data_test, type="ratings")
 
 
 # Set all predictions that fall outside the valid range to the boundary values
-p_UBCF_N_C@data@x[p_UBCF_N_C@data@x[] < 1] <- 1
-p_UBCF_N_C@data@x[p_UBCF_N_C@data@x[] > 5] <- 5
-p_UBCF_C_C@data@x[p_UBCF_C_C@data@x[] < 1] <- 1
-p_UBCF_C_C@data@x[p_UBCF_C_C@data@x[] > 5] <- 5
-p_UBCF_Z_C@data@x[p_UBCF_Z_C@data@x[] < 1] <- 1
-p_UBCF_Z_C@data@x[p_UBCF_Z_C@data@x[] > 5] <- 5
-
-p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
-p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
-p_UBCF_C_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
-p_UBCF_C_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
-p_UBCF_Z_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
-p_UBCF_Z_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
-
-p_UBCF_N_J@data@x[p_UBCF_N_J@data@x[] < 1] <- 1
-p_UBCF_N_J@data@x[p_UBCF_N_J@data@x[] > 5] <- 5
-p_UBCF_C_J@data@x[p_UBCF_N_J@data@x[] < 1] <- 1
-p_UBCF_C_J@data@x[p_UBCF_N_J@data@x[] > 5] <- 5
-p_UBCF_Z_J@data@x[p_UBCF_N_J@data@x[] < 1] <- 1
-p_UBCF_Z_J@data@x[p_UBCF_N_J@data@x[] > 5] <- 5
-
-p_UBCF_N_C_5@data@x[p_UBCF_N_C_5@data@x[] < 1] <- 1
-p_UBCF_N_C_5@data@x[p_UBCF_N_C_5@data@x[] > 5] <- 5
-p_UBCF_N_C_10@data@x[p_UBCF_N_C_10@data@x[] < 1] <- 1
-p_UBCF_N_C_10@data@x[p_UBCF_N_C_10@data@x[] > 5] <- 5
-p_UBCF_N_C_15@data@x[p_UBCF_N_C_15@data@x[] < 1] <- 1
-p_UBCF_N_C_15@data@x[p_UBCF_N_C_15@data@x[] > 5] <- 5
-p_UBCF_N_C_50@data@x[p_UBCF_N_C_50@data@x[] < 1] <- 1
-p_UBCF_N_C_50@data@x[p_UBCF_N_C_50@data@x[] > 5] <- 5
-p_UBCF_N_C_100@data@x[p_UBCF_N_C_100@data@x[] < 1] <- 1
-p_UBCF_N_C_100@data@x[p_UBCF_N_C_100@data@x[] > 5] <- 5
-
-p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] < 1] <- 1
-p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] > 5] <- 5
-p_IBCF_C_C@data@x[p_IBCF_C_C@data@x[] < 1] <- 1
-p_IBCF_C_C@data@x[p_IBCF_C_C@data@x[] > 5] <- 5
-p_IBCF_Z_C@data@x[p_IBCF_Z_C@data@x[] < 1] <- 1
-p_IBCF_Z_C@data@x[p_IBCF_Z_C@data@x[] > 5] <- 5
-
-p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
-p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
-p_IBCF_C_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
-p_IBCF_C_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
-p_IBCF_Z_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
-p_IBCF_Z_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
-
-p_IBCF_N_J@data@x[p_IBCF_N_J@data@x[] < 1] <- 1
-p_IBCF_N_J@data@x[p_IBCF_N_J@data@x[] > 5] <- 5
-p_IBCF_C_J@data@x[p_IBCF_N_J@data@x[] < 1] <- 1
-p_IBCF_C_J@data@x[p_IBCF_N_J@data@x[] > 5] <- 5
-p_IBCF_Z_J@data@x[p_IBCF_N_J@data@x[] < 1] <- 1
-p_IBCF_Z_J@data@x[p_IBCF_N_J@data@x[] > 5] <- 5
-
-p_IBCF_N_C_5@data@x[p_IBCF_N_C_5@data@x[] < 1] <- 1
-p_IBCF_N_C_5@data@x[p_IBCF_N_C_5@data@x[] > 5] <- 5
-p_IBCF_N_C_10@data@x[p_IBCF_N_C_10@data@x[] < 1] <- 1
-p_IBCF_N_C_10@data@x[p_IBCF_N_C_10@data@x[] > 5] <- 5
-p_IBCF_N_C_15@data@x[p_IBCF_N_C_15@data@x[] < 1] <- 1
-p_IBCF_N_C_15@data@x[p_IBCF_N_C_15@data@x[] > 5] <- 5
-p_IBCF_N_C_50@data@x[p_IBCF_N_C_50@data@x[] < 1] <- 1
-p_IBCF_N_C_50@data@x[p_IBCF_N_C_50@data@x[] > 5] <- 5
-p_IBCF_N_C_100@data@x[p_IBCF_N_C_100@data@x[] < 1] <- 1
-p_IBCF_N_C_100@data@x[p_IBCF_N_C_100@data@x[] > 5] <- 5
-
-p_IBCF_N_C_alpha_0.1@data@x[p_IBCF_N_C_alpha_0.1@data@x[] < 1] <- 1
-p_IBCF_N_C_alpha_0.1@data@x[p_IBCF_N_C_alpha_0.1@data@x[] > 5] <- 5
-p_IBCF_N_C_alpha_0.25@data@x[p_IBCF_N_C_alpha_0.25@data@x[] < 1] <- 1
-p_IBCF_N_C_alpha_0.25@data@x[p_IBCF_N_C_alpha_0.25@data@x[] > 5] <- 5
-p_IBCF_N_C_alpha_0.75@data@x[p_IBCF_N_C_alpha_0.75@data@x[] < 1] <- 1
-p_IBCF_N_C_alpha_0.75@data@x[p_IBCF_N_C_alpha_0.75@data@x[] > 5] <- 5
-p_IBCF_N_C_alpha_0.9@data@x[p_IBCF_N_C_alpha_0.9@data@x[] < 1] <- 1
-p_IBCF_N_C_alpha_0.9@data@x[p_IBCF_N_C_alpha_0.9@data@x[] > 5] <- 5
-
-p_Popular_N@data@x[p_Popular_N@data@x[] < 1] <- 1
-p_Popular_N@data@x[p_Popular_N@data@x[] > 5] <- 5
-p_Popular_C@data@x[p_Popular_C@data@x[] < 1] <- 1
-p_Popular_C@data@x[p_Popular_C@data@x[] > 5] <- 5
-p_Popular_Z@data@x[p_Popular_Z@data@x[] < 1] <- 1
-p_Popular_Z@data@x[p_Popular_Z@data@x[] > 5] <- 5
+# p_UBCF_N_C@data@x[p_UBCF_N_C@data@x[] < 1] <- 1
+# p_UBCF_N_C@data@x[p_UBCF_N_C@data@x[] > 5] <- 5
+# p_UBCF_C_C@data@x[p_UBCF_C_C@data@x[] < 1] <- 1
+# p_UBCF_C_C@data@x[p_UBCF_C_C@data@x[] > 5] <- 5
+# p_UBCF_Z_C@data@x[p_UBCF_Z_C@data@x[] < 1] <- 1
+# p_UBCF_Z_C@data@x[p_UBCF_Z_C@data@x[] > 5] <- 5
+# 
+# p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
+# p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
+# p_UBCF_C_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
+# p_UBCF_C_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
+# p_UBCF_Z_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
+# p_UBCF_Z_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
+# 
+# p_UBCF_N_J@data@x[p_UBCF_N_J@data@x[] < 1] <- 1
+# p_UBCF_N_J@data@x[p_UBCF_N_J@data@x[] > 5] <- 5
+# p_UBCF_C_J@data@x[p_UBCF_N_J@data@x[] < 1] <- 1
+# p_UBCF_C_J@data@x[p_UBCF_N_J@data@x[] > 5] <- 5
+# p_UBCF_Z_J@data@x[p_UBCF_N_J@data@x[] < 1] <- 1
+# p_UBCF_Z_J@data@x[p_UBCF_N_J@data@x[] > 5] <- 5
+# 
+# p_UBCF_N_C_5@data@x[p_UBCF_N_C_5@data@x[] < 1] <- 1
+# p_UBCF_N_C_5@data@x[p_UBCF_N_C_5@data@x[] > 5] <- 5
+# p_UBCF_N_C_10@data@x[p_UBCF_N_C_10@data@x[] < 1] <- 1
+# p_UBCF_N_C_10@data@x[p_UBCF_N_C_10@data@x[] > 5] <- 5
+# p_UBCF_N_C_15@data@x[p_UBCF_N_C_15@data@x[] < 1] <- 1
+# p_UBCF_N_C_15@data@x[p_UBCF_N_C_15@data@x[] > 5] <- 5
+# p_UBCF_N_C_50@data@x[p_UBCF_N_C_50@data@x[] < 1] <- 1
+# p_UBCF_N_C_50@data@x[p_UBCF_N_C_50@data@x[] > 5] <- 5
+# p_UBCF_N_C_100@data@x[p_UBCF_N_C_100@data@x[] < 1] <- 1
+# p_UBCF_N_C_100@data@x[p_UBCF_N_C_100@data@x[] > 5] <- 5
+# 
+# p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] < 1] <- 1
+# p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] > 5] <- 5
+# p_IBCF_C_C@data@x[p_IBCF_C_C@data@x[] < 1] <- 1
+# p_IBCF_C_C@data@x[p_IBCF_C_C@data@x[] > 5] <- 5
+# p_IBCF_Z_C@data@x[p_IBCF_Z_C@data@x[] < 1] <- 1
+# p_IBCF_Z_C@data@x[p_IBCF_Z_C@data@x[] > 5] <- 5
+# 
+# p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
+# p_IBCF_N_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
+# p_IBCF_C_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
+# p_IBCF_C_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
+# p_IBCF_Z_E@data@x[p_IBCF_N_E@data@x[] < 1] <- 1
+# p_IBCF_Z_E@data@x[p_IBCF_N_E@data@x[] > 5] <- 5
+# 
+# p_IBCF_N_J@data@x[p_IBCF_N_J@data@x[] < 1] <- 1
+# p_IBCF_N_J@data@x[p_IBCF_N_J@data@x[] > 5] <- 5
+# p_IBCF_C_J@data@x[p_IBCF_N_J@data@x[] < 1] <- 1
+# p_IBCF_C_J@data@x[p_IBCF_N_J@data@x[] > 5] <- 5
+# p_IBCF_Z_J@data@x[p_IBCF_N_J@data@x[] < 1] <- 1
+# p_IBCF_Z_J@data@x[p_IBCF_N_J@data@x[] > 5] <- 5
+# 
+# p_IBCF_N_C_5@data@x[p_IBCF_N_C_5@data@x[] < 1] <- 1
+# p_IBCF_N_C_5@data@x[p_IBCF_N_C_5@data@x[] > 5] <- 5
+# p_IBCF_N_C_10@data@x[p_IBCF_N_C_10@data@x[] < 1] <- 1
+# p_IBCF_N_C_10@data@x[p_IBCF_N_C_10@data@x[] > 5] <- 5
+# p_IBCF_N_C_15@data@x[p_IBCF_N_C_15@data@x[] < 1] <- 1
+# p_IBCF_N_C_15@data@x[p_IBCF_N_C_15@data@x[] > 5] <- 5
+# p_IBCF_N_C_50@data@x[p_IBCF_N_C_50@data@x[] < 1] <- 1
+# p_IBCF_N_C_50@data@x[p_IBCF_N_C_50@data@x[] > 5] <- 5
+# p_IBCF_N_C_100@data@x[p_IBCF_N_C_100@data@x[] < 1] <- 1
+# p_IBCF_N_C_100@data@x[p_IBCF_N_C_100@data@x[] > 5] <- 5
+# 
+# p_IBCF_N_C_alpha_0.1@data@x[p_IBCF_N_C_alpha_0.1@data@x[] < 1] <- 1
+# p_IBCF_N_C_alpha_0.1@data@x[p_IBCF_N_C_alpha_0.1@data@x[] > 5] <- 5
+# p_IBCF_N_C_alpha_0.25@data@x[p_IBCF_N_C_alpha_0.25@data@x[] < 1] <- 1
+# p_IBCF_N_C_alpha_0.25@data@x[p_IBCF_N_C_alpha_0.25@data@x[] > 5] <- 5
+# p_IBCF_N_C_alpha_0.75@data@x[p_IBCF_N_C_alpha_0.75@data@x[] < 1] <- 1
+# p_IBCF_N_C_alpha_0.75@data@x[p_IBCF_N_C_alpha_0.75@data@x[] > 5] <- 5
+# p_IBCF_N_C_alpha_0.9@data@x[p_IBCF_N_C_alpha_0.9@data@x[] < 1] <- 1
+# p_IBCF_N_C_alpha_0.9@data@x[p_IBCF_N_C_alpha_0.9@data@x[] > 5] <- 5
+# 
+# p_Popular_N@data@x[p_Popular_N@data@x[] < 1] <- 1
+# p_Popular_N@data@x[p_Popular_N@data@x[] > 5] <- 5
+# p_Popular_C@data@x[p_Popular_C@data@x[] < 1] <- 1
+# p_Popular_C@data@x[p_Popular_C@data@x[] > 5] <- 5
+# p_Popular_Z@data@x[p_Popular_Z@data@x[] < 1] <- 1
+# p_Popular_Z@data@x[p_Popular_Z@data@x[] > 5] <- 5
 
 # Evaluate performance  
 library(knitr)
