@@ -3,36 +3,77 @@ library(recommenderlab)
 #we build several models with different configurations to evaluate them
 
 # UBCF Models
-# Train UBCF cosine similarity models
-# Non-normalized - Cosine distance
-UBCF_N_C <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Cosine"))
-# Centered - Cosine distance
-UBCF_C_C <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Cosine"))
-# Z-score normalization - Cosine distance
-UBCF_Z_C <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine"))
-
-# Train UBCF Euclidean Distance models
-# Non-normalized - Euclidean Distance
-UBCF_N_E <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Euclidean"))
-# centered - Euclidean Distance
-UBCF_C_E <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Euclidean"))
-# Z-score normalization  - Euclidean Distance
-UBCF_Z_E <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Euclidean"))
-
-# Train UBCF Euclidean Distance models
-# Non-normalized - Jaccard Distance
-UBCF_N_J <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Jaccard"))
-# centered - Euclidean Distance
-UBCF_C_J <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Jaccard"))
-# Z-score normalization  - Euclidean Distance
-UBCF_Z_J <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Jaccard"))
-
 # Train UBCF Non-normalized - Cosine distance models with different values of nearest neighbors
 UBCF_N_C_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Cosine", nn=5))
-UBCF_N_C_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Cosine", nn=10))
-UBCF_N_C_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine", nn=15))
-UBCF_N_C_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine", nn=50))
-UBCF_N_C_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine", nn=100))
+UBCF_N_C_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Cosine", nn=10))
+UBCF_N_C_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Cosine", nn=15))
+UBCF_N_C_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Cosine", nn=25))
+UBCF_N_C_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Cosine", nn=50))
+UBCF_N_C_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Cosine", nn=100))
+
+# Train UBCF Non-normalized - Euclidean distance models with different values of nearest neighbors
+UBCF_N_E_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Euclidean", nn=5))
+UBCF_N_E_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Euclidean", nn=10))
+UBCF_N_E_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Euclidean", nn=15))
+UBCF_N_E_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Euclidean", nn=25))
+UBCF_N_E_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Euclidean", nn=50))
+UBCF_N_E_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Euclidean", nn=100))
+
+# Train UBCF Non-normalized - Jaccard distance models with different values of nearest neighbors
+UBCF_N_J_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Jaccard", nn=5))
+UBCF_N_J_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Jaccard", nn=10))
+UBCF_N_J_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Jaccard", nn=15))
+UBCF_N_J_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Jaccard", nn=25))
+UBCF_N_J_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Jaccard", nn=50))
+UBCF_N_J_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL,method="Jaccard", nn=100))
+
+# Train UBCF center normalized - Cosine distance models with different values of nearest neighbors
+UBCF_C_C_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center", method="Cosine", nn=5))
+UBCF_C_C_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Cosine", nn=10))
+UBCF_C_C_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Cosine", nn=15))
+UBCF_C_C_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center", method="Cosine", nn=25))
+UBCF_C_C_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Cosine", nn=50))
+UBCF_C_C_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Cosine", nn=100))
+
+# Train UBCF center normalized - Euclidean distance models with different values of nearest neighbors
+UBCF_C_E_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center", method="Euclidean", nn=5))
+UBCF_C_E_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Euclidean", nn=10))
+UBCF_C_E_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Euclidean", nn=15))
+UBCF_C_E_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center", method="Euclidean", nn=25))
+UBCF_C_E_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Euclidean", nn=50))
+UBCF_C_E_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Euclidean", nn=100))
+
+# Train UBCF center normalized - Jaccard distance models with different values of nearest neighbors
+UBCF_C_J_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center", method="Jaccard", nn=5))
+UBCF_C_J_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Jaccard", nn=10))
+UBCF_C_J_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Jaccard", nn=15))
+UBCF_C_J_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center", method="Jaccard", nn=25))
+UBCF_C_J_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Jaccard", nn=50))
+UBCF_C_J_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "center",method="Jaccard", nn=100))
+
+# Train UBCF z-score normalized - Cosine distance models with different values of nearest neighbors
+UBCF_Z_C_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score", method="Cosine", nn=5))
+UBCF_Z_C_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine", nn=10))
+UBCF_Z_C_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine", nn=15))
+UBCF_Z_C_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score", method="Cosine", nn=25))
+UBCF_Z_C_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine", nn=50))
+UBCF_Z_C_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Cosine", nn=100))
+
+# Train UBCF z-score normalized - Euclidean distance models with different values of nearest neighbors
+UBCF_Z_E_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score", method="Euclidean", nn=5))
+UBCF_Z_E_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Euclidean", nn=10))
+UBCF_Z_E_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Euclidean", nn=15))
+UBCF_Z_E_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score", method="Euclidean", nn=25))
+UBCF_Z_E_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Euclidean", nn=50))
+UBCF_Z_E_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Euclidean", nn=100))
+
+# Train UBCF z-score normalized - Jaccard distance models with different values of nearest neighbors
+UBCF_Z_J_5 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score", method="Jaccard", nn=5))
+UBCF_Z_J_10 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Jaccard", nn=10))
+UBCF_Z_J_15 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Jaccard", nn=15))
+UBCF_Z_J_25 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score", method="Jaccard", nn=25))
+UBCF_Z_J_50 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Jaccard", nn=50))
+UBCF_Z_J_100 <- Recommender(recc_data_train, "UBCF", param=list(normalize = "Z-score",method="Jaccard", nn=100))
 
 # IBCF Models
 # Train IBCF cosine similarity models
@@ -79,20 +120,62 @@ Popular_Z <- Recommender(recc_data_train, "Popular", param=list(normalize = "Z-s
 
 
 # Compute predicted ratings
-p_UBCF_N_C <- predict(UBCF_N_C, recc_data_test, type="ratings")
-p_UBCF_C_C <- predict(UBCF_C_C, recc_data_test, type="ratings")
-p_UBCF_Z_C <- predict(UBCF_Z_C, recc_data_test, type="ratings")
-p_UBCF_N_E <- predict(UBCF_N_E, recc_data_test, type="ratings")
-p_UBCF_C_E <- predict(UBCF_C_E, recc_data_test, type="ratings")
-p_UBCF_Z_E <- predict(UBCF_Z_E, recc_data_test, type="ratings")
-p_UBCF_N_J <- predict(UBCF_N_E, recc_data_test, type="ratings")
-p_UBCF_C_J <- predict(UBCF_C_E, recc_data_test, type="ratings")
-p_UBCF_Z_J <- predict(UBCF_Z_E, recc_data_test, type="ratings")
 p_UBCF_N_C_5 <- predict(UBCF_N_C_5, recc_data_test, type="ratings")
 p_UBCF_N_C_10 <- predict(UBCF_N_C_10, recc_data_test, type="ratings")
 p_UBCF_N_C_15 <- predict(UBCF_N_C_15, recc_data_test, type="ratings")
+p_UBCF_N_C_25 <- predict(UBCF_N_C_25, recc_data_test, type="ratings")
 p_UBCF_N_C_50 <- predict(UBCF_N_C_50, recc_data_test, type="ratings")
 p_UBCF_N_C_100 <- predict(UBCF_N_C_100, recc_data_test, type="ratings")
+p_UBCF_N_E_5 <- predict(UBCF_N_E_5, recc_data_test, type="ratings")
+p_UBCF_N_E_10 <- predict(UBCF_N_E_10, recc_data_test, type="ratings")
+p_UBCF_N_E_15 <- predict(UBCF_N_E_15, recc_data_test, type="ratings")
+p_UBCF_N_E_25 <- predict(UBCF_N_E_25, recc_data_test, type="ratings")
+p_UBCF_N_E_50 <- predict(UBCF_N_E_50, recc_data_test, type="ratings")
+p_UBCF_N_E_100 <- predict(UBCF_N_E_100, recc_data_test, type="ratings")
+p_UBCF_N_J_5 <- predict(UBCF_N_J_5, recc_data_test, type="ratings")
+p_UBCF_N_J_10 <- predict(UBCF_N_J_10, recc_data_test, type="ratings")
+p_UBCF_N_J_15 <- predict(UBCF_N_J_15, recc_data_test, type="ratings")
+p_UBCF_N_J_25 <- predict(UBCF_N_J_25, recc_data_test, type="ratings")
+p_UBCF_N_J_50 <- predict(UBCF_N_J_50, recc_data_test, type="ratings")
+p_UBCF_N_J_100 <- predict(UBCF_N_J_100, recc_data_test, type="ratings")
+
+p_UBCF_C_C_5 <- predict(UBCF_C_C_5, recc_data_test, type="ratings")
+p_UBCF_C_C_10 <- predict(UBCF_C_C_10, recc_data_test, type="ratings")
+p_UBCF_C_C_15 <- predict(UBCF_C_C_15, recc_data_test, type="ratings")
+p_UBCF_C_C_25 <- predict(UBCF_C_C_25, recc_data_test, type="ratings")
+p_UBCF_C_C_50 <- predict(UBCF_C_C_50, recc_data_test, type="ratings")
+p_UBCF_C_C_100 <- predict(UBCF_C_C_100, recc_data_test, type="ratings")
+p_UBCF_C_E_5 <- predict(UBCF_C_E_5, recc_data_test, type="ratings")
+p_UBCF_C_E_10 <- predict(UBCF_C_E_10, recc_data_test, type="ratings")
+p_UBCF_C_E_15 <- predict(UBCF_C_E_15, recc_data_test, type="ratings")
+p_UBCF_C_E_25 <- predict(UBCF_C_E_25, recc_data_test, type="ratings")
+p_UBCF_C_E_50 <- predict(UBCF_C_E_50, recc_data_test, type="ratings")
+p_UBCF_C_E_100 <- predict(UBCF_C_E_100, recc_data_test, type="ratings")
+p_UBCF_C_J_5 <- predict(UBCF_C_J_5, recc_data_test, type="ratings")
+p_UBCF_C_J_10 <- predict(UBCF_C_J_10, recc_data_test, type="ratings")
+p_UBCF_C_J_15 <- predict(UBCF_C_J_15, recc_data_test, type="ratings")
+p_UBCF_C_J_25 <- predict(UBCF_C_J_25, recc_data_test, type="ratings")
+p_UBCF_C_J_50 <- predict(UBCF_C_J_50, recc_data_test, type="ratings")
+p_UBCF_C_J_100 <- predict(UBCF_C_J_100, recc_data_test, type="ratings")
+
+p_UBCF_Z_C_5 <- predict(UBCF_Z_C_5, recc_data_test, type="ratings")
+p_UBCF_Z_C_10 <- predict(UBCF_Z_C_10, recc_data_test, type="ratings")
+p_UBCF_Z_C_15 <- predict(UBCF_Z_C_15, recc_data_test, type="ratings")
+p_UBCF_Z_C_25 <- predict(UBCF_Z_C_25, recc_data_test, type="ratings")
+p_UBCF_Z_C_50 <- predict(UBCF_Z_C_50, recc_data_test, type="ratings")
+p_UBCF_Z_C_100 <- predict(UBCF_Z_C_100, recc_data_test, type="ratings")
+p_UBCF_Z_E_5 <- predict(UBCF_Z_E_5, recc_data_test, type="ratings")
+p_UBCF_Z_E_10 <- predict(UBCF_Z_E_10, recc_data_test, type="ratings")
+p_UBCF_Z_E_15 <- predict(UBCF_Z_E_15, recc_data_test, type="ratings")
+p_UBCF_Z_E_25 <- predict(UBCF_Z_E_25, recc_data_test, type="ratings")
+p_UBCF_Z_E_50 <- predict(UBCF_Z_E_50, recc_data_test, type="ratings")
+p_UBCF_Z_E_100 <- predict(UBCF_Z_E_100, recc_data_test, type="ratings")
+p_UBCF_Z_J_5 <- predict(UBCF_Z_J_5, recc_data_test, type="ratings")
+p_UBCF_Z_J_10 <- predict(UBCF_Z_J_10, recc_data_test, type="ratings")
+p_UBCF_Z_J_15 <- predict(UBCF_Z_J_15, recc_data_test, type="ratings")
+p_UBCF_Z_J_25 <- predict(UBCF_Z_J_25, recc_data_test, type="ratings")
+p_UBCF_Z_J_50 <- predict(UBCF_Z_J_50, recc_data_test, type="ratings")
+p_UBCF_Z_J_100 <- predict(UBCF_Z_J_100, recc_data_test, type="ratings")
 
 p_IBCF_N_C <- predict(IBCF_N_C, recc_data_test, type="ratings")
 p_IBCF_C_C <- predict(IBCF_C_C, recc_data_test, type="ratings")
@@ -119,37 +202,119 @@ p_Popular_Z <- predict(Popular_Z, recc_data_test, type="ratings")
 
 
 # Set all predictions that fall outside the valid range to the boundary values
-p_UBCF_N_C@data@x[p_UBCF_N_C@data@x[] < 1] <- 1
-p_UBCF_N_C@data@x[p_UBCF_N_C@data@x[] > 5] <- 5
-p_UBCF_C_C@data@x[p_UBCF_C_C@data@x[] < 1] <- 1
-p_UBCF_C_C@data@x[p_UBCF_C_C@data@x[] > 5] <- 5
-p_UBCF_Z_C@data@x[p_UBCF_Z_C@data@x[] < 1] <- 1
-p_UBCF_Z_C@data@x[p_UBCF_Z_C@data@x[] > 5] <- 5
-
-p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] < 1] <- 1
-p_UBCF_N_E@data@x[p_UBCF_N_E@data@x[] > 5] <- 5
-p_UBCF_C_E@data@x[p_UBCF_C_E@data@x[] < 1] <- 1
-p_UBCF_C_E@data@x[p_UBCF_C_E@data@x[] > 5] <- 5
-p_UBCF_Z_E@data@x[p_UBCF_Z_E@data@x[] < 1] <- 1
-p_UBCF_Z_E@data@x[p_UBCF_Z_E@data@x[] > 5] <- 5
-
-p_UBCF_N_J@data@x[p_UBCF_N_J@data@x[] < 1] <- 1
-p_UBCF_N_J@data@x[p_UBCF_N_J@data@x[] > 5] <- 5
-p_UBCF_C_J@data@x[p_UBCF_C_J@data@x[] < 1] <- 1
-p_UBCF_C_J@data@x[p_UBCF_C_J@data@x[] > 5] <- 5
-p_UBCF_Z_J@data@x[p_UBCF_Z_J@data@x[] < 1] <- 1
-p_UBCF_Z_J@data@x[p_UBCF_Z_J@data@x[] > 5] <- 5
-
 p_UBCF_N_C_5@data@x[p_UBCF_N_C_5@data@x[] < 1] <- 1
-p_UBCF_N_C_5@data@x[p_UBCF_N_C_5@data@x[] > 5] <- 5
 p_UBCF_N_C_10@data@x[p_UBCF_N_C_10@data@x[] < 1] <- 1
-p_UBCF_N_C_10@data@x[p_UBCF_N_C_10@data@x[] > 5] <- 5
 p_UBCF_N_C_15@data@x[p_UBCF_N_C_15@data@x[] < 1] <- 1
-p_UBCF_N_C_15@data@x[p_UBCF_N_C_15@data@x[] > 5] <- 5
+p_UBCF_N_C_25@data@x[p_UBCF_N_C_25@data@x[] < 1] <- 1
 p_UBCF_N_C_50@data@x[p_UBCF_N_C_50@data@x[] < 1] <- 1
-p_UBCF_N_C_50@data@x[p_UBCF_N_C_50@data@x[] > 5] <- 5
 p_UBCF_N_C_100@data@x[p_UBCF_N_C_100@data@x[] < 1] <- 1
+p_UBCF_N_E_5@data@x[p_UBCF_N_E_5@data@x[] < 1] <- 1
+p_UBCF_N_E_10@data@x[p_UBCF_N_E_10@data@x[] < 1] <- 1
+p_UBCF_N_E_15@data@x[p_UBCF_N_E_15@data@x[] < 1] <- 1
+p_UBCF_N_E_25@data@x[p_UBCF_N_E_25@data@x[] < 1] <- 1
+p_UBCF_N_E_50@data@x[p_UBCF_N_E_50@data@x[] < 1] <- 1
+p_UBCF_N_E_100@data@x[p_UBCF_N_E_100@data@x[] < 1] <- 1
+p_UBCF_N_J_5@data@x[p_UBCF_N_J_5@data@x[] < 1] <- 1
+p_UBCF_N_J_10@data@x[p_UBCF_N_J_10@data@x[] < 1] <- 1
+p_UBCF_N_J_15@data@x[p_UBCF_N_J_15@data@x[] < 1] <- 1
+p_UBCF_N_J_25@data@x[p_UBCF_N_J_25@data@x[] < 1] <- 1
+p_UBCF_N_J_50@data@x[p_UBCF_N_J_50@data@x[] < 1] <- 1
+p_UBCF_N_J_100@data@x[p_UBCF_N_J_100@data@x[] < 1] <- 1
+
+p_UBCF_C_C_5@data@x[p_UBCF_C_C_5@data@x[] < 1] <- 1
+p_UBCF_C_C_10@data@x[p_UBCF_C_C_10@data@x[] < 1] <- 1
+p_UBCF_C_C_15@data@x[p_UBCF_C_C_15@data@x[] < 1] <- 1
+p_UBCF_C_C_25@data@x[p_UBCF_C_C_25@data@x[] < 1] <- 1
+p_UBCF_C_C_50@data@x[p_UBCF_C_C_50@data@x[] < 1] <- 1
+p_UBCF_C_C_100@data@x[p_UBCF_C_C_100@data@x[] < 1] <- 1
+p_UBCF_C_E_5@data@x[p_UBCF_C_E_5@data@x[] < 1] <- 1
+p_UBCF_C_E_10@data@x[p_UBCF_C_E_10@data@x[] < 1] <- 1
+p_UBCF_C_E_15@data@x[p_UBCF_C_E_15@data@x[] < 1] <- 1
+p_UBCF_C_E_25@data@x[p_UBCF_C_E_25@data@x[] < 1] <- 1
+p_UBCF_C_E_50@data@x[p_UBCF_C_E_50@data@x[] < 1] <- 1
+p_UBCF_C_E_100@data@x[p_UBCF_C_E_100@data@x[] < 1] <- 1
+p_UBCF_C_J_5@data@x[p_UBCF_C_J_5@data@x[] < 1] <- 1
+p_UBCF_C_J_10@data@x[p_UBCF_C_J_10@data@x[] < 1] <- 1
+p_UBCF_C_J_15@data@x[p_UBCF_C_J_15@data@x[] < 1] <- 1
+p_UBCF_C_J_25@data@x[p_UBCF_C_J_25@data@x[] < 1] <- 1
+p_UBCF_C_J_50@data@x[p_UBCF_C_J_50@data@x[] < 1] <- 1
+p_UBCF_C_J_100@data@x[p_UBCF_C_J_100@data@x[] < 1] <- 1
+
+p_UBCF_Z_C_5@data@x[p_UBCF_Z_C_5@data@x[] < 1] <- 1
+p_UBCF_Z_C_10@data@x[p_UBCF_Z_C_10@data@x[] < 1] <- 1
+p_UBCF_Z_C_15@data@x[p_UBCF_Z_C_15@data@x[] < 1] <- 1
+p_UBCF_Z_C_25@data@x[p_UBCF_Z_C_25@data@x[] < 1] <- 1
+p_UBCF_Z_C_50@data@x[p_UBCF_Z_C_50@data@x[] < 1] <- 1
+p_UBCF_Z_C_100@data@x[p_UBCF_Z_C_100@data@x[] < 1] <- 1
+p_UBCF_Z_E_5@data@x[p_UBCF_Z_E_5@data@x[] < 1] <- 1
+p_UBCF_Z_E_10@data@x[p_UBCF_Z_E_10@data@x[] < 1] <- 1
+p_UBCF_Z_E_15@data@x[p_UBCF_Z_E_15@data@x[] < 1] <- 1
+p_UBCF_Z_E_25@data@x[p_UBCF_Z_E_25@data@x[] < 1] <- 1
+p_UBCF_Z_E_50@data@x[p_UBCF_Z_E_50@data@x[] < 1] <- 1
+p_UBCF_Z_E_100@data@x[p_UBCF_Z_E_100@data@x[] < 1] <- 1
+p_UBCF_Z_J_5@data@x[p_UBCF_Z_J_5@data@x[] < 1] <- 1
+p_UBCF_Z_J_10@data@x[p_UBCF_Z_J_10@data@x[] < 1] <- 1
+p_UBCF_Z_J_15@data@x[p_UBCF_Z_J_15@data@x[] < 1] <- 1
+p_UBCF_Z_J_25@data@x[p_UBCF_Z_J_25@data@x[] < 1] <- 1
+p_UBCF_Z_J_50@data@x[p_UBCF_Z_J_50@data@x[] < 1] <- 1
+p_UBCF_Z_J_100@data@x[p_UBCF_Z_J_100@data@x[] < 1] <- 1
+
+p_UBCF_N_C_5@data@x[p_UBCF_N_C_5@data@x[] > 5] <- 5
+p_UBCF_N_C_10@data@x[p_UBCF_N_C_10@data@x[] > 5] <- 5
+p_UBCF_N_C_15@data@x[p_UBCF_N_C_15@data@x[] > 5] <- 5
+p_UBCF_N_C_25@data@x[p_UBCF_N_C_25@data@x[] > 5] <- 5
+p_UBCF_N_C_50@data@x[p_UBCF_N_C_50@data@x[] > 5] <- 5
 p_UBCF_N_C_100@data@x[p_UBCF_N_C_100@data@x[] > 5] <- 5
+p_UBCF_N_E_5@data@x[p_UBCF_N_E_5@data@x[] > 5] <- 5
+p_UBCF_N_E_10@data@x[p_UBCF_N_E_10@data@x[] > 5] <- 5
+p_UBCF_N_E_15@data@x[p_UBCF_N_E_15@data@x[] > 5] <- 5
+p_UBCF_N_E_25@data@x[p_UBCF_N_E_25@data@x[] > 5] <- 5
+p_UBCF_N_E_50@data@x[p_UBCF_N_E_50@data@x[] > 5] <- 5
+p_UBCF_N_E_100@data@x[p_UBCF_N_E_100@data@x[] > 5] <- 5
+p_UBCF_N_J_5@data@x[p_UBCF_N_J_5@data@x[] > 5] <- 5
+p_UBCF_N_J_10@data@x[p_UBCF_N_J_10@data@x[] > 5] <- 5
+p_UBCF_N_J_15@data@x[p_UBCF_N_J_15@data@x[] > 5] <- 5
+p_UBCF_N_J_25@data@x[p_UBCF_N_J_25@data@x[] > 5] <- 5
+p_UBCF_N_J_50@data@x[p_UBCF_N_J_50@data@x[] > 5] <- 5
+p_UBCF_N_J_100@data@x[p_UBCF_N_J_100@data@x[] > 5] <- 5
+
+p_UBCF_C_C_5@data@x[p_UBCF_C_C_5@data@x[] > 5] <- 5
+p_UBCF_C_C_10@data@x[p_UBCF_C_C_10@data@x[] > 5] <- 5
+p_UBCF_C_C_15@data@x[p_UBCF_C_C_15@data@x[] > 5] <- 5
+p_UBCF_C_C_25@data@x[p_UBCF_C_C_25@data@x[] > 5] <- 5
+p_UBCF_C_C_50@data@x[p_UBCF_C_C_50@data@x[] > 5] <- 5
+p_UBCF_C_C_100@data@x[p_UBCF_C_C_100@data@x[] > 5] <- 5
+p_UBCF_C_E_5@data@x[p_UBCF_C_E_5@data@x[] > 5] <- 5
+p_UBCF_C_E_10@data@x[p_UBCF_C_E_10@data@x[] > 5] <- 5
+p_UBCF_C_E_15@data@x[p_UBCF_C_E_15@data@x[] > 5] <- 5
+p_UBCF_C_E_25@data@x[p_UBCF_C_E_25@data@x[] > 5] <- 5
+p_UBCF_C_E_50@data@x[p_UBCF_C_E_50@data@x[] > 5] <- 5
+p_UBCF_C_E_100@data@x[p_UBCF_C_E_100@data@x[] > 5] <- 5
+p_UBCF_C_J_5@data@x[p_UBCF_C_J_5@data@x[] > 5] <- 5
+p_UBCF_C_J_10@data@x[p_UBCF_C_J_10@data@x[] > 5] <- 5
+p_UBCF_C_J_15@data@x[p_UBCF_C_J_15@data@x[] > 5] <- 5
+p_UBCF_C_J_25@data@x[p_UBCF_C_J_25@data@x[] > 5] <- 5
+p_UBCF_C_J_50@data@x[p_UBCF_C_J_50@data@x[] > 5] <- 5
+p_UBCF_C_J_100@data@x[p_UBCF_C_J_100@data@x[] > 5] <- 5
+
+p_UBCF_Z_C_5@data@x[p_UBCF_Z_C_5@data@x[] > 5] <- 5
+p_UBCF_Z_C_10@data@x[p_UBCF_Z_C_10@data@x[] > 5] <- 5
+p_UBCF_Z_C_15@data@x[p_UBCF_Z_C_15@data@x[] > 5] <- 5
+p_UBCF_Z_C_25@data@x[p_UBCF_Z_C_25@data@x[] > 5] <- 5
+p_UBCF_Z_C_50@data@x[p_UBCF_Z_C_50@data@x[] > 5] <- 5
+p_UBCF_Z_C_100@data@x[p_UBCF_Z_C_100@data@x[] > 5] <- 5
+p_UBCF_Z_E_5@data@x[p_UBCF_Z_E_5@data@x[] > 5] <- 5
+p_UBCF_Z_E_10@data@x[p_UBCF_Z_E_10@data@x[] > 5] <- 5
+p_UBCF_Z_E_15@data@x[p_UBCF_Z_E_15@data@x[] > 5] <- 5
+p_UBCF_Z_E_25@data@x[p_UBCF_Z_E_25@data@x[] > 5] <- 5
+p_UBCF_Z_E_50@data@x[p_UBCF_Z_E_50@data@x[] > 5] <- 5
+p_UBCF_Z_E_100@data@x[p_UBCF_Z_E_100@data@x[] > 5] <- 5
+p_UBCF_Z_J_5@data@x[p_UBCF_Z_J_5@data@x[] > 5] <- 5
+p_UBCF_Z_J_10@data@x[p_UBCF_Z_J_10@data@x[] > 5] <- 5
+p_UBCF_Z_J_15@data@x[p_UBCF_Z_J_15@data@x[] > 5] <- 5
+p_UBCF_Z_J_25@data@x[p_UBCF_Z_J_25@data@x[] > 5] <- 5
+p_UBCF_Z_J_50@data@x[p_UBCF_Z_J_50@data@x[] > 5] <- 5
+p_UBCF_Z_J_100@data@x[p_UBCF_Z_J_100@data@x[] > 5] <- 5
 
 p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] < 1] <- 1
 p_IBCF_N_C@data@x[p_IBCF_N_C@data@x[] > 5] <- 5
@@ -202,33 +367,141 @@ p_Popular_Z@data@x[p_Popular_Z@data@x[] > 5] <- 5
 # Evaluate performance  
 library(knitr)
 
-accuracy_UBCF_N_C <- calcPredictionAccuracy(p_UBCF_N_C, recc_data_eval)
+accuracy_UBCF_N_C_5    <- calcPredictionAccuracy(p_UBCF_N_C_5  , recc_data_eval)
 gc()
-accuracy_UBCF_C_C <- calcPredictionAccuracy(p_UBCF_C_C, recc_data_eval)
+accuracy_UBCF_N_C_10   <- calcPredictionAccuracy(p_UBCF_N_C_10 , recc_data_eval)
 gc()
-accuracy_UBCF_Z_C <- calcPredictionAccuracy(p_UBCF_Z_C, recc_data_eval)
+accuracy_UBCF_N_C_15   <- calcPredictionAccuracy(p_UBCF_N_C_15 , recc_data_eval)
 gc()
-accuracy_UBCF_N_E <- calcPredictionAccuracy(p_UBCF_N_E, recc_data_eval)
+accuracy_UBCF_N_C_25   <- calcPredictionAccuracy(p_UBCF_N_C_25 , recc_data_eval)
 gc()
-accuracy_UBCF_C_E <- calcPredictionAccuracy(p_UBCF_C_E, recc_data_eval)
+accuracy_UBCF_N_C_50   <- calcPredictionAccuracy(p_UBCF_N_C_50 , recc_data_eval)
 gc()
-accuracy_UBCF_Z_E <- calcPredictionAccuracy(p_UBCF_Z_E, recc_data_eval)
+accuracy_UBCF_N_C_100  <- calcPredictionAccuracy(p_UBCF_N_C_100, recc_data_eval)
 gc()
-accuracy_UBCF_N_J <- calcPredictionAccuracy(p_UBCF_N_J, recc_data_eval)
+accuracy_UBCF_N_E_5    <- calcPredictionAccuracy(p_UBCF_N_E_5  , recc_data_eval)
 gc()
-accuracy_UBCF_C_J <- calcPredictionAccuracy(p_UBCF_C_J, recc_data_eval)
+accuracy_UBCF_N_E_10   <- calcPredictionAccuracy(p_UBCF_N_E_10 , recc_data_eval)
 gc()
-accuracy_UBCF_Z_J <- calcPredictionAccuracy(p_UBCF_Z_J, recc_data_eval)
+accuracy_UBCF_N_E_15   <- calcPredictionAccuracy(p_UBCF_N_E_15 , recc_data_eval)
 gc()
-accuracy_UBCF_N_C_5 <- calcPredictionAccuracy(p_UBCF_N_C_5, recc_data_eval)
+accuracy_UBCF_N_E_25   <- calcPredictionAccuracy(p_UBCF_N_E_25 , recc_data_eval)
 gc()
-accuracy_UBCF_N_C_10 <- calcPredictionAccuracy(p_UBCF_N_C_10, recc_data_eval)
+accuracy_UBCF_N_E_50   <- calcPredictionAccuracy(p_UBCF_N_E_50 , recc_data_eval)
 gc()
-accuracy_UBCF_N_C_15 <- calcPredictionAccuracy(p_UBCF_N_C_15, recc_data_eval)
+accuracy_UBCF_N_E_100  <- calcPredictionAccuracy(p_UBCF_N_E_100, recc_data_eval)
 gc()
-accuracy_UBCF_N_C_50 <- calcPredictionAccuracy(p_UBCF_N_C_50, recc_data_eval)
+accuracy_UBCF_N_J_5    <- calcPredictionAccuracy(p_UBCF_N_J_5  , recc_data_eval)
 gc()
-accuracy_UBCF_N_C_100 <- calcPredictionAccuracy(p_UBCF_N_C_100, recc_data_eval)
+accuracy_UBCF_N_J_10   <- calcPredictionAccuracy(p_UBCF_N_J_10 , recc_data_eval)
+gc()
+accuracy_UBCF_N_J_15   <- calcPredictionAccuracy(p_UBCF_N_J_15 , recc_data_eval)
+gc()
+accuracy_UBCF_N_J_25   <- calcPredictionAccuracy(p_UBCF_N_J_25 , recc_data_eval)
+gc()
+accuracy_UBCF_N_J_50   <- calcPredictionAccuracy(p_UBCF_N_J_50 , recc_data_eval)
+gc()
+accuracy_UBCF_N_J_100  <- calcPredictionAccuracy(p_UBCF_N_J_100, recc_data_eval)
+gc() 
+accuracy_UBCF_C_C_5    <- calcPredictionAccuracy(p_UBCF_C_C_5  , recc_data_eval)
+gc()
+accuracy_UBCF_C_C_10   <- calcPredictionAccuracy(p_UBCF_C_C_10 , recc_data_eval)
+gc()
+accuracy_UBCF_C_C_15   <- calcPredictionAccuracy(p_UBCF_C_C_15 , recc_data_eval)
+gc()
+accuracy_UBCF_C_C_25   <- calcPredictionAccuracy(p_UBCF_C_C_25 , recc_data_eval)
+gc()
+accuracy_UBCF_C_C_50   <- calcPredictionAccuracy(p_UBCF_C_C_50 , recc_data_eval)
+gc()
+accuracy_UBCF_C_C_100  <- calcPredictionAccuracy(p_UBCF_C_C_100, recc_data_eval)
+gc()
+accuracy_UBCF_C_E_5    <- calcPredictionAccuracy(p_UBCF_C_E_5  , recc_data_eval)
+gc()
+accuracy_UBCF_C_E_10   <- calcPredictionAccuracy(p_UBCF_C_E_10 , recc_data_eval)
+gc()
+accuracy_UBCF_C_E_15   <- calcPredictionAccuracy(p_UBCF_C_E_15 , recc_data_eval)
+gc()
+accuracy_UBCF_C_E_25   <- calcPredictionAccuracy(p_UBCF_C_E_25 , recc_data_eval)
+gc()
+accuracy_UBCF_C_E_50   <- calcPredictionAccuracy(p_UBCF_C_E_50 , recc_data_eval)
+gc()
+accuracy_UBCF_C_E_100  <- calcPredictionAccuracy(p_UBCF_C_E_100, recc_data_eval)
+gc()
+accuracy_UBCF_C_J_5    <- calcPredictionAccuracy(p_UBCF_C_J_5  , recc_data_eval)
+gc()
+accuracy_UBCF_C_J_10   <- calcPredictionAccuracy(p_UBCF_C_J_10 , recc_data_eval)
+gc()
+accuracy_UBCF_C_J_15   <- calcPredictionAccuracy(p_UBCF_C_J_15 , recc_data_eval)
+gc()
+accuracy_UBCF_C_J_25   <- calcPredictionAccuracy(p_UBCF_C_J_25 , recc_data_eval)
+gc()
+accuracy_UBCF_C_J_50   <- calcPredictionAccuracy(p_UBCF_C_J_50 , recc_data_eval)
+gc()
+accuracy_UBCF_C_J_100  <- calcPredictionAccuracy(p_UBCF_C_J_100, recc_data_eval)
+gc()
+accuracy_UBCF_Z_C_5    <- calcPredictionAccuracy(p_UBCF_Z_C_5  , recc_data_eval)
+gc()
+accuracy_UBCF_Z_C_10   <- calcPredictionAccuracy(p_UBCF_Z_C_10 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_C_15   <- calcPredictionAccuracy(p_UBCF_Z_C_15 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_C_25   <- calcPredictionAccuracy(p_UBCF_Z_C_25 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_C_50   <- calcPredictionAccuracy(p_UBCF_Z_C_50 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_C_100  <- calcPredictionAccuracy(p_UBCF_Z_C_100, recc_data_eval)
+gc()
+accuracy_UBCF_Z_E_5    <- calcPredictionAccuracy(p_UBCF_Z_E_5  , recc_data_eval)
+gc()
+accuracy_UBCF_Z_E_10   <- calcPredictionAccuracy(p_UBCF_Z_E_10 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_E_15   <- calcPredictionAccuracy(p_UBCF_Z_E_15 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_E_25   <- calcPredictionAccuracy(p_UBCF_Z_E_25 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_E_50   <- calcPredictionAccuracy(p_UBCF_Z_E_50 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_E_100  <- calcPredictionAccuracy(p_UBCF_Z_E_100, recc_data_eval)
+gc()
+accuracy_UBCF_Z_J_5    <- calcPredictionAccuracy(p_UBCF_Z_J_5  , recc_data_eval)
+gc()
+accuracy_UBCF_Z_J_10   <- calcPredictionAccuracy(p_UBCF_Z_J_10 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_J_15   <- calcPredictionAccuracy(p_UBCF_Z_J_15 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_J_25   <- calcPredictionAccuracy(p_UBCF_Z_J_25 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_J_50   <- calcPredictionAccuracy(p_UBCF_Z_J_50 , recc_data_eval)
+gc()
+accuracy_UBCF_Z_J_100  <- calcPredictionAccuracy(p_UBCF_Z_J_100, recc_data_eval)
+gc()
+accuracy_IBCF_N_C     <- calcPredictionAccuracy(p_IBCF_N_C, recc_data_eval)    
+gc()
+accuracy_IBCF_C_C     <- calcPredictionAccuracy(p_IBCF_C_C, recc_data_eval)    
+gc()
+accuracy_IBCF_Z_C     <- calcPredictionAccuracy(p_IBCF_Z_C, recc_data_eval)    
+gc()
+accuracy_IBCF_N_E     <- calcPredictionAccuracy(p_IBCF_N_E, recc_data_eval)    
+gc()
+accuracy_IBCF_C_E     <- calcPredictionAccuracy(p_IBCF_C_E, recc_data_eval)    
+gc()
+accuracy_IBCF_Z_E     <- calcPredictionAccuracy(p_IBCF_Z_E, recc_data_eval)    
+gc()
+accuracy_IBCF_N_J     <- calcPredictionAccuracy(p_IBCF_N_J, recc_data_eval)    
+gc()
+accuracy_IBCF_C_J     <- calcPredictionAccuracy(p_IBCF_C_J, recc_data_eval)    
+gc()
+accuracy_IBCF_Z_J     <- calcPredictionAccuracy(p_IBCF_Z_J, recc_data_eval)    
+gc()
+accuracy_IBCF_N_C_5   <- calcPredictionAccuracy(p_IBCF_N_C_5, recc_data_eval)  
+gc()
+accuracy_IBCF_N_C_10  <- calcPredictionAccuracy(p_IBCF_N_C_10, recc_data_eval) 
+gc()
+accuracy_IBCF_N_C_15  <- calcPredictionAccuracy(p_IBCF_N_C_15, recc_data_eval) 
+gc()
+accuracy_IBCF_N_C_50  <- calcPredictionAccuracy(p_IBCF_N_C_50, recc_data_eval) 
+gc()
+accuracy_IBCF_N_C_100 <- calcPredictionAccuracy(p_IBCF_N_C_100, recc_data_eval)
 gc()
 accuracy_IBCF_N_C_alpha_0.1 <- calcPredictionAccuracy(p_IBCF_N_C_alpha_0.1, recc_data_eval)
 gc()
@@ -246,20 +519,74 @@ accuracy_Popular_Z <- calcPredictionAccuracy(p_Popular_Z, recc_data_eval)
 gc()
 
 eval_ratings_results <- rbind(
-  accuracy_UBCF_N_C,
-  accuracy_UBCF_C_C, 
-  accuracy_UBCF_Z_C,
-  accuracy_UBCF_N_E,
-  accuracy_UBCF_C_E,
-  accuracy_UBCF_Z_E,
-  accuracy_UBCF_N_J,
-  accuracy_UBCF_C_J,
-  accuracy_UBCF_Z_J,
-  accuracy_UBCF_N_C_5,
-  accuracy_UBCF_N_C_10,
-  accuracy_UBCF_N_C_15,
-  accuracy_UBCF_N_C_50,
+  accuracy_UBCF_N_C_5  ,
+  accuracy_UBCF_N_C_10 ,
+  accuracy_UBCF_N_C_15 ,
+  accuracy_UBCF_N_C_25 ,
+  accuracy_UBCF_N_C_50 ,
   accuracy_UBCF_N_C_100,
+  accuracy_UBCF_N_E_5  ,
+  accuracy_UBCF_N_E_10 ,
+  accuracy_UBCF_N_E_15 ,
+  accuracy_UBCF_N_E_25 ,
+  accuracy_UBCF_N_E_50 ,
+  accuracy_UBCF_N_E_100,
+  accuracy_UBCF_N_J_5  ,
+  accuracy_UBCF_N_J_10 ,
+  accuracy_UBCF_N_J_15 ,
+  accuracy_UBCF_N_J_25 ,
+  accuracy_UBCF_N_J_50 ,
+  accuracy_UBCF_N_J_100,                                    
+  accuracy_UBCF_C_C_5  , 
+  accuracy_UBCF_C_C_10 , 
+  accuracy_UBCF_C_C_15 , 
+  accuracy_UBCF_C_C_25 , 
+  accuracy_UBCF_C_C_50 , 
+  accuracy_UBCF_C_C_100, 
+  accuracy_UBCF_C_E_5  , 
+  accuracy_UBCF_C_E_10 , 
+  accuracy_UBCF_C_E_15 , 
+  accuracy_UBCF_C_E_25 , 
+  accuracy_UBCF_C_E_50 , 
+  accuracy_UBCF_C_E_100, 
+  accuracy_UBCF_C_J_5  , 
+  accuracy_UBCF_C_J_10 , 
+  accuracy_UBCF_C_J_15 , 
+  accuracy_UBCF_C_J_25 , 
+  accuracy_UBCF_C_J_50 , 
+  accuracy_UBCF_C_J_100, 
+  accuracy_UBCF_Z_C_5  , 
+  accuracy_UBCF_Z_C_10 , 
+  accuracy_UBCF_Z_C_15 , 
+  accuracy_UBCF_Z_C_25 , 
+  accuracy_UBCF_Z_C_50 , 
+  accuracy_UBCF_Z_C_100, 
+  accuracy_UBCF_Z_E_5  , 
+  accuracy_UBCF_Z_E_10 , 
+  accuracy_UBCF_Z_E_15 , 
+  accuracy_UBCF_Z_E_25 , 
+  accuracy_UBCF_Z_E_50 , 
+  accuracy_UBCF_Z_E_100, 
+  accuracy_UBCF_Z_J_5  , 
+  accuracy_UBCF_Z_J_10 , 
+  accuracy_UBCF_Z_J_15 , 
+  accuracy_UBCF_Z_J_25 , 
+  accuracy_UBCF_Z_J_50 , 
+  accuracy_UBCF_Z_J_100,
+  accuracy_IBCF_N_C,    
+  accuracy_IBCF_C_C,    
+  accuracy_IBCF_Z_C,    
+  accuracy_IBCF_N_E,    
+  accuracy_IBCF_C_E,    
+  accuracy_IBCF_Z_E,    
+  accuracy_IBCF_N_J,    
+  accuracy_IBCF_C_J,    
+  accuracy_IBCF_Z_J,    
+  accuracy_IBCF_N_C_5,  
+  accuracy_IBCF_N_C_10, 
+  accuracy_IBCF_N_C_15, 
+  accuracy_IBCF_N_C_50, 
+  accuracy_IBCF_N_C_100,
   accuracy_IBCF_N_C_alpha_0.1,
   accuracy_IBCF_N_C_alpha_0.25,
   accuracy_IBCF_N_C_alpha_0.75,
@@ -270,20 +597,74 @@ eval_ratings_results <- rbind(
 )
 
 eval_ratings_results <- data.frame(eval_ratings_results)
-rownames(eval_ratings_results) <- c("UBCF_N_C", 
-                                    "UBCF_C_C", 
-                                    "UBCF_Z_C", 
-                                    "UBCF_N_E", 
-                                    "UBCF_C_E", 
-                                    "UBCF_Z_E",
-                                    "UBCF_N_J",
-                                    "UBCF_C_J",
-                                    "UBCF_Z_J",
-                                    "UBCF_N_C_5",
+rownames(eval_ratings_results) <- c("UBCF_N_C_5",
                                     "UBCF_N_C_10",
                                     "UBCF_N_C_15",
+                                    "UBCF_N_C_25",
                                     "UBCF_N_C_50",
                                     "UBCF_N_C_100",
+                                    "UBCF_N_E_5",
+                                    "UBCF_N_E_10",
+                                    "UBCF_N_E_15",
+                                    "UBCF_N_E_25",
+                                    "UBCF_N_E_50",
+                                    "UBCF_N_E_100",
+                                    "UBCF_N_J_5",
+                                    "UBCF_N_J_10",
+                                    "UBCF_N_J_15",
+                                    "UBCF_N_J_25",
+                                    "UBCF_N_J_50",
+                                    "UBCF_N_J_100",         
+                                    "UBCF_C_C_5",
+                                    "UBCF_C_C_10",
+                                    "UBCF_C_C_15",
+                                    "UBCF_C_C_25",
+                                    "UBCF_C_C_50",
+                                    "UBCF_C_C_100",
+                                    "UBCF_C_E_5",
+                                    "UBCF_C_E_10",
+                                    "UBCF_C_E_15",
+                                    "UBCF_C_E_25",
+                                    "UBCF_C_E_50",
+                                    "UBCF_C_E_100",
+                                    "UBCF_C_J_5",
+                                    "UBCF_C_J_10",
+                                    "UBCF_C_J_15",
+                                    "UBCF_C_J_25",
+                                    "UBCF_C_J_50",
+                                    "UBCF_C_J_100",     
+                                    "UBCF_Z_C_5",
+                                    "UBCF_Z_C_10",
+                                    "UBCF_Z_C_15",
+                                    "UBCF_Z_C_25",
+                                    "UBCF_Z_C_50",
+                                    "UBCF_Z_C_100",
+                                    "UBCF_Z_E_5",
+                                    "UBCF_Z_E_10",
+                                    "UBCF_Z_E_15",
+                                    "UBCF_Z_E_25",
+                                    "UBCF_Z_E_50",
+                                    "UBCF_Z_E_100",
+                                    "UBCF_Z_J_5",
+                                    "UBCF_Z_J_10",
+                                    "UBCF_Z_J_15",
+                                    "UBCF_Z_J_25",
+                                    "UBCF_Z_J_50",
+                                    "UBCF_Z_J_100",
+                                    "IBCF_N_C",    
+                                    "IBCF_C_C",    
+                                    "IBCF_Z_C",    
+                                    "IBCF_N_E",    
+                                    "IBCF_C_E",    
+                                    "IBCF_Z_E",    
+                                    "IBCF_N_J",    
+                                    "IBCF_C_J",    
+                                    "IBCF_Z_J",    
+                                    "IBCF_N_C_5",  
+                                    "IBCF_N_C_10", 
+                                    "IBCF_N_C_15", 
+                                    "IBCF_N_C_50", 
+                                    "IBCF_N_C_100",
                                     "IBCF_N_C_alpha_0.1",
                                     "IBCF_N_C_alpha_0.25",
                                     "IBCF_N_C_alpha_0.75",
@@ -299,6 +680,7 @@ library(tidyr)
 eval_ratings_results$rec_type <- rownames(eval_ratings_results)
 eval_ratings_results_long<- gather(eval_ratings_results, Error, Err_Value, RMSE:MAE)
 
+library(ggplot2)
 myChartAttr <-  theme_bw() +
   theme(panel.border = element_blank(), 
         panel.grid.major = element_blank(),
