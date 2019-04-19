@@ -128,14 +128,23 @@ if (massive_models_evaluation == TRUE){
   source("Evaluation_all_models.R")
 }
 
-#Visualize Results:
+#----------------------- Visualize Evaluation Results ----------------------------------------
+display_results = TRUE
 #ROC Curve:
-plot(eval_results, annotate=c(1,3), legend="bottomright", main = "ROC curve") # Receiver Operating Characteristic (ROC) Curve
-#Precision-Recall:
-plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
-#Confusion Matrix:
-getConfusionMatrix(eval_results[[1]])
-avg(eval_results)
+if(display_results==TRUE){
+  source("Display_evaluation_recommendations.R")
+  #We tide and filter the evaluation matrix to get: precision, recall, TPR and FPR
+  conf_mat <- tide_confusion_matrix(eval_results)
+  #We display the ROC curve of each model
+  display_roc_curves(conf_mat)
+  #We display the precision-recall curve of each model
+  display_precision_recall_curves(conf_mat)
+  #We display the full confusion matrix containing results from all models
+  eval_results %>% avg(getConfusionMatrix())
+}
+
+
+
 
 ptm <- proc.time() - ptm
 ptm

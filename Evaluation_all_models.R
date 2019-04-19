@@ -84,17 +84,17 @@ algorithms <- list("UBCF_N_C_5" = list(name= "UBCF", param=list(normalize = NULL
   
 eval_results <- evaluate(scheme, algorithms, type="topNList", n=c(1, 5, 10, 15, 20, 50, 100))
 
-# plot(eval_results, annotate=c(1,3), legend="topleft", main = "ROC curve") # Receiver Operating Characteristic (ROC) Curve
+plot(eval_results, annotate=c(1,3), legend="topleft", main = "ROC curve") # Receiver Operating Characteristic (ROC) Curve
 #NOTE:A model with no skill at each threshold is represented by a diagonal line from 
 #the bottom left of the plot to the top right and has an AUC of 0.5 --> JUST OUR CASE!!
 
-# plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
+plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
 #NOTE: A model with perfect skill is depicted as a point at [1.0,1.0]. 
 #A skilful model is represented by a curve that bows towards [1.0,1.0] above the flat line of no skill.
 #JUST THE OPPOSITE TO OUR CASE!!!
 
 #we can display the results of the evaluation of one model, including all the splits:
-# avg(eval_results)
+avg(eval_results)
 
 #or we can observe each confusion matrix separetly. 
 #Note: if we use k-fold then we get "k" confusion matrix per model, one per fold  
@@ -104,23 +104,4 @@ eval_results <- evaluate(scheme, algorithms, type="topNList", n=c(1, 5, 10, 15, 
 # columns_to_sum <- c("TP", "FP", "FN", "TN")
 # indices_summed <- Reduce("+", getConfusionMatrix(eval_results$UBCF_N_C))[,columns_to_sum]
 # head(indices_summed)
-
-
-#-----------------------------------------------------------------------------
-#STILL UNDER TEST: how to test the performance of a model with different nearest_neighbours
-#in an automatized way 
-
-# vector_k <- c(5, 10, 20, 30, 40)
-# models_to_evaluate <- lapply(vector_k, function(k){
-#   list(name = "UBCF", param = list(method = "cosine", nn = vector_k))
-# }
-# )
-# 
-# names(models_to_evaluate) <- paste0("UBCF_k_", vector_k)
-# 
-# n_recommendations <- c(1, 5, 10, 15, 20, 50, 100)
-# list_results <- evaluate(x = eval_set, 
-#                          method = models_to_evaluate, 
-#                          n = n_recommendations)
-
 
