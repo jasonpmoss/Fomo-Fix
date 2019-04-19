@@ -34,7 +34,7 @@ if(ratings_mat_loaded == TRUE){
   source("ratings_matrix.R")
   ratings_mat<-ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings$stars)
   #save created dataset so we can re-use it on the models that we've saved -OPTIONAL-
-  #save(ratings_mat,file="ratings.Rda")
+  save(ratings_mat,file="ratings.Rda")
 }
 
 #In case we normalize the ratings matrix:
