@@ -47,10 +47,10 @@ display_precision_recall_curves <- function(conf_mat){
 
 
 #--------------------------------------------------------------------
-#Code to plot results using the standard plot funtion:
-plot(eval_results, annotate=c(1,3), legend="bottomright", main = "ROC curve") # Receiver Operating Characteristic (ROC) Curve
-#Precision-Recall:
-plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
-#Confusion Matrix:
-getConfusionMatrix(eval_results[[1]])
-avg(eval_results)
+# #Code to plot results using the standard plot funtion:
+# plot(eval_results, annotate=c(1,3), legend="bottomright", main = "ROC curve") # Receiver Operating Characteristic (ROC) Curve
+# #Precision-Recall:
+# plot(eval_results, "prec/rec", annotate=TRUE, main = "Precision-recall", legend="topleft") # Precision-Recall (P-R) Curves
+# #Confusion Matrix:
+# getConfusionMatrix(eval_results[[1]])
+# avg(eval_results)
