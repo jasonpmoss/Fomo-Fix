@@ -1,4 +1,5 @@
-recc_data_train@data@x<-(recc_data_train@data@x-mean(recc_data_train@data@x, na.rm=TRUE))/sd(recc_data_train@data@x, na.rm=TRUE)
+# ****file not in use ******
+### this is a file for experimentingrecc_data_train@data@x<-(recc_data_train@data@x-mean(recc_data_train@data@x, na.rm=TRUE))/sd(recc_data_train@data@x, na.rm=TRUE)
 recc_data_test@data@x<-(recc_data_test@data@x-mean(recc_data_test@data@x, na.rm=TRUE))/sd(recc_data_test@data@x, na.rm=TRUE)
 recc_data_train
 
