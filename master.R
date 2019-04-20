@@ -42,6 +42,7 @@ if(ratings_mat_loaded == TRUE){
 
 #In case we normalize the ratings matrix:
 ratings_mat_normalized <- normalize(ratings_mat)
+source("Popular_sentiment.R")
 
 # user_table<-ratings[ratings$user_id == user, ]
 # source("ratings_matrix.R")
@@ -65,11 +66,11 @@ if(predict_asynchronously==TRUE){
 }
 
 #----------------------- Doing recommendations for a specific user --------------
-user<-"5nEA3NHq2bdjjo3hBDp6xg" #choose a random user
+user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
-predicted_ratings<-predict_ratings_per_user(UBCF_model, ratings_mat, user, 10)
+predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
 predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
 predictions
 
@@ -135,8 +136,12 @@ if(display_results==TRUE){
   source("Display_evaluation_recommendations.R")
   #We tide and filter the evaluation matrix to get: precision, recall, TPR and FPR
   conf_mat <- tide_confusion_matrix(eval_results)
+  #Display confusion matrix
+  kable(conf_mat)
   #We display the ROC curve of each model
   display_roc_curves(conf_mat)
+  #Chart with fomo fix color
+  display_roc_curves_FOMO_Color(conf_mat)
   #We display the precision-recall curve of each model
   display_precision_recall_curves(conf_mat)
   #We display the full confusion matrix containing results from all models
