@@ -1,0 +1,41 @@
+library(recommenderlab)
+library(dplyr)
+
+sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_6_Months`;"
+
+#Execute the query and store the result
+ratings <- query_exec(sql, project = project, use_legacy_sql = FALSE)
+sentiment <- query_exec(sql, project = project, use_legacy_sql = FALSE)
+sentiment$adjusted_bing <- (sentiment$sentiment_score_bing + 6)/2
+summary(sentiment$adjusted_bing)
+rating_sentiment <- inner_join(ratings, sentiment, by="business_id")
+rating_sentiment$adjusted_stars <- (rating_sentiment$stars + rating_sentiment$adjusted_bing)/2
+summary(rating_sentiment$adjusted_stars )
+summary(rating_sentiment$stars)
+hist(rating_sentiment$adjusted_stars )
+hist(rating_sentiment$stars)
+
+source("ratings_matrix.R")
+ratings_mat<-ratings_matrix_sparse(rating_sentiment$user_id, rating_sentiment$business_id, rating_sentiment$adjusted_stars)
+source("split_train_test_data.R") 
+eval_set <- split_train_test_data(ratings_mat,0.8)
+
+UBCF_N_C <- Recommender(recc_data_train, "UBCF", param=list(normalize = NULL, method="Jaccard", nn=10))
+
+
+# Compute predicted ratings
+p_UBCF_N_C <- predict(UBCF_N_C, recc_data_test, type="ratings")
+
+
+# Set all predictions that fall outside the valid range to the boundary values
+#p_UBCF_N_C@data@x <- p_UBCF_N_C@data@x*5/max(p_UBCF_N_C@data@x)
+
+accuracy_UBCF_N_C <- calcPredictionAccuracy(p_UBCF_N_C, recc_data_eval)
+gc()
+
+eval_ratings_results <- accuracy_UBCF_N_C
+
+eval_ratings_results <- data.frame(eval_ratings_results)
+eval_ratings_results
+
+

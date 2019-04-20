@@ -42,6 +42,7 @@ if(ratings_mat_loaded == TRUE){
 
 #In case we normalize the ratings matrix:
 ratings_mat_normalized <- normalize(ratings_mat)
+source("Popular_sentiment.R")
 
 # user_table<-ratings[ratings$user_id == user, ]
 # source("ratings_matrix.R")
@@ -65,9 +66,7 @@ if(predict_asynchronously==TRUE){
 }
 
 #----------------------- Doing recommendations for a specific user --------------
-
-#user<-"5nEA3NHq2bdjjo3hBDp6xg"#choose a random user
-user<-"iqvQ-4xBNIoBQbMp5S7_AQ" #choose a random user
+user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
