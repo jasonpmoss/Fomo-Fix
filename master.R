@@ -65,7 +65,9 @@ if(predict_asynchronously==TRUE){
 }
 
 #----------------------- Doing recommendations for a specific user --------------
-user<-"5nEA3NHq2bdjjo3hBDp6xg" #choose a random user
+
+#user<-"5nEA3NHq2bdjjo3hBDp6xg"#choose a random user
+user<-"iqvQ-4xBNIoBQbMp5S7_AQ" #choose a random user
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
@@ -135,8 +137,12 @@ if(display_results==TRUE){
   source("Display_evaluation_recommendations.R")
   #We tide and filter the evaluation matrix to get: precision, recall, TPR and FPR
   conf_mat <- tide_confusion_matrix(eval_results)
+  #Display confusion matrix
+  kable(conf_mat)
   #We display the ROC curve of each model
   display_roc_curves(conf_mat)
+  #Chart with fomo fix color
+  display_roc_curves_FOMO_Color(conf_mat)
   #We display the precision-recall curve of each model
   display_precision_recall_curves(conf_mat)
   #We display the full confusion matrix containing results from all models

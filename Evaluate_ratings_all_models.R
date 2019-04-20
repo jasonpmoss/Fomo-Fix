@@ -678,7 +678,9 @@ eval_ratings_results
 
 library(tidyr)
 eval_ratings_results$rec_type <- rownames(eval_ratings_results)
-eval_ratings_results_long<- gather(eval_ratings_results, Error, Err_Value, RMSE:MAE)
+
+#### PLOT - ALL Model Errors ####
+eval_ratings_results_long<- gather(eval_ratings_results, Error , Err_Value, RMSE:MAE)
 
 library(ggplot2)
 myChartAttr <-  theme_bw() +
@@ -689,11 +691,121 @@ myChartAttr <-  theme_bw() +
         axis.ticks.x=element_blank(), 
         axis.ticks.y=element_blank())
 colorbar = c("#444444","#808080","#f55d4b")
-ggplot(eval_ratings_results_long, aes(fill = Error, x = rec_type, y=Err_Value)) +
+
+# ggplot(eval_ratings_results_long, aes(fill = Error , x = rec_type, y=Err_Value)) +
+#   geom_bar(position="dodge", stat="identity",width = 0.9) +
+#   myChartAttr + 
+#   labs(x="",y ="Error Rate") +
+#   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
+#   scale_fill_manual(values=colorbar)
+
+
+#### PLOT - IBCF model Errors ####
+eval_ratings_results_IBCF <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("IBCF_N_C", 
+                                                                    "IBCF_C_C",    
+                                                                    "IBCF_Z_C",    
+                                                                    "IBCF_N_E",    
+                                                                    "IBCF_C_E",    
+                                                                    "IBCF_Z_E",    
+                                                                    "IBCF_N_J",    
+                                                                    "IBCF_C_J",    
+                                                                    "IBCF_Z_J",    
+                                                                    "IBCF_N_C_5",  
+                                                                    "IBCF_N_C_10", 
+                                                                    "IBCF_N_C_15", 
+                                                                    "IBCF_N_C_50", 
+                                                                    "IBCF_N_C_100",
+                                                                    "IBCF_N_C_alpha_0.1",
+                                                                    "IBCF_N_C_alpha_0.25",
+                                                                    "IBCF_N_C_alpha_0.75",
+                                                                    "IBCF_N_C_alpha_0.9"))
+
+eval_ratings_results_long_IBCF<- gather(eval_ratings_results_IBCF, Error, Err_Value, RMSE:MAE)
+
+ggplot(eval_ratings_results_long_IBCF, aes(fill = Error, x = rec_type, y=Err_Value)) +
   geom_bar(position="dodge", stat="identity",width = 0.8) +
-  myChartAttr + 
+  myChartAttr +
   labs(x="",y ="Error Rate") +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
+  scale_fill_manual(values=colorbar)
+
+eval_ratings_results_UBCF <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("UBCF_N_C_5",
+                                                                                               "UBCF_N_C_10",
+                                                                                               "UBCF_N_C_15",
+                                                                                               "UBCF_N_C_25",
+                                                                                               "UBCF_N_C_50",
+                                                                                               "UBCF_N_C_100",
+                                                                                               "UBCF_N_E_5",
+                                                                                               "UBCF_N_E_10",
+                                                                                               "UBCF_N_E_15",
+                                                                                               "UBCF_N_E_25",
+                                                                                               "UBCF_N_E_50",
+                                                                                               "UBCF_N_E_100",
+                                                                                               "UBCF_N_J_5",
+                                                                                               "UBCF_N_J_10",
+                                                                                               "UBCF_N_J_15",
+                                                                                               "UBCF_N_J_25",
+                                                                                               "UBCF_N_J_50",
+                                                                                               "UBCF_N_J_100",         
+                                                                                               "UBCF_C_C_5",
+                                                                                               "UBCF_C_C_10",
+                                                                                               "UBCF_C_C_15",
+                                                                                               "UBCF_C_C_25",
+                                                                                               "UBCF_C_C_50",
+                                                                                               "UBCF_C_C_100",
+                                                                                               "UBCF_C_E_5",
+                                                                                               "UBCF_C_E_10",
+                                                                                               "UBCF_C_E_15",
+                                                                                               "UBCF_C_E_25",
+                                                                                               "UBCF_C_E_50",
+                                                                                               "UBCF_C_E_100",
+                                                                                               "UBCF_C_J_5",
+                                                                                               "UBCF_C_J_10",
+                                                                                               "UBCF_C_J_15",
+                                                                                               "UBCF_C_J_25",
+                                                                                               "UBCF_C_J_50",
+                                                                                               "UBCF_C_J_100",     
+                                                                                               "UBCF_Z_C_5",
+                                                                                               "UBCF_Z_C_10",
+                                                                                               "UBCF_Z_C_15",
+                                                                                               "UBCF_Z_C_25",
+                                                                                               "UBCF_Z_C_50",
+                                                                                               "UBCF_Z_C_100",
+                                                                                               "UBCF_Z_E_5",
+                                                                                               "UBCF_Z_E_10",
+                                                                                               "UBCF_Z_E_15",
+                                                                                               "UBCF_Z_E_25",
+                                                                                               "UBCF_Z_E_50",
+                                                                                               "UBCF_Z_E_100",
+                                                                                               "UBCF_Z_J_5",
+                                                                                               "UBCF_Z_J_10",
+                                                                                               "UBCF_Z_J_15",
+                                                                                               "UBCF_Z_J_25",
+                                                                                               "UBCF_Z_J_50",
+                                                                                               "UBCF_Z_J_100"))
+
+eval_ratings_results_long_UBCF<- gather(eval_ratings_results_UBCF, Error, Err_Value, RMSE:MAE)
+
+ggplot(eval_ratings_results_long_UBCF, aes(fill = Error, x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.9) +
+  myChartAttr +
+  labs(x="",y ="Error Rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
+  scale_fill_manual(values=colorbar)
+
+
+#### PLOT - Popular model Errors ####
+eval_ratings_results_popular <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("p_Popular_N",
+                                                                                               "p_Popular_C",
+                                                                                               "p_Popular_Z"))
+
+eval_ratings_results_long_popular<- gather(eval_ratings_results_popular, Error, Err_Value, RMSE:MAE)
+
+ggplot(eval_ratings_results_long_popular, aes(fill = Error, x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.4) +
+  myChartAttr +
+  labs(x="",y ="Error Rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
   scale_fill_manual(values=colorbar)
 
 
