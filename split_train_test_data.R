@@ -22,7 +22,8 @@ split_train_test_data <- function(ratingmat, train_proportion){
                                 goodRating = rating_threshold, 
                                 k = n_eval)
   recc_data_train <<- getData(eval_sets, "train")
-  recc_data_test  <<- getData(eval_sets, "known")   
+  recc_data_test  <<- getData(eval_sets, "known")
+  recc_data_test  <<- fix_recc_data_test(recc_data_test, ratingmat)
   recc_data_eval  <<- getData(eval_sets, "unknown") 
 
   return(eval_sets)
@@ -61,6 +62,16 @@ split_train_test_data_sentiment <- function(ratingmat, train_proportion){
   recc_data_eval_sentiment  <<- getData(eval_sets, "unknown") 
   
   return(eval_sets)
+}
+
+fix_recc_data_test <- function(data_test, ratingmat){
+  rating_mat_df <- as(ratingmat, "data.frame")
+  recc_data_test_df <- as(data_test, "data.frame")
+  merge_data<- merge(recc_data_test_df, rating_mat_df, by=c("user","item"))
+  merge_data <- merge_data[,-3]
+  colnames(merge_data) <- c("user", "item", "rating")
+  data_test <- as(merge_data, "realRatingMatrix")
+  return(data_test)
 }
 #----Test------------------
 #test <- split_train_test_data(ratingmat,0.8)

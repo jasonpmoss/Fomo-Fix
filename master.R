@@ -41,7 +41,7 @@ if(ratings_mat_loaded == TRUE){
 }
 
 #In case we normalize the ratings matrix:
-ratings_mat_normalized <- normalize(ratings_mat)
+#ratings_mat_normalized <- normalize(ratings_mat)
 source("Popular_sentiment.R")
 
 # user_table<-ratings[ratings$user_id == user, ]
@@ -149,7 +149,29 @@ if(display_results==TRUE){
 }
 
 
+#----------------------- Create the Hybrid Model-----------------------------------
+#Train
+source("Hybrid_train.R")
+Hybrid <- Hybrid_train(UBCF_C_E_100, IBCF_N_E, Popular_C, 0.4, 0.4, 0.2)
 
+#Predict
+source("Hybrid_predict.R")
+hybrid_ratings <- Hybrid_predict_ratings(recc_data_test)
+hybrid_ratings <- predict(Hybrid, recc_data_test, type = "ratings")
+
+getRatings(hybrid_ratings)
+
+hybrid_recommendations <- Hybrid_predict_restaurants(recc_data_test)
+bestN(hybrid_recommendations,10)  
+
+hybrid_ratings@data@x[hybrid_ratings@data@x[] < 1] <- 1
+hybrid_ratings@data@x[hybrid_ratings@data@x[] > 5] <- 5
+hybrid_ratings_df <- as(hybrid_ratings, "data.frame")
+
+
+#Evaluate
+
+  
 
 ptm <- proc.time() - ptm
 ptm

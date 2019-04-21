@@ -1,15 +1,16 @@
 
-Hybrid_train<-function(model_1,model_2,model_3, model_4, weight_1,weight_2,weight_3, weight_4){
+Hybrid_train<-function(model_1,model_2,model_3, weight_1,weight_2,weight_3){
 
-recom <- HybridRecommender(
-  model_1,
-  model_2,
-  model_3,
-  model_4,
-  weights = c(weight_1, weight_2, weight_3, weight_4)
-)
-# save the model to disk
-saveRDS(recom, "./Hybrid_model.rds")
+  recom <- HybridRecommender(
+    model_1,
+    model_2,
+    model_3,
+    weights = c(weight_1, weight_2, weight_3)
+  )
+  # save the model to disk
+  saveRDS(recom, "./Hybrid_model.rds")
+  
+  return(recom)
 }
 
 #------------------------test function------------------------------------------
