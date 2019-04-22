@@ -63,7 +63,7 @@ split_train_test_data_sentiment <- function(ratingmat, train_proportion){
   recc_data_train_sentiment <<- getData(eval_sets, "train")
   recc_data_train_sentiment <<- fix_recc_data_test(recc_data_train_sentiment, ratingmat)
   recc_data_test_sentiment  <<- getData(eval_sets, "known")   
-  recc_data_test_sentiment  <<- recc_data_test_sentiment(recc_data_train, ratingmat)
+  recc_data_test_sentiment  <<- recc_data_test_sentiment(recc_data_train_sentiment, ratingmat)
   recc_data_eval_sentiment  <<- getData(eval_sets, "unknown") 
   recc_data_eval_sentiment  <<- fix_recc_data_test(recc_data_eval_sentiment, ratingmat)
   
