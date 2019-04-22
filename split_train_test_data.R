@@ -70,7 +70,8 @@ fix_recc_data_test <- function(data_test, ratingmat){
   merge_data<- merge(recc_data_test_df, rating_mat_df, by=c("user","item"))
   merge_data <- merge_data[,-3]
   colnames(merge_data) <- c("user", "item", "rating")
-  data_test <- as(merge_data, "realRatingMatrix")
+  #data_test <- as(merge_data, "realRatingMatrix")
+  data_test@data@x <- merge_data[,3]
   return(data_test)
 }
 #----Test------------------
