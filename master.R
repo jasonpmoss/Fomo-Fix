@@ -56,14 +56,6 @@ model_training_required <- TRUE #set this to TRUE to train new models
 if (model_training_required == TRUE){
   source("model_training.R")
 }
-#----------------------- Run predictions ----------------------------------------
-n_recommended <- 3
-predict_asynchronously <- FALSE #controls for the way predictions are computed
-if(predict_asynchronously==TRUE){
-  source("predictions_on_test_data_future.R")
-}else{
-  source("predictions_on_test_data.R")
-}
 
 #----------------------- Doing recommendations for a specific user --------------
 user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user

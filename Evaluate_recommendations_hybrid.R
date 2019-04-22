@@ -16,10 +16,10 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating, actual_visit) {
   eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
   tb_tst_visited <- confusionMatrix(actual_visit, eval_df$predicted_visit)
   
-  tn <- tb_tst_visited[1,1]
-  fp <- tb_tst_visited[1,2]
-  fn <- tb_tst_visited[2,1]
-  tp <- tb_tst_visited[2,2]
+  tn <- tb_tst_visited[1,1]/length(actual_visit)
+  fp <- tb_tst_visited[1,2]/length(actual_visit)
+  fn <- tb_tst_visited[2,1]/length(actual_visit)
+  tp <- tb_tst_visited[2,2]/length(actual_visit)
   
   recall <- recall(actual_visit, eval_df$predicted_visit) #TPR
   specificity <- tnr(actual_visit, eval_df$predicted_visit) #TNR
