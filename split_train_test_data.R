@@ -23,7 +23,7 @@ split_train_test_data <- function(ratingmat, train_proportion){
                                 k = n_eval)
   recc_data_train <<- getData(eval_sets, "train")
   recc_data_test  <<- getData(eval_sets, "known")
-  recc_data_test  <<- fix_recc_data_test(recc_data_test, ratingmat)
+  #recc_data_test  <<- fix_recc_data_test(recc_data_test, ratingmat)
   recc_data_eval  <<- getData(eval_sets, "unknown") 
 
   return(eval_sets)
