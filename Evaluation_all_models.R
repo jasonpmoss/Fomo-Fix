@@ -1,7 +1,7 @@
 library(recommenderlab)
 
 #we already have the evaluationScheme saved in the eval_set variable. We will use it
-scheme <- evaluationScheme(ratings_mat, method="cross-validation", k=4, given=-1, goodRating=3.5)
+#scheme <- evaluationScheme(ratings_mat, method="cross-validation", k=4, given=-1, goodRating=3.5)
 
 algorithms <- list("UBCF_N_C_5" = list(name= "UBCF", param=list(normalize = NULL, method="Cosine", nn=5)),
                    "UBCF_N_C_10" = list(name= "UBCF", param=list(normalize = NULL,method="Cosine", nn=10)),
@@ -82,7 +82,7 @@ algorithms <- list("UBCF_N_C_5" = list(name= "UBCF", param=list(normalize = NULL
                    #"SVD_C" = list(name="SVD", param=list(normalize = "center")),
                    #"SVD_Z" = list(name="SVD", param=list(normalize = "Z-score")))
   
-eval_results <- evaluate(scheme, algorithms, type="topNList", n=c(1, 5, 10, 15, 20, 50, 100))
+eval_results <- evaluate(eval_set, algorithms, type="topNList", n=c(1, 5, 10, 15, 20, 50, 100))
 
 plot(eval_results, annotate=c(1,3), legend="topleft", main = "ROC curve") # Receiver Operating Characteristic (ROC) Curve
 #NOTE:A model with no skill at each threshold is represented by a diagonal line from 
