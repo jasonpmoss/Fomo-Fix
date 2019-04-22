@@ -75,3 +75,15 @@ eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
 get_Hybrid_Eval(eval_df[,1], eval_df[,2],eval_df[,3])
 hybrid_eval_recommendations
 hybrid_eval_ratings
+#----------------------------
+rating_mat_df <- as(ratingsmat, "data.frame")
+recc_data_test_df <- as(data_test, "data.frame")
+merge_data<- merge(recc_data_test_df, rating_mat_df, by=c("user","item"))
+merge_data <- merge_data[,-3]
+
+recc_test_fixed<-data_test@data
+
+for (i in 1:(nrow(merge_data))){
+  recc_test_fixed[merge_data[i,1],merge_data[i,2]]<-merge_data[i,3]
+}
+data_test@data<-recc_test_fixed
