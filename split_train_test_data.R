@@ -22,10 +22,12 @@ split_train_test_data <- function(ratingmat, train_proportion){
                                 goodRating = rating_threshold, 
                                 k = n_eval)
   recc_data_train <<- getData(eval_sets, "train")
+  recc_data_train  <<- fix_recc_data_test(recc_data_train, ratingmat)
   recc_data_test  <<- getData(eval_sets, "known")
-  #recc_data_test  <<- fix_recc_data_test(recc_data_test, ratingmat)
+  recc_data_test  <<- fix_recc_data_test(recc_data_test, ratingmat)
   recc_data_eval  <<- getData(eval_sets, "unknown") 
-
+  recc_data_eval  <<- fix_recc_data_test(recc_data_eval, ratingmat)
+  
   return(eval_sets)
 }
 
@@ -60,7 +62,7 @@ split_train_test_data_sentiment <- function(ratingmat, train_proportion){
   recc_data_train_sentiment <<- getData(eval_sets, "train")
   recc_data_train_sentiment  <<- fix_recc_data_test(recc_data_train_sentiment, ratingmat)
   recc_data_test_sentiment  <<- getData(eval_sets, "known")   
-  recc_data_test_sentiment  <<- recc_data_test_sentiment(recc_data_train, ratingmat)
+  recc_data_test_sentiment  <<- fix_recc_data_test(recc_data_test_sentiment, ratingmat)
   recc_data_eval_sentiment  <<- getData(eval_sets, "unknown") 
   recc_data_eval_sentiment  <<- fix_recc_data_test(recc_data_eval_sentiment, ratingmat)
   
@@ -72,13 +74,13 @@ fix_recc_data_test <- function(data_test, ratingmat){
   recc_data_test_df <- as(data_test, "data.frame")
   merge_data<- merge(recc_data_test_df, rating_mat_df, by=c("user","item"))
   merge_data <- merge_data[,-3]
-  colnames(merge_data) <- c("user", "item", "rating")
-  #I tried simply copying the ratings from merge_data into the data_test realRatingMatrix structure but the order is not the good one
-  data_test@data@x <- merge_data[,3]
   
-  #when we do this, we create a small realRatingMatrix cantaining only the users and business for which we have ratings
-  #data_test <- as(merge_data, "realRatingMatrix")
+  recc_test_fixed<-data_test@data
   
+  for (i in 1:(nrow(merge_data))){
+    recc_test_fixed[merge_data[i,1],merge_data[i,2]]<-merge_data[i,3]
+  }
+  data_test@data<-recc_test_fixed
   return(data_test)
 }
 #----Test------------------
