@@ -8,3 +8,4 @@ variable_environment_20190203.RData
 .DS_Store
 Popular_sentiment_model.rds
 IBCF_model.rds
+Popular_model.rds
