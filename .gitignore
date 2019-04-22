@@ -8,4 +8,10 @@ variable_environment_20190203.RData
 .DS_Store
 Popular_sentiment_model.rds
 IBCF_model.rds
+<<<<<<< HEAD
 Popular_model.rds
+=======
+UBCF_model.rds
+Popular_model.rds
+ratings.Rda
+>>>>>>> dd06e1f406faa47c1f9c4a2aee380ae92313627a
