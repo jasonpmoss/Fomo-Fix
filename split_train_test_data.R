@@ -30,7 +30,7 @@ split_train_test_data <- function(ratingmat, train_proportion){
 }
 
 split_train_test_data_crossval <- function(ratingmat, folds=4){
-  items_to_keep <- 1
+  items_to_keep <- -1
   rating_threshold <- 3
 
   eval_sets <- evaluationScheme(data = ratingmat, 
@@ -70,8 +70,12 @@ fix_recc_data_test <- function(data_test, ratingmat){
   merge_data<- merge(recc_data_test_df, rating_mat_df, by=c("user","item"))
   merge_data <- merge_data[,-3]
   colnames(merge_data) <- c("user", "item", "rating")
-  #data_test <- as(merge_data, "realRatingMatrix")
+  #I tried simply copying the ratings from merge_data into the data_test realRatingMatrix structure but the order is not the good one
   data_test@data@x <- merge_data[,3]
+  
+  #when we do this, we create a small realRatingMatrix cantaining only the users and business for which we have ratings
+  #data_test <- as(merge_data, "realRatingMatrix")
+  
   return(data_test)
 }
 #----Test------------------
