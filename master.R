@@ -51,7 +51,7 @@ source("Popular_sentiment.R")
 
 #----------------------- Train models ------------------------------------------
 source("split_train_test_data.R") 
-eval_set <- split_train_test_data(ratings_mat,0.95)
+eval_set <- split_train_test_data_crossval(ratings_mat, folds = 4)
 model_training_required <- TRUE #set this to TRUE to train new models
 if (model_training_required == TRUE){
   source("model_training.R")
@@ -152,7 +152,7 @@ if(display_results==TRUE){
 #----------------------- Create the Hybrid Model-----------------------------------
 #Train
 source("Hybrid_train.R")
-Hybrid <- Hybrid_train(UBCF_C_E_100, IBCF_N_E, Popular_C, 0.4, 0.4, 0.2)
+Hybrid <- Hybrid_train(UBCF_C_E_100, IBCF_N_E, Popular_C, Popular_sentiment_model, 0.3, 0.3, 0.3, 0.1)
 
 #Predict
 source("Hybrid_predict.R")
