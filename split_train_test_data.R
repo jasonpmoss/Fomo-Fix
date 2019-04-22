@@ -22,9 +22,12 @@ split_train_test_data <- function(ratingmat, train_proportion){
                                 goodRating = rating_threshold, 
                                 k = n_eval)
   recc_data_train <<- getData(eval_sets, "train")
+  recc_data_train  <<- fix_recc_data_test(recc_data_train, ratingmat)
   recc_data_test  <<- getData(eval_sets, "known")
-  #recc_data_test  <<- fix_recc_data_test(recc_data_test, ratingmat)
+  recc_data_test  <<- fix_recc_data_test(recc_data_test, ratingmat)
   recc_data_eval  <<- getData(eval_sets, "unknown") 
+  recc_data_eval  <<- fix_recc_data_test(recc_data_eval, ratingmat)
+  
 
   return(eval_sets)
 }
@@ -58,7 +61,7 @@ split_train_test_data_sentiment <- function(ratingmat, train_proportion){
                                 goodRating = rating_threshold, 
                                 k = n_eval)
   recc_data_train_sentiment <<- getData(eval_sets, "train")
-  recc_data_train_sentiment  <<- fix_recc_data_test(recc_data_train_sentiment, ratingmat)
+  recc_data_train_sentiment <<- fix_recc_data_test(recc_data_train_sentiment, ratingmat)
   recc_data_test_sentiment  <<- getData(eval_sets, "known")   
   recc_data_test_sentiment  <<- recc_data_test_sentiment(recc_data_train, ratingmat)
   recc_data_eval_sentiment  <<- getData(eval_sets, "unknown") 
