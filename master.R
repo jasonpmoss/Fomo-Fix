@@ -42,7 +42,7 @@ if(ratings_mat_loaded == TRUE){
 
 #In case we normalize the ratings matrix:
 #ratings_mat_normalized <- normalize(ratings_mat)
-#source("Popular_sentiment.R")
+source("Popular_sentiment.R")
 
 # user_table<-ratings[ratings$user_id == user, ]
 # source("ratings_matrix.R")
