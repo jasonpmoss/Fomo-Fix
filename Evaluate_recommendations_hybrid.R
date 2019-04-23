@@ -63,16 +63,7 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
 #--------------------------- test function --------------------------------------------------------------------
 #Evaluate
 
-#actual_rating_df <- as(ratings_mat, "data.frame") # Converting the rating matrix into dataframe 
-#pred_rating_df <- sample.int(5,size=5420, replace=TRUE) #as(hybrid_ratings, "data.frame")# converting predicted rating matrix into dataframe
-#actual_visit <- sample(0:1, replace=TRUE, size = 5420)
-#eval_df<-data.frame(actual_rating_df[,3], pred_rating_df, actual_visit)
-#eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
-#table(eval_df$actual_visit, eval_df$predicted_visit)
-#actual_visit
-#table(eval_df[,3])
-#confusionMatrix(actual_rating_df[,3], pred_rating_df, cutoff = 3.5)
 source("merge_data_for_hybrid_evaluation.R")
-get_Hybrid_Eval(merge_data[,4], merge_data[,3])
+get_Hybrid_Eval(merge_data$actual, merge_data$predicted)
 hybrid_eval_recommendations
 hybrid_eval_ratings
