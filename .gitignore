@@ -16,3 +16,7 @@ Popular_model.rds
 ratings.Rda
 >>>>>>> dd06e1f406faa47c1f9c4a2aee380ae92313627a
 Untitled.R
+Evaluation.R
+Hybrid_model.rds
+sentiment_user_defined_fn - without_two parameter.R
+sentiment_user_defined_fn.R
