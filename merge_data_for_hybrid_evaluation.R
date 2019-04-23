@@ -23,4 +23,4 @@ names(merge_data) <- c("user", "item", "predicted","actual")
 #Rename the columns
 ##names(merge_data) <- c("visited", "visit_pred")
 
-View(merge_data)
+#View(merge_data)
