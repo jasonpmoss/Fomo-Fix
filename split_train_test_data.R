@@ -11,7 +11,6 @@
 
 split_train_test_data <- function(ratingmat, train_proportion){
   items_to_keep <- 1
-  rating_threshold <- 3
   n_eval <- 1
   
   ###SPLIT
@@ -34,8 +33,7 @@ split_train_test_data <- function(ratingmat, train_proportion){
 
 split_train_test_data_crossval <- function(ratingmat, folds=4){
   items_to_keep <- -1
-  rating_threshold <- 3
-
+  
   eval_sets <- evaluationScheme(data = ratingmat, 
                                 method = "cross-validation",
                                 k = folds, 
@@ -50,7 +48,6 @@ split_train_test_data_crossval <- function(ratingmat, folds=4){
 
 split_train_test_data_sentiment <- function(ratingmat, train_proportion){
   items_to_keep <- 1
-  rating_threshold <- 3
   n_eval <- 1
   
   ###SPLIT
