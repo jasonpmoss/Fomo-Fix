@@ -24,14 +24,6 @@ Popular_sentiment_predict <- Popular_sentiment_predict_restaurants(rating_mat_po
 print("Popular sentiment restaurants predictions done")
 
 
-source("Hybrid_predict.R")
-Hybrid_predict <- Hybrid_predict_restaurants(ratings_mat)
-print("Hybrid restaurants predictions done")
-gc()
-
-
-
-
 #Predict Ratings
 source("IBCF_predict.R")
 IBCF_predict_ratings<-IBCF_predict_ratings(recc_data_test)
@@ -52,11 +44,6 @@ source("Popular_sentiment_predict.R")
 Popular_sentiment_predict_ratings<-Popular_sentiment_predict_ratings(recc_data_test_sentiment)
 gc()
 print("Popular sentiment ratings predictions done")
-
-source("Hybrid_predict.R")
-Hybrid_predict_ratings<-Hybrid_predict_ratings(recc_data_test)
-gc()
-print("Hybrid ratings predictions done")
 
 time_to_run_code_predict<-proc.time() - ptm_predict
 time_to_run_code_predict
