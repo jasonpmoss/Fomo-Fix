@@ -151,22 +151,24 @@ if(display_results==TRUE){
 
 #----------------------- Create the Hybrid Model-----------------------------------
 #Train
-source("Hybrid_train.R")
-Hybrid <- Hybrid_train(UBCF_C_E_100, IBCF_N_E, Popular_C, Popular_sentiment_model, 0.3, 0.3, 0.3, 0.1)
+source("model_training_hybrid.R")
+# source("Hybrid_train.R")
+# Hybrid <- Hybrid_train(UBCF_C_E_100, IBCF_N_E, Popular_C, Popular_sentiment_model, 0.3, 0.3, 0.3, 0.1)
 
 #Predict
-source("Hybrid_predict.R")
-hybrid_ratings <- Hybrid_predict_ratings(recc_data_test)
-hybrid_ratings <- predict(Hybrid, recc_data_test, type = "ratings")
+source("predictions_on_test_data_hybrid.R")
+# source("Hybrid_predict.R")
+# hybrid_ratings <- Hybrid_predict_ratings(recc_data_test)
+# hybrid_ratings <- predict(Hybrid, recc_data_test, type = "ratings")
 
-getRatings(hybrid_ratings)
+# getRatings(hybrid_ratings)
 
-hybrid_recommendations <- Hybrid_predict_restaurants(recc_data_test)
-bestN(hybrid_recommendations,10)  
-
-hybrid_ratings@data@x[hybrid_ratings@data@x[] < 1] <- 1
-hybrid_ratings@data@x[hybrid_ratings@data@x[] > 5] <- 5
-hybrid_ratings_df <- as(hybrid_ratings, "data.frame")
+# hybrid_recommendations <- Hybrid_predict_restaurants(recc_data_test)
+# bestN(hybrid_recommendations,10)  
+# 
+# hybrid_ratings@data@x[hybrid_ratings@data@x[] < 1] <- 1
+# hybrid_ratings@data@x[hybrid_ratings@data@x[] > 5] <- 5
+# hybrid_ratings_df <- as(hybrid_ratings, "data.frame")
 
 ptm <- proc.time() - ptm
 ptm
