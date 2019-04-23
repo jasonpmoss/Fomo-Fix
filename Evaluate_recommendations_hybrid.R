@@ -3,32 +3,36 @@ library(ModelMetrics)
 library(data.table)
 library(knitr)
 
-get_Hybrid_Eval <- function(actual_rating, predicted_rating, actual_visit) {
+get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
+  threshold <- rating_threshold 
+  actual_rating_regression <- actual_rating
+  predicted_rating_regression <- subset(predicted_rating,!is.na(predicted_rating))
   
-  mse<- MSE(actual_rating, predicted_rating)
-  mae<- MAE(actual_rating, predicted_rating)
-  rmse<-RMSE(actual_rating, predicted_rating)
+  mse<- MSE(actual_rating_regression, predicted_rating_regression)
+  mae<- MAE(actual_rating_regression, predicted_rating_regression)
+  rmse<-RMSE(actual_rating_regression, predicted_rating_regression)
+
+  eval_df<- data.frame(actual_rating, predicted_rating)
+  eval_df$visited<- ifelse(is.na(eval_df$actual_rating),1,0)
+  eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
+  
 
   
-  threshold<-3.49
+  tb_tst_visited <- confusionMatrix(eval_df$visited, eval_df$predicted_visit)
   
-  eval_df<-data.frame(actual_rating, predicted_rating, actual_visit)
-  eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
-  tb_tst_visited <- confusionMatrix(actual_visit, eval_df$predicted_visit)
+  tn <- tb_tst_visited[1,1]/length(eval_df$visited)
+  fp <- tb_tst_visited[1,2]/length(eval_df$visited)
+  fn <- tb_tst_visited[2,1]/length(eval_df$visited)
+  tp <- tb_tst_visited[2,2]/length(eval_df$visited)
   
-  tn <- tb_tst_visited[1,1]/length(actual_visit)
-  fp <- tb_tst_visited[1,2]/length(actual_visit)
-  fn <- tb_tst_visited[2,1]/length(actual_visit)
-  tp <- tb_tst_visited[2,2]/length(actual_visit)
+  recall <- recall(eval_df$visited, eval_df$predicted_visit) #TPR
+  specificity <- tnr(eval_df$visited, eval_df$predicted_visit) #TNR
   
-  recall <- recall(actual_visit, eval_df$predicted_visit) #TPR
-  specificity <- tnr(actual_visit, eval_df$predicted_visit) #TNR
+  #accuracy <- 1- ce(eval_df$visited, eval_df$predicted_visit)
   
-  #accuracy <- 1- ce(actual_visit, eval_df$predicted_visit)
+  #classi_error <- ce(eval_df$visited, eval_df$predicted_visit)
   
-  #classi_error <- ce(actual_visit, eval_df$predicted_visit)
-  
-  precision <- ppv(actual_visit, eval_df$predicted_visit)
+  precision <- ppv(eval_df$visited, eval_df$predicted_visit)
   
   output<- as.data.frame(matrix(ncol=8,nrow=1))
   colnames(output) <- c("TP","FP","FN","TN","Precision","Recall","TPR","FPR")
@@ -59,31 +63,16 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating, actual_visit) {
 #--------------------------- test function --------------------------------------------------------------------
 #Evaluate
 
-actual_rating_df <- as(ratings_mat, "data.frame") # Converting the rating matrix into dataframe 
-pred_rating_df <- sample.int(5,size=5420, replace=TRUE) #as(hybrid_ratings, "data.frame")# converting predicted rating matrix into dataframe
-MSE(actual_rating_df[,3], pred_rating_df)
-MAE(actual_rating_df[,3], pred_rating_df)
-RMSE(actual_rating_df[,3], pred_rating_df)
-actual_visit <- sample(0:1, replace=TRUE, size = 5420)
-eval_df<-data.frame(actual_rating_df[,3], pred_rating_df, actual_visit)
-eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
+#actual_rating_df <- as(ratings_mat, "data.frame") # Converting the rating matrix into dataframe 
+#pred_rating_df <- sample.int(5,size=5420, replace=TRUE) #as(hybrid_ratings, "data.frame")# converting predicted rating matrix into dataframe
+#actual_visit <- sample(0:1, replace=TRUE, size = 5420)
+#eval_df<-data.frame(actual_rating_df[,3], pred_rating_df, actual_visit)
+#eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
 #table(eval_df$actual_visit, eval_df$predicted_visit)
 #actual_visit
 #table(eval_df[,3])
 #confusionMatrix(actual_rating_df[,3], pred_rating_df, cutoff = 3.5)
-
-get_Hybrid_Eval(eval_df[,1], eval_df[,2],eval_df[,3])
+source("merge_data_for_hybrid_evaluation.R")
+get_Hybrid_Eval(merge_data[,4], merge_data[,3])
 hybrid_eval_recommendations
 hybrid_eval_ratings
-#----------------------------
-rating_mat_df <- as(ratingsmat, "data.frame")
-recc_data_test_df <- as(data_test, "data.frame")
-merge_data<- merge(recc_data_test_df, rating_mat_df, by=c("user","item"))
-merge_data <- merge_data[,-3]
-
-recc_test_fixed<-data_test@data
-
-for (i in 1:(nrow(merge_data))){
-  recc_test_fixed[merge_data[i,1],merge_data[i,2]]<-merge_data[i,3]
-}
-data_test@data<-recc_test_fixed
