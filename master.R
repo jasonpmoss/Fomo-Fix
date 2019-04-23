@@ -5,7 +5,9 @@ ptm <- proc.time()
 #----------------------- Attach packages --------------------------------------
 source("libraries_required.R")
 #----------------------- Inputs -----------------------------------------------
-
+rating_threshold <- 3.5
+n_recommended <- 3
+user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
 #----------------------- Create ratings matrix ---------------------------------
 
 ratings_mat_loaded = FALSE  #determines if we load an existing rating matrix or if we download a new dataset from the cloud
@@ -57,7 +59,6 @@ if (model_training_required == TRUE){
   source("model_training.R")
 }
 #----------------------- Run predictions ----------------------------------------
-n_recommended <- 3
 predict_asynchronously <- FALSE #controls for the way predictions are computed
 if(predict_asynchronously==TRUE){
   source("predictions_on_test_data_future.R")
@@ -66,7 +67,6 @@ if(predict_asynchronously==TRUE){
 }
 
 #----------------------- Doing recommendations for a specific user --------------
-user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
 
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
