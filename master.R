@@ -49,11 +49,11 @@ source("Popular_sentiment.R")
 # user_table<-ratings[ratings$user_id == user, ]
 # source("ratings_matrix.R")
 # user_matrix<-ratings_matrix(user_table$user_id, user_table$business_id, user_table$stars)
-#user_locations<-which(grepl(user, ratings$user_id)) #show the location of users in data frame
+# user_locations<-which(grepl(user, ratings$user_id)) #show the location of users in data frame
 
 #----------------------- Train models ------------------------------------------
 source("split_train_test_data.R") 
-eval_set <- split_train_test_data_crossval(ratings_mat, folds = 4)
+#eval_set <- split_train_test_data_crossval(ratings_mat, folds = 4)
 model_training_required <- TRUE #set this to TRUE to train new models
 if (model_training_required == TRUE){
   source("model_training.R")
