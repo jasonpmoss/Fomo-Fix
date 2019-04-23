@@ -2,7 +2,7 @@
 actual_rating_df <- as(ratings_mat, "data.frame")
 
 # converting predicted rating matrix into dataframe
-pred_rating_df <- as(`p_hybrid-U_0-I_0-P_0-S_1_`, "data.frame")
+pred_rating_df <- as(Hybrid_predict_ratings, "data.frame")
 
 
 
