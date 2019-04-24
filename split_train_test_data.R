@@ -46,15 +46,17 @@ split_train_test_data_crossval <- function(ratingmat, folds=4){
   return(eval_sets)
 }
 
-split_train_test_data_sentiment <- function(ratingmat, folds=4){
+split_train_test_data_sentiment <- function(ratingmat, train_proportion){
   items_to_keep <- 1
-
+  n_eval <- 1
+  
   ###SPLIT
   eval_sets <- evaluationScheme(data = ratingmat, 
-                                method = "cross-validation",
-                                k = folds, 
+                                method = "split",
+                                train = train_proportion, 
                                 given = items_to_keep, 
-                                goodRating = rating_threshold)
+                                goodRating = rating_threshold, 
+                                k = n_eval)
   recc_data_train_sentiment <<- getData(eval_sets, "train")
   recc_data_train_sentiment <<- fix_recc_data_test(recc_data_train_sentiment, ratingmat)
   recc_data_test_sentiment  <<- getData(eval_sets, "known")   
@@ -64,6 +66,25 @@ split_train_test_data_sentiment <- function(ratingmat, folds=4){
   
   return(eval_sets)
 }
+
+# split_train_test_data_sentiment <- function(ratingmat, folds=4){
+#   items_to_keep <- 1
+# 
+#   ###SPLIT
+#   eval_sets <- evaluationScheme(data = ratingmat, 
+#                                 method = "cross-validation",
+#                                 k = folds, 
+#                                 given = items_to_keep, 
+#                                 goodRating = rating_threshold)
+#   recc_data_train_sentiment <<- getData(eval_sets, "train")
+#   recc_data_train_sentiment <<- fix_recc_data_test(recc_data_train_sentiment, ratingmat)
+#   recc_data_test_sentiment  <<- getData(eval_sets, "known")   
+#   recc_data_test_sentiment  <<- fix_recc_data_test(recc_data_test_sentiment, ratingmat)
+#   recc_data_eval_sentiment  <<- getData(eval_sets, "unknown") 
+#   recc_data_eval_sentiment  <<- fix_recc_data_test(recc_data_eval_sentiment, ratingmat)
+#   
+#   return(eval_sets)
+# }
 
 fix_recc_data_test <- function(data_test, ratingsmat){
   rating_mat_df <- as(ratingsmat, "data.frame")
