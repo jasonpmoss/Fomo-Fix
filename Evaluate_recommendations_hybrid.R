@@ -45,8 +45,9 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   output["Results","FN"] <- fn
   output["Results","TN"] <- tn
   output["Results","Precision"] <- precision
-  output["Results","Recall"] <- recall
-  output["Results","TPR"] <- specificity
+####NOTE: SWAP AROUND SPECIFITY AND RECALL: CHECK THIS https://en.wikipedia.org/wiki/Sensitivity_and_specificity
+  output["Results","Recall"] <- specificity
+  output["Results","TPR"] <- recall
   output["Results","FPR"] <- 1-specificity
   
   #hybrid_eval_recommendations<<-kable(output, caption="Results")
@@ -62,7 +63,7 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   output2["Results","MAE"] <- mae
   hybrid_eval_ratings <<-   kable(output2, caption="Results")
   #print(crossval::confusionMatrix(eval_df$visited,eval_df$predicted_visit,negative="control"))
-
+  return(output)
 }
 
 #--------------------------- test function --------------------------------------------------------------------
@@ -79,10 +80,10 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
 #TRAINING
 library(data.table)
 #Create all combination of weights for the four models
-df <- expand.grid(X = seq(0,1,length=11),
-                  Y = seq(0,1,length=11),
-                  Z = seq(0,1,length=11),
-                  W = seq(0,1,length=11))
+df <- expand.grid(X = seq(0,1,length=5),
+                  Y = seq(0,1,length=5),
+                  Z = seq(0,1,length=5),
+                  W = seq(0,1,length=5))
 setDT(df)
 df[, Sum := X + Y + Z + W]
 df1 <- df[Sum == 1] #get only those where the sum of them is equal to 1
@@ -91,7 +92,7 @@ df1 <- df[Sum == 1] #get only those where the sum of them is equal to 1
 model_names<-list()
 for (i in 1:nrow(df1)){
   weight <- as.numeric(t(df1[i,1:4]))
-  model_name <- print(paste0("hybrid-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
+  model_name <- print(paste0("hybrid_recom-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
   model_names <- append(model_names, model_name)
   assign(model_name, Hybrid_train(UBCF_C_C_10,IBCF_C_C,Popular_C,Popular_sentiment_model, 
                                   weight[1],weight[2],weight[3],weight[4]))
@@ -108,7 +109,7 @@ for (i in 1:nrow(df1)){
   
   #predict
   assign(prediction_name, predict(get(model_name), recc_data_test, type="ratings"))
-  print(mean(getRatings(get(prediction_name))))
+  # print(getRatings(get(prediction_name)))
 }
 
 
@@ -124,13 +125,12 @@ for (i in 1:nrow(df1)){
   
   # evaluate
   merge_data_eval<-merge_data_for_hybrid_evaluation(get(prediction_name))
-  #print(head(getRatings(get(prediction_name)),10))
+  #print(merge_data_eval)
   get_Hybrid_Eval(merge_data_eval$actual, merge_data_eval$predicted)
-  print(head(merge_data_eval$predicted),10)
+  #print(merge_data_eval$predicted)
   assign(eval_name, hybrid_eval_recommendations)
   #print(get(eval_name))
 }
-
 
 eval_names <- as.character(eval_names)
 eval_ratings_results <- c()
