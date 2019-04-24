@@ -89,7 +89,7 @@ df1 <- df[Sum == 1] #get only those where the sum of them is equal to 1
 
 #Create one variable for weights combination that stores the trained model with those weigths
 model_names<-list()
-for (i in 1:5){
+for (i in 1:nrow(df1)){
   weight <- as.numeric(t(df1[i,1:4]))
   model_name <- print(paste0("hybrid-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
   model_names <- append(model_names, model_name)
@@ -100,7 +100,7 @@ model_names <- as.character(model_names)
 
 #PREDICT RECOMMENDATIONS
 
-for (i in 1:5){
+for (i in 1:nrow(df1)){
   #create variable name to store the predictions
   weight <- as.numeric(t(df1[i,1:4]))
   model_name <- print(paste0("hybrid_recom-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
@@ -108,13 +108,14 @@ for (i in 1:5){
   
   #predict
   assign(prediction_name, predict(get(model_name), recc_data_test, type="ratings"))
+  print(mean(getRatings(get(prediction_name))))
 }
 
 
 #EVALUATE
 source("merge_data_for_hybrid_evaluation.R")
 eval_names <- list()
-for (i in 1:5){
+for (i in 1:nrow(df1)){
   #create variable name to store the evaluations
   weight <- as.numeric(t(df1[i,1:4]))
   prediction_name <- print(paste0("p_recom_hybrid-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
@@ -122,10 +123,12 @@ for (i in 1:5){
   eval_names <- append(eval_names, eval_name)
   
   # evaluate
-  merge_data_for_hybrid_evaluation(get(prediction_name))
-  get_Hybrid_Eval(merge_data$actual, merge_data$predicted)
+  merge_data_eval<-merge_data_for_hybrid_evaluation(get(prediction_name))
+  #print(head(getRatings(get(prediction_name)),10))
+  get_Hybrid_Eval(merge_data_eval$actual, merge_data_eval$predicted)
+  print(head(merge_data_eval$predicted),10)
   assign(eval_name, hybrid_eval_recommendations)
-  print(get(eval_name))
+  #print(get(eval_name))
 }
 
 

@@ -9,8 +9,9 @@ merge_data_for_hybrid_evaluation <- function(hybrid_pred_ratings){
   
   # merge the ratings by user and business combination
   ### Left Join
-  merge_data<- merge(pred_rating_df,actual_rating_df, by=c("user","item"), all.x=TRUE)
+  merge_data <- merge(pred_rating_df,actual_rating_df, by=c("user","item"), all.x=TRUE)
   names(merge_data) <- c("user", "item", "predicted","actual")
+  return(merge_data)
   ### Right Join
   #merge_data<- merge(actual_rating_df, pred_rating_df, by=c("user","item"), all.y=TRUE)
   
