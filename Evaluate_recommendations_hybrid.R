@@ -1,7 +1,4 @@
 ### Function to evaluate the hybrid model
-library(ModelMetrics)
-library(data.table)
-library(knitr)
 
 get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   threshold <- rating_threshold 
@@ -13,17 +10,21 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   rmse<-RMSE(actual_rating_regression, predicted_rating_regression)
 
   eval_df<- data.frame(actual_rating, predicted_rating)
-  eval_df$visited<- ifelse(is.na(eval_df$actual_rating),1,0)
-  eval_df$predicted_visit<-ifelse(eval_df[,2]>threshold,1,0)
+  eval_df$visited<- ifelse(is.na(eval_df$actual_rating),0,1)
+  eval_df$predicted_visit<-ifelse(eval_df$predicted_rating>threshold,1,0)
+  # predicted<- as.factor(eval_df$predicted_visit)
+  # expected<- as.factor(eval_df$visited)
+  # print(class(predicted))
+  # results <- caret::confusionMatrix(data=predicted, reference=expected)
+  # print(results)
   
-
-  
-  tb_tst_visited <- confusionMatrix(eval_df$visited, eval_df$predicted_visit)
-  
-  tn <- tb_tst_visited[1,1]/length(eval_df$visited)
-  fp <- tb_tst_visited[1,2]/length(eval_df$visited)
-  fn <- tb_tst_visited[2,1]/length(eval_df$visited)
-  tp <- tb_tst_visited[2,2]/length(eval_df$visited)
+  tb_tst_visited <- ModelMetrics::confusionMatrix(eval_df$visited, eval_df$predicted_visit)
+  print(tb_tst_visited)
+  total<- tb_tst_visited[1,1]+tb_tst_visited[1,2]+tb_tst_visited[2,1]+tb_tst_visited[2,2]
+  tn <- tb_tst_visited[1,1]
+  fp <- tb_tst_visited[1,2]
+  fn <- tb_tst_visited[2,1]
+  tp <- tb_tst_visited[2,2]
   
   recall <- recall(eval_df$visited, eval_df$predicted_visit) #TPR
   specificity <- tnr(eval_df$visited, eval_df$predicted_visit) #TNR
@@ -58,6 +59,7 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   output2["Results","MSE"] <- mse
   output2["Results","MAE"] <- mae
   hybrid_eval_ratings <<-   kable(output2, caption="Results")
+  #print(crossval::confusionMatrix(eval_df$visited,eval_df$predicted_visit,negative="control"))
 }
 
 #--------------------------- test function --------------------------------------------------------------------
