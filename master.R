@@ -14,6 +14,7 @@ ratings_mat_loaded = FALSE  #determines if we load an existing rating matrix or 
 if(ratings_mat_loaded == TRUE){
   #Load the ratings matrix if needed
   load("ratings.Rda") #load presaved dataset with dataframe name "ratings"
+  load("survey_results.Rda")
 }else{
   #Extact the dataset from GoogleBigQuery:
   project <- "fomofix-217307"
@@ -34,11 +35,14 @@ if(ratings_mat_loaded == TRUE){
   
   #Execute the query and store the result
   ratings <- query_exec(sql, project = project, use_legacy_sql = FALSE)
-  sql_survey_results<- "SELECT * FROM `fomofix-217307.fomofixds.Live_Survey_Results_ratings`"
+  sql_survey_results<- "SELECT * FROM `fomofix-217307.fomofixds.Live_Survey_Results`"
+  #sql_survey_results<- "SELECT * FROM `fomofix-217307.fomofixds.Live_Survey_Results_ratings`"
   survey_results<-query_exec(sql_survey_results, project = project, use_legacy_sql = FALSE)
   #Save it as a sparse RealRatingMatrix object
   source("ratings_matrix.R")
-  ratings_mat<-ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings$stars)
+  ratings_mat<-ratings_matrix_sparse(survey_results$user_id, survey_results$business_id, survey_results$stars)
+  source("ratings_matrix.R")
+  ratings_mat_survey_results <- ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings$stars)
   #save created dataset so we can re-use it on the models that we've saved -OPTIONAL-
   save(ratings_mat,file="ratings.Rda")
 }
