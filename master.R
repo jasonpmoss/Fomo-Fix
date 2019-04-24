@@ -38,11 +38,12 @@ if(ratings_mat_loaded == TRUE){
   sql_survey_results<- "SELECT * FROM `fomofix-217307.fomofixds.Live_Survey_Results`"
   #sql_survey_results<- "SELECT * FROM `fomofix-217307.fomofixds.Live_Survey_Results_ratings`"
   survey_results<-query_exec(sql_survey_results, project = project, use_legacy_sql = FALSE)
+  survey_results %<>% distinct(.)
   #Save it as a sparse RealRatingMatrix object
   source("ratings_matrix.R")
-  ratings_mat<-ratings_matrix_sparse(survey_results$user_id, survey_results$business_id, survey_results$stars)
+  ratings_mat <- ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings$stars)
   source("ratings_matrix.R")
-  ratings_mat_survey_results <- ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings$stars)
+  ratings_mat_survey_results<-ratings_matrix_sparse(survey_results$user_id, survey_results$business_id, survey_results$stars)
   #save created dataset so we can re-use it on the models that we've saved -OPTIONAL-
   save(ratings_mat,file="ratings.Rda")
 }
