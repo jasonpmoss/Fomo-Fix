@@ -67,6 +67,21 @@ split_train_test_data_sentiment <- function(ratingmat, train_proportion){
   return(eval_sets)
 }
 
+split_train_test_data_sentiment_crossval <- function(ratingmat, folds=4){
+  items_to_keep <- -1
+  
+  eval_sets <<- evaluationScheme(data = ratingmat, 
+                                 method = "cross-validation",
+                                 k = folds, 
+                                 given = items_to_keep, 
+                                 goodRating = rating_threshold)
+  recc_data_train_sentiment <<- getData(eval_sets, "train")
+  recc_data_test_sentiment  <<- getData(eval_sets, "known")   
+  recc_data_eval_sentiment  <<- getData(eval_sets, "unknown") 
+
+  return(eval_sets)
+}
+
 # split_train_test_data_sentiment <- function(ratingmat, folds=4){
 #   items_to_keep <- 1
 # 
