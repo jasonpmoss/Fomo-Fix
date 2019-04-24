@@ -19,7 +19,7 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   # print(results)
   
   tb_tst_visited <- ModelMetrics::confusionMatrix(eval_df$visited, eval_df$predicted_visit)
-  print(tb_tst_visited)
+  #print(tb_tst_visited)
   total<- tb_tst_visited[1,1]+tb_tst_visited[1,2]+tb_tst_visited[2,1]+tb_tst_visited[2,2]
   tn <- tb_tst_visited[1,1]
   fp <- tb_tst_visited[1,2]
@@ -49,7 +49,9 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   output["Results","TPR"] <- specificity
   output["Results","FPR"] <- 1-specificity
   
-  hybrid_eval_recommendations<<-kable(output, caption="Results")
+  #hybrid_eval_recommendations<<-kable(output, caption="Results")
+  hybrid_eval_recommendations<<-output
+  
   
   output2<- as.data.frame(matrix(ncol=3,nrow=1))
   colnames(output2) <- c("RMSE","MSE","MAE")
@@ -60,12 +62,79 @@ get_Hybrid_Eval <- function(actual_rating, predicted_rating) {
   output2["Results","MAE"] <- mae
   hybrid_eval_ratings <<-   kable(output2, caption="Results")
   #print(crossval::confusionMatrix(eval_df$visited,eval_df$predicted_visit,negative="control"))
+
 }
 
 #--------------------------- test function --------------------------------------------------------------------
 #Evaluate
 
+# source("merge_data_for_hybrid_evaluation.R")
+# merge_data_for_hybrid_evaluation(Hybrid_predict_ratings)
+# get_Hybrid_Eval(merge_data$actual, merge_data$predicted)
+# hybrid_eval_recommendations
+# hybrid_eval_ratings
+
+
+
+#TRAINING
+library(data.table)
+#Create all combination of weights for the four models
+df <- expand.grid(X = seq(0,1,length=11),
+                  Y = seq(0,1,length=11),
+                  Z = seq(0,1,length=11),
+                  W = seq(0,1,length=11))
+setDT(df)
+df[, Sum := X + Y + Z + W]
+df1 <- df[Sum == 1] #get only those where the sum of them is equal to 1
+
+#Create one variable for weights combination that stores the trained model with those weigths
+model_names<-list()
+for (i in 1:5){
+  weight <- as.numeric(t(df1[i,1:4]))
+  model_name <- print(paste0("hybrid-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
+  model_names <- append(model_names, model_name)
+  assign(model_name, Hybrid_train(UBCF_C_C_10,IBCF_C_C,Popular_C,Popular_sentiment_model, 
+                                  weight[1],weight[2],weight[3],weight[4]))
+}
+model_names <- as.character(model_names)
+
+#PREDICT RECOMMENDATIONS
+
+for (i in 1:5){
+  #create variable name to store the predictions
+  weight <- as.numeric(t(df1[i,1:4]))
+  model_name <- print(paste0("hybrid_recom-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
+  prediction_name <- print(paste0("p_recom_hybrid-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
+  
+  #predict
+  assign(prediction_name, predict(get(model_name), recc_data_test, type="ratings"))
+}
+
+
+#EVALUATE
 source("merge_data_for_hybrid_evaluation.R")
-get_Hybrid_Eval(merge_data$actual, merge_data$predicted)
-hybrid_eval_recommendations
-hybrid_eval_ratings
+eval_names <- list()
+for (i in 1:5){
+  #create variable name to store the evaluations
+  weight <- as.numeric(t(df1[i,1:4]))
+  prediction_name <- print(paste0("p_recom_hybrid-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
+  eval_name <- print(paste0("eval_recom_hybrid-U_",weight[1],"-I_",weight[2],"-P_",weight[3],"-S_",weight[4],"_"))
+  eval_names <- append(eval_names, eval_name)
+  
+  # evaluate
+  merge_data_for_hybrid_evaluation(get(prediction_name))
+  get_Hybrid_Eval(merge_data$actual, merge_data$predicted)
+  assign(eval_name, hybrid_eval_recommendations)
+  print(get(eval_name))
+}
+
+
+eval_names <- as.character(eval_names)
+eval_ratings_results <- c()
+for (i in 1:length(eval_names)){
+  eval_ratings_results <- rbind(eval_ratings_results,get(eval_names[i]))
+} 
+
+eval_ratings_results <- data.frame(eval_ratings_results)
+rownames(eval_ratings_results) <- model_names
+View(eval_ratings_results)
