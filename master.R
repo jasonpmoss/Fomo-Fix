@@ -18,19 +18,6 @@ if(ratings_mat_loaded == TRUE){
 }else{
   #Extact the dataset from GoogleBigQuery:
   project <- "fomofix-217307"
-  # sql <- "SELECT * FROM `fomofix-217307.fomofixds.lv_testset`
-  # WHERE business_id in (
-  # SELECT business_id from `fomofix-217307.fomofixds.lv_testset`
-  # WHERE user_id in (
-  # SELECT  user_id 
-  # FROM `fomofix-217307.fomofixds.lv_testset`
-  # GROUP BY user_id
-  # having count(user_id)>90
-  # )
-  # GROUP BY business_id
-  # HAVING count(business_id) > 90
-  # )"
-  
   sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_6_Months`;"
   
   #Execute the query and store the result

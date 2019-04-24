@@ -72,13 +72,51 @@ myChartAttr <- myChartAttr_fn()
 
 
 #### PLOT - Popular Sentiment model Errors ####
+library(gghighlight)
 ggplot(eval_ratings_results_long, aes(fill = Error, x = rec_type, y=Err_Value)) +
-  geom_bar(position="dodge", stat="identity",width = 0.4) +
+  geom_bar(position="dodge", stat="identity",width = 0.85) +
   myChartAttr +
   labs(x="",y ="Error Rate") +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
-  scale_fill_manual(values=colorbar)
+  scale_fill_manual(values=colorbar) 
 
+#### RMSE Graphs with highlight####
+
+eval_ratings_results_long_RMSE <- subset(eval_ratings_results_long, Error == "RMSE")
+eval_ratings_results_long_RMSE$Err_Value <- log(eval_ratings_results_long_RMSE$Err_Value)
+
+ggplot(eval_ratings_results_long_RMSE, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="RMSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_RMSE, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
+#### MAE Graphs with highlight####
+
+eval_ratings_results_long_MAE <- subset(eval_ratings_results_long, Error == "MAE")
+eval_ratings_results_long_MAE$Err_Value <- log(eval_ratings_results_long_MAE$Err_Value)
+
+ggplot(eval_ratings_results_long_MAE, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="MAE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MAE, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
+#### MSE GRAPH with highlight ####
+eval_ratings_results_long_MSE <- subset(eval_ratings_results_long, Error == "MSE")
+eval_ratings_results_long_MSE$Err_Value <- log(eval_ratings_results_long_MSE$Err_Value)
+
+ggplot(eval_ratings_results_long_MSE, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MSE, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
 
 
 
