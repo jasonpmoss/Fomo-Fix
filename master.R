@@ -7,7 +7,7 @@ source("libraries_required.R")
 #----------------------- Inputs -----------------------------------------------
 rating_threshold <- 3.5
 n_recommended <- 3
-user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
+
 #----------------------- Create ratings matrix ---------------------------------
 
 ratings_mat_loaded = FALSE  #determines if we load an existing rating matrix or if we download a new dataset from the cloud
@@ -53,7 +53,7 @@ source("Popular_sentiment.R")
 
 #----------------------- Train models ------------------------------------------
 source("split_train_test_data.R") 
-#eval_set <- split_train_test_data_crossval(ratings_mat, folds = 4)
+eval_set <- split_train_test_data_crossval(ratings_mat, folds = 4)
 model_training_required <- TRUE #set this to TRUE to train new models
 if (model_training_required == TRUE){
   source("model_training.R")
@@ -67,7 +67,7 @@ if(predict_asynchronously==TRUE){
 }
 
 #----------------------- Doing recommendations for a specific user --------------
-
+user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
 predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
@@ -140,8 +140,6 @@ if(display_results==TRUE){
   kable(conf_mat)
   #We display the ROC curve of each model
   display_roc_curves(conf_mat)
-  #Chart with fomo fix color
-  display_roc_curves_FOMO_Color(conf_mat)
   #We display the precision-recall curve of each model
   display_precision_recall_curves(conf_mat)
   #We display the full confusion matrix containing results from all models
@@ -152,23 +150,9 @@ if(display_results==TRUE){
 #----------------------- Create the Hybrid Model-----------------------------------
 #Train
 source("model_training_hybrid.R")
-# source("Hybrid_train.R")
-# Hybrid <- Hybrid_train(UBCF_C_E_100, IBCF_N_E, Popular_C, Popular_sentiment_model, 0.3, 0.3, 0.3, 0.1)
 
 #Predict
 source("predictions_on_test_data_hybrid.R")
-# source("Hybrid_predict.R")
-# hybrid_ratings <- Hybrid_predict_ratings(recc_data_test)
-# hybrid_ratings <- predict(Hybrid, recc_data_test, type = "ratings")
-
-# getRatings(hybrid_ratings)
-
-# hybrid_recommendations <- Hybrid_predict_restaurants(recc_data_test)
-# bestN(hybrid_recommendations,10)  
-# 
-# hybrid_ratings@data@x[hybrid_ratings@data@x[] < 1] <- 1
-# hybrid_ratings@data@x[hybrid_ratings@data@x[] > 5] <- 5
-# hybrid_ratings_df <- as(hybrid_ratings, "data.frame")
 
 ptm <- proc.time() - ptm
 ptm

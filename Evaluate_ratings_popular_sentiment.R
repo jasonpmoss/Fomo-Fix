@@ -1,5 +1,3 @@
-library(recommenderlab)
-
 #we build several models with different configurations to evaluate them
 
 # Train Popular
@@ -43,32 +41,15 @@ rownames(eval_ratings_results) <- c("p_Popular_sentiment_N",
 eval_ratings_results <- eval_ratings_results[order(eval_ratings_results$RMSE ),]
 eval_ratings_results
 
-
-library(tidyr)
 eval_ratings_results$rec_type <- rownames(eval_ratings_results)
 
 #### PLOT - ALL Model Errors ####
-eval_ratings_results_long<- gather(eval_ratings_results, Error , Err_Value, RMSE:MAE)
 
-library(ggplot2)
-myChartAttr <-  theme_bw() +
-  theme(panel.border = element_blank(), 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        axis.line = element_line(colour = "gray"), 
-        axis.ticks.x=element_blank(), 
-        axis.ticks.y=element_blank())
-colorbar = c("#444444","#808080","#f55d4b")
+#Remove chart junk
+source("remove_chart_junk.R")
+myChartAttr <- myChartAttr_fn()
 
-# ggplot(eval_ratings_results_long, aes(fill = Error , x = rec_type, y=Err_Value)) +
-#   geom_bar(position="dodge", stat="identity",width = 0.9) +
-#   myChartAttr + 
-#   labs(x="",y ="Error Rate") +
-#   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
-#   scale_fill_manual(values=colorbar)
-
-
-#### PLOT - Popular model Errors ####
+#### PLOT - Popular Sentiment model Errors ####
 eval_ratings_results_popular <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("p_Popular_sentiment_N",
                                                                                                "p_Popular_sentiment_C",
                                                                                                "p_Popular_sentiment_Z"))
@@ -81,7 +62,6 @@ ggplot(eval_ratings_results_long_popular, aes(fill = Error, x = rec_type, y=Err_
   labs(x="",y ="Error Rate") +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
   scale_fill_manual(values=colorbar)
-
 
 ##NOTE: We can also change the way we split trainig/test dataset and compare evaluation of
 ##      different values of k for the cross-validation method with 2, 4, 6,... k-folds

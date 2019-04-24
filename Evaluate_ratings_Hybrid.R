@@ -59,3 +59,27 @@ eval_ratings_results <- data.frame(eval_ratings_results)
 rownames(eval_ratings_results) <- model_names
 eval_ratings_results <- eval_ratings_results[order(eval_ratings_results$RMSE ),]
 eval_ratings_results
+
+
+eval_ratings_results$rec_type <- rownames(eval_ratings_results)
+
+#### PLOT - ALL Model Errors ####
+eval_ratings_results_long<- gather(eval_ratings_results, Error , Err_Value, RMSE:MAE)
+
+#Remove chart 
+source("remove_chart_junk.R")
+myChartAttr <- myChartAttr_fn()
+
+
+#### PLOT - Popular Sentiment model Errors ####
+ggplot(eval_ratings_results_long, aes(fill = Error, x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.4) +
+  myChartAttr +
+  labs(x="",y ="Error Rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values=colorbar)
+
+
+
+
+

@@ -675,22 +675,14 @@ rownames(eval_ratings_results) <- c("UBCF_N_C_5",
 eval_ratings_results <- eval_ratings_results[order(eval_ratings_results$RMSE ),]
 eval_ratings_results
 
+#Remove chart junk 
+source("remove_chart_junk.R")
+myChartAttr <- myChartAttr_fn()
 
-library(tidyr)
 eval_ratings_results$rec_type <- rownames(eval_ratings_results)
 
 #### PLOT - ALL Model Errors ####
 eval_ratings_results_long<- gather(eval_ratings_results, Error , Err_Value, RMSE:MAE)
-
-library(ggplot2)
-myChartAttr <-  theme_bw() +
-  theme(panel.border = element_blank(), 
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), 
-        axis.line = element_line(colour = "gray"), 
-        axis.ticks.x=element_blank(), 
-        axis.ticks.y=element_blank())
-colorbar = c("#444444","#808080","#f55d4b")
 
 # ggplot(eval_ratings_results_long, aes(fill = Error , x = rec_type, y=Err_Value)) +
 #   geom_bar(position="dodge", stat="identity",width = 0.9) +
