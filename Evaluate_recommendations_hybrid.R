@@ -133,11 +133,11 @@ for (i in 1:nrow(df1)){
 }
 
 eval_names <- as.character(eval_names)
-eval_ratings_results <- c()
+eval_ratings_hybrid_results <- c()
 for (i in 1:length(eval_names)){
-  eval_ratings_results <- rbind(eval_ratings_results,get(eval_names[i]))
+  eval_ratings_hybrid_results <- rbind(eval_ratings_hybrid_results,get(eval_names[i]))
 } 
 
-eval_ratings_results <- data.frame(eval_ratings_results)
-rownames(eval_ratings_results) <- model_names
-View(eval_ratings_results)
+eval_ratings_hybrid_results <- data.frame(eval_ratings_hybrid_results)
+rownames(eval_ratings_hybrid_results) <- model_names
+View(eval_ratings_hybrid_results)
