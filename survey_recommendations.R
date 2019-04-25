@@ -52,6 +52,17 @@ source("predictions_on_test_data_hybrid_survey.R")
 # Evaluate hybrid recommendations
 #source("Evaluate_recommendations_hybrid.R")
 
+#----------------------- Doing recommendations for all users --------------
+
+
+survey_predictions_df<- as(Hybrid_predict_ratings,"data.frame")
+
+survey_predictions_df %<>%    arrange(desc(rating)) %>%   group_by(user) %>%   top_n(n = 5)
+
+restaurant_list<-get_restaurants(data.frame(unique(survey_predictions_df$item)))
+survey_predictions_df<-merge(survey_predictions_df,restaurant_list, by.x="item", by.y="business_id")
+write.csv(subset_pd_10, file = "survey_recommendation_result.csv", row.names = FALSE)
+
 
 #----------------------- Doing recommendations for a specific user --------------
 user<-ratings_mat_survey_results@data@Dimnames[[1]][5] #choose a random user
@@ -71,11 +82,3 @@ if(sum(user_restaurants_visited %in% predicted_ratings)){
 source("map_recommendations.R")
 predictions %<>% as.data.frame()
 res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
-
-survey_predictions_df<- as(Hybrid_predict_ratings,"data.frame")
-
-survey_predictions_df %<>%    arrange(desc(rating)) %>%   group_by(user) %>%   top_n(n = 5)
-
-restaurant_list<-get_restaurants(data.frame(unique(survey_predictions_df$item)))
-survey_predictions_df<-merge(survey_predictions_df,restaurant_list, by.x="item", by.y="business_id")
-write.csv(subset_pd_10, file = "survey_recommendation_result.csv", row.names = FALSE)
