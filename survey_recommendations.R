@@ -72,3 +72,5 @@ source("map_recommendations.R")
 predictions %<>% as.data.frame()
 res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
 
+survey_predictions_df<- as(Hybrid_predict_ratings,"data.frame")
+survey_predictions_df<- subset(survey_predictions_df,survey_predictions_df)
