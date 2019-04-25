@@ -5,7 +5,7 @@ library(recommenderlab)
 
 UBCF_predict_restaurants<-function(test_ratings_matrix,n_recommended){
   # load the model
-  UBCF_model <- readRDS("./UBCF_model.rds")
+  UBCF_model <- readRDS("./UBCF_model_survey.rds")
   
   # make a predictions on "new data" using the final model stored
   UBCF_recc_predicted <- predict(object = UBCF_model, newdata = test_ratings_matrix, n = n_recommended)
@@ -15,7 +15,7 @@ UBCF_predict_restaurants<-function(test_ratings_matrix,n_recommended){
 
 UBCF_predict_ratings<-function(test_ratings_matrix){
   # load the model
-  UBCF_model <- readRDS("./UBCF_model.rds")
+  UBCF_model <- readRDS("./UBCF_model_survey.rds")
   
   # make a predictions on "new data" using the final model stored
   UBCF_recc_predicted <- predict(object = UBCF_model, newdata = test_ratings_matrix, type = "ratings")

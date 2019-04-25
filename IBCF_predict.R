@@ -5,7 +5,7 @@ library(recommenderlab)
 
 IBCF_predict_restaurants<-function(ratings_matrix,n_recommended){
   # load the model
-  IBCF_model <- readRDS("./IBCF_model.rds")
+  IBCF_model <- readRDS("./IBCF_model_survey.rds")
   
   # make a predictions on "new data" using the final model
   IBCF_recc_predicted <- predict(object = IBCF_model, newdata = ratings_matrix, n = n_recommended)
@@ -15,7 +15,7 @@ IBCF_predict_restaurants<-function(ratings_matrix,n_recommended){
 
 IBCF_predict_ratings<-function(ratings_matrix){
   # load the model
-  IBCF_model <- readRDS("./IBCF_model.rds")
+  IBCF_model <- readRDS("./IBCF_model_survey.rds")
   
   # make a predictions on "new data" using the final model
   IBCF_recc_predicted <- predict(object = IBCF_model, newdata = ratings_matrix, type = "ratings")

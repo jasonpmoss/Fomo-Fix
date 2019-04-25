@@ -13,7 +13,7 @@ n_recommended <- 3
 #Extract the dataset from GoogleBigQuery:
 project <- "fomofix-217307"
 
-sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_1_Year`;"
+sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_1_5_Year`;"
   
 #Execute the query and store the result
 ratings <- query_exec(sql, project = project, use_legacy_sql = FALSE)
@@ -34,16 +34,31 @@ source("Popular_sentiment.R")
 source("split_train_test_data_survey.R") 
 eval_set_survey <- split_train_test_data_survey(ratings_mat, 1)
 
-source("model_training.R")
+source("model_training_survey.R")
 
 source("predictions_on_survey.R")
 
+
+#----------------------- Create the Hybrid Model-----------------------------------
+#Train
+source("model_training_hybrid_survey.R")
+
+#Predict
+source("predictions_on_test_data_hybrid_survey.R")
+
+# Evaluate hybrid ratings
+#source("Evaluate_ratings_Hybrid.R")
+
+# Evaluate hybrid recommendations
+#source("Evaluate_recommendations_hybrid.R")
+
+
 #----------------------- Doing recommendations for a specific user --------------
-user<-ratings_mat_survey_results@data@Dimnames[[1]][1] #choose a random user
+user<-ratings_mat_survey_results@data@Dimnames[[1]][5] #choose a random user
 #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
 source("recommended_restaurants_per_user.R")
-predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat_survey_results, user, 2)
-predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
+predicted_ratings<-predict_ratings_per_user(Hybrid_model_survey, ratings_mat, user, 5)
+#predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
 predictions
 
 #check if the recommended restaurants have been already rated by the user
