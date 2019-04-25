@@ -147,6 +147,12 @@ source("model_training_hybrid.R")
 #Predict
 source("predictions_on_test_data_hybrid.R")
 
+# Evaluate hybrid ratings
+source("Evaluate_ratings_Hybrid.R")
+
+# Evaluate hybrid recommendations
+source("Evaluate_recommendations_hybrid.R")
+
 ptm <- proc.time() - ptm
 ptm
 save.image(file='variable_environment_20190211.RData')
