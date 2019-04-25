@@ -381,7 +381,6 @@ p_Popular_sentiment_Z@data@x[p_Popular_sentiment_Z@data@x[] > 5] <- 5
 
 
 # Evaluate performance  
-library(knitr)
 
 accuracy_UBCF_N_C_5    <- calcPredictionAccuracy(p_UBCF_N_C_5  , recc_data_eval)
 gc()
@@ -742,6 +741,7 @@ eval_ratings_results_IBCF <- subset(eval_ratings_results, eval_ratings_results$r
                                                                     "IBCF_N_C_alpha_0.9"))
 
 eval_ratings_results_long_IBCF<- gather(eval_ratings_results_IBCF, Error, Err_Value, RMSE:MAE)
+#eval_ratings_results_long_IBCF <- log(eval_ratings_results_long_IBCF$Err_Value)
 
 ggplot(eval_ratings_results_long_IBCF, aes(fill = Error, x = rec_type, y=Err_Value)) +
   geom_bar(position="dodge", stat="identity",width = 0.8) +
@@ -749,6 +749,48 @@ ggplot(eval_ratings_results_long_IBCF, aes(fill = Error, x = rec_type, y=Err_Val
   labs(x="",y ="Error Rate") +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
   scale_fill_manual(values=colorbar)
+
+#### RMSE - IBCF Graphs with highlight####
+
+eval_ratings_results_long_RMSE_IBCF <- subset(eval_ratings_results_long_IBCF, Error == "RMSE")
+#eval_ratings_results_long_RMSE_IBCF$Err_Value <- log(eval_ratings_results_long_RMSE_IBCF$Err_Value)
+
+ggplot(eval_ratings_results_long_RMSE_IBCF, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="RMSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_RMSE_IBCF, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
+
+#### MSE - IBCF Graphs with highlight####
+
+eval_ratings_results_long_MSE_IBCF <- subset(eval_ratings_results_long_IBCF, Error == "MSE")
+#eval_ratings_results_long_MSE_IBCF$Err_Value <- log(eval_ratings_results_long_MSE_IBCF$Err_Value)
+
+ggplot(eval_ratings_results_long_MSE_IBCF, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MSE_IBCF, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
+
+#### MAE - IBCF Graphs with highlight####
+
+eval_ratings_results_long_MAE_IBCF <- subset(eval_ratings_results_long_IBCF, Error == "MAE")
+#eval_ratings_results_long_MAE_IBCF$Err_Value <- log(eval_ratings_results_long_MAE_IBCF$Err_Value)
+
+ggplot(eval_ratings_results_long_MAE_IBCF, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MAE_IBCF, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
 
 eval_ratings_results_UBCF <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("UBCF_N_C_5",
                                                                                                "UBCF_N_C_10",
@@ -814,6 +856,47 @@ ggplot(eval_ratings_results_long_UBCF, aes(fill = Error, x = rec_type, y=Err_Val
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) +
   scale_fill_manual(values=colorbar)
 
+#### RMSE - UBCF Graphs with highlight####
+
+eval_ratings_results_long_RMSE_UBCF <- subset(eval_ratings_results_long_UBCF, Error == "RMSE")
+#eval_ratings_results_long_RMSE_UBCF$Err_Value <- log(eval_ratings_results_long_RMSE_UBCF$Err_Value)
+
+ggplot(eval_ratings_results_long_RMSE_UBCF, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="RMSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_RMSE_UBCF, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
+
+#### MSE - UBCF Graphs with highlight####
+
+eval_ratings_results_long_MSE_UBCF <- subset(eval_ratings_results_long_UBCF, Error == "MSE")
+#eval_ratings_results_long_MSE_UBCF$Err_Value <- log(eval_ratings_results_long_MSE_UBCF$Err_Value)
+
+ggplot(eval_ratings_results_long_MSE_UBCF, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MSE_UBCF, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
+#### MAE - UBCF Graphs with highlight####
+
+eval_ratings_results_long_MAE_UBCF <- subset(eval_ratings_results_long_UBCF, Error == "MAE")
+#eval_ratings_results_long_MAE_UBCF$Err_Value <- log(eval_ratings_results_long_MAE_UBCF$Err_Value)
+
+ggplot(eval_ratings_results_long_MAE_UBCF, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MAE_UBCF, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.7)
+
+
 
 #### PLOT - Popular model Errors ####
 eval_ratings_results_popular <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("p_Popular_N",
@@ -829,19 +912,102 @@ ggplot(eval_ratings_results_long_popular, aes(fill = Error, x = rec_type, y=Err_
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
   scale_fill_manual(values=colorbar)
 
+
+#### RMSE - Popular Graphs with highlight####
+
+eval_ratings_results_long_RMSE_popular <- subset(eval_ratings_results_long_popular, Error == "RMSE")
+#eval_ratings_results_long_RMSE_popular$Err_Value <- log(eval_ratings_results_long_RMSE_popular$Err_Value)
+
+ggplot(eval_ratings_results_long_RMSE_popular, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.6) +
+  myChartAttr +
+  labs(x="",y ="RMSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_RMSE_popular, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.6)
+
+
+#### MSE - Popular Graphs with highlight####
+
+eval_ratings_results_long_MSE_popular <- subset(eval_ratings_results_long_popular, Error == "MSE")
+#eval_ratings_results_long_MSE_popular$Err_Value <- log(eval_ratings_results_long_MSE_popular$Err_Value)
+
+ggplot(eval_ratings_results_long_MSE_popular, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.7) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MSE_popular, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.6)
+
+#### MAE - Popular Graphs with highlight####
+
+eval_ratings_results_long_MAE_popular <- subset(eval_ratings_results_long_popular, Error == "MAE")
+#eval_ratings_results_long_MAE_popular$Err_Value <- log(eval_ratings_results_long_MAE_popular$Err_Value)
+
+ggplot(eval_ratings_results_long_MAE_popular, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.6) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MAE_popular, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.6)
+
+
 #### PLOT - Popular Sentiment model Errors ####
-eval_ratings_results_popular <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("p_Popular_sentiment_N",
+eval_ratings_results_popular_s <- subset(eval_ratings_results, eval_ratings_results$rec_type %in% c("p_Popular_sentiment_N",
                                                                                                   "p_Popular_sentiment_C",
                                                                                                   "p_Popular_sentiment_Z"))
 
-eval_ratings_results_long_popular<- gather(eval_ratings_results_popular, Error, Err_Value, RMSE:MAE)
+eval_ratings_results_long_popular_s <- gather(eval_ratings_results_popular_s, Error, Err_Value, RMSE:MAE)
 
-ggplot(eval_ratings_results_long_popular, aes(fill = Error, x = rec_type, y=Err_Value)) +
+ggplot(eval_ratings_results_long_popular_s, aes(fill = Error, x = rec_type, y=Err_Value)) +
   geom_bar(position="dodge", stat="identity",width = 0.4) +
   myChartAttr +
   labs(x="",y ="Error Rate") +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
   scale_fill_manual(values=colorbar)
+
+#### RMSE - Popular sentiment Graphs with highlight####
+
+eval_ratings_results_long_RMSE_popular_s <- subset(eval_ratings_results_long_popular_s, Error == "RMSE")
+#eval_ratings_results_long_RMSE_popular_s$Err_Value <- log(eval_ratings_results_long_RMSE_popular_s$Err_Value)
+
+ggplot(eval_ratings_results_long_RMSE_popular_s, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.6) +
+  myChartAttr +
+  labs(x="",y ="RMSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_RMSE_popular_s, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.6)
+
+
+#### MSE - Popular sentiment Graphs with highlight####
+
+eval_ratings_results_long_MSE_popular_s <- subset(eval_ratings_results_long_popular_s, Error == "MSE")
+#eval_ratings_results_long_MSE_popular_s$Err_Value <- log(eval_ratings_results_long_MSE_popular_s$Err_Value)
+
+ggplot(eval_ratings_results_long_MSE_popular_s, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.6) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MSE_popular_s, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.6)
+
+#### MAE - UBCF Graphs with highlight####
+
+eval_ratings_results_long_MAE_popular_s <- subset(eval_ratings_results_long_popular_s, Error == "MAE")
+#eval_ratings_results_long_MAE_popular_s$Err_Value <- log(eval_ratings_results_long_MAE_popular_s$Err_Value)
+
+ggplot(eval_ratings_results_long_MAE_popular_s, aes(x = rec_type, y=Err_Value)) +
+  geom_bar(position="dodge", stat="identity",width = 0.6) +
+  myChartAttr +
+  labs(x="",y ="MSE error rate") +
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.9)) +
+  scale_fill_manual(values="#808080") + 
+  geom_bar(data=subset(eval_ratings_results_long_MAE_popular_s, Err_Value==min(Err_Value)), aes(rec_type, Err_Value), fill="#f55d4b", stat="identity",width = 0.6)
+
 
 ##NOTE: We can also change the way we split trainig/test dataset and compare evaluation of
 ##      different values of k for the cross-validation method with 2, 4, 6,... k-folds
