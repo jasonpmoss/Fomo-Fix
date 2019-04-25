@@ -76,25 +76,6 @@ survey_predictions_df<- as(Hybrid_predict_ratings,"data.frame")
 
 survey_predictions_df %<>%    arrange(desc(rating)) %>%   group_by(user) %>%   top_n(n = 5)
 
-
-subset_pd <- subset(survey_predictions_df, user = "cjcampagna@gmail.com") 
-subset_pd <- subset_pd[order(- subset_pd$rating),] 
-subset_pd_10 <- head(subset_pd,10)
-
-
-
-
-j=0
-#survey_predictions_df %<>%   group_by(user) %>%   top_n(n = 5, wt = rating)
-for (i in survey_predictions_df$user){
-  
-  if(!(i %in% subset_pd_10$user)){
-    subset_pd <- subset(survey_predictions_df, user = i) 
-    subset_pd <- subset_pd[order(- subset_pd$rating),] 
-    subset_pd_10<-rbind(subset_pd_10,subset_pd)
-  }
-}
-
 restaurant_list<-get_restaurants(data.frame(unique(survey_predictions_df$item)))
 survey_predictions_df<-merge(survey_predictions_df,restaurant_list, by.x="item", by.y="business_id")
 write.csv(subset_pd_10, file = "survey_recommendation_result.csv", row.names = FALSE)
