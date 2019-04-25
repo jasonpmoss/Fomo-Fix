@@ -13,7 +13,7 @@ n_recommended <- 3
 #Extract the dataset from GoogleBigQuery:
 project <- "fomofix-217307"
 
-sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_6_Months`;"
+sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_1_Year`;"
   
 #Execute the query and store the result
 ratings <- query_exec(sql, project = project, use_legacy_sql = FALSE)
@@ -21,6 +21,7 @@ sql_survey_results<- "SELECT * FROM `fomofix-217307.fomofixds.Live_Survey_Result
 #sql_survey_results<- "SELECT * FROM `fomofix-217307.fomofixds.Live_Survey_Results_ratings`"
 survey_results<-query_exec(sql_survey_results, project = project, use_legacy_sql = FALSE)
 survey_results %<>% distinct(.)
+survey_results <- subset(survey_results, business_id != "#NAME?")
 #Save it as a sparse RealRatingMatrix object
 source("ratings_matrix.R")
 ratings_mat <- ratings_matrix_sparse(ratings$user_id, ratings$business_id, ratings$stars)
@@ -31,11 +32,11 @@ source("Popular_sentiment.R")
 
 #----------------------- Train models ------------------------------------------
 source("split_train_test_data_survey.R") 
-eval_set <- split_train_test_data_survey(ratings_mat, 1)
+eval_set_survey <- split_train_test_data_survey(ratings_mat, 1)
 
 source("model_training.R")
 
-#source("predictions_on_test_data.R")
+source("predictions_on_survey.R")
 
 #----------------------- Doing recommendations for a specific user --------------
 user<-ratings_mat_survey_results@data@Dimnames[[1]][1] #choose a random user

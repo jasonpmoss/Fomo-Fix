@@ -5,17 +5,17 @@ gc()
 
 #Predict Recommendations
 source("IBCF_predict.R")
-IBCF_predict<-IBCF_predict_restaurants(ratings_mat_survey_results, n_recommended)
+IBCF_predict_survey<-IBCF_predict_restaurants(ratings_mat_survey_results, n_recommended)
 print("IBCF restaurants predictions done") 
 gc()
 
 source("UBCF_predict.R")
-UBCF_predict <- UBCF_predict_restaurants(ratings_mat_survey_results, n_recommended)
+UBCF_predict_survey <- UBCF_predict_restaurants(ratings_mat_survey_results, n_recommended)
 print("UBCF restaurants predictions done")
 gc()
 
 source("Popular_predict.R")
-Popular_predict <- Popular_predict_restaurants(ratings_mat, n_recommended)
+Popular_predict_survey <- Popular_predict_restaurants(ratings_mat, n_recommended)
 print("Popular restaurants predictions done")
 gc()
 
@@ -26,22 +26,22 @@ print("Popular sentiment restaurants predictions done")
 
 #Predict Ratings
 source("IBCF_predict.R")
-IBCF_predict_ratings<-IBCF_predict_ratings(ratings_mat_survey_results)
+IBCF_predict_ratings_survey<-IBCF_predict_ratings(ratings_mat_survey_results)
 gc()
 print("IBCF ratings predictions done")
 
 source("UBCF_predict.R")
-UBCF_predict_ratings<-UBCF_predict_ratings(ratings_mat_survey_results)
+UBCF_predict_ratings_survey<-UBCF_predict_ratings(ratings_mat_survey_results)
 gc()
 print("UBCF ratings predictions done")
 
 source("Popular_predict.R")
-Popular_predict_ratings<-Popular_predict_ratings(ratings_mat_survey_results)
+Popular_predict_ratings_survey<-Popular_predict_ratings(ratings_mat)
 gc()
 print("Popular ratings predictions done")
 
 source("Popular_sentiment_predict.R")
-Popular_sentiment_predict_ratings<-Popular_sentiment_predict_ratings(ratings_mat_sentiment)
+Popular_sentiment_predict_ratings_survey<-Popular_sentiment_predict_ratings(ratings_mat_sentiment)
 gc()
 print("Popular sentiment ratings predictions done")
 
