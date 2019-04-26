@@ -59,25 +59,6 @@ if(predict_asynchronously==TRUE){
   source("predictions_on_test_data.R")
 }
 
-#----------------------- Doing recommendations for a specific user --------------
-user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
-#get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
-source("recommended_restaurants_per_user.R")
-predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
-predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
-predictions
-
-#check if the recommended restaurants have been already rated by the user
-user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
-if(sum(user_restaurants_visited %in% predicted_ratings)){
-  print("FOMOFIX error: Restaurant recommended has already been rated by this user")
-}
-
-#----------------------- Map recommendations -------------------------------------
-source("map_recommendations.R")
-predictions %<>% as.data.frame()
-res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
-
 #----------------------- Show restaurants visited by user ------------------------
 # table_for_user<-c(user_restaurants_visited, predictions)
 # table_for_user %<>% as.data.frame()
@@ -153,7 +134,26 @@ source("Evaluate_ratings_Hybrid.R")
 # Evaluate hybrid recommendations
 source("Evaluate_recommendations_hybrid.R")
 
+# #----------------------- Doing recommendations for a specific user --------------
+# user<-recc_data_test@data@Dimnames[[1]][1] #choose a random user
+# #get  predicted ratings from top n restaurants. n can be passed as parameter, otherwise its value by default is 100
+# source("recommended_restaurants_per_user.R")
+# predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
+# predictions<-predicted_ratings$Restaurant #to see only the restaurants name 
+# predictions
+# 
+# #check if the recommended restaurants have been already rated by the user
+# user_restaurants_visited<-(subset(ratings,user_id==user))[,1]
+# if(sum(user_restaurants_visited %in% predicted_ratings)){
+#   print("FOMOFIX error: Restaurant recommended has already been rated by this user")
+# }
+# 
+# #----------------------- Map recommendations -------------------------------------
+# source("map_recommendations.R")
+# predictions %<>% as.data.frame()
+# res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
+
 ptm <- proc.time() - ptm
 ptm
-save.image(file='variable_environment_20190211.RData')
+save.image(file='variable_environment_20190426.RData')
 
