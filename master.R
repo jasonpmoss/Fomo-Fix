@@ -18,7 +18,7 @@ if(ratings_mat_loaded == TRUE){
 }else{
   #Extact the dataset from GoogleBigQuery:
   project <- "fomofix-217307"
-  sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_6_Months`;"
+  sql <- "SELECT business_id, user_id, stars FROM `fomofix-217307.fomofixds.fin_LV_Restaurant_Reviews_1_6_Years`;"
   
   #Execute the query and store the result
   ratings <- query_exec(sql, project = project, use_legacy_sql = FALSE)
@@ -155,5 +155,5 @@ source("Evaluate_recommendations_hybrid.R")
 
 ptm <- proc.time() - ptm
 ptm
-save.image(file='variable_environment_20190426.RData')
+save.image(file='variable_environment_20190427.RData')
 
