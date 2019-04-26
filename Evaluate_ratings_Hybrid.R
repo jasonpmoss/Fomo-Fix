@@ -72,7 +72,7 @@ myChartAttr <- myChartAttr_fn()
 
 
 #### PLOT - Popular Sentiment model Errors ####
-library(gghighlight)
+
 ggplot(eval_ratings_results_long, aes(fill = Error, x = rec_type, y=Err_Value)) +
   geom_bar(position="dodge", stat="identity",width = 0.85) +
   myChartAttr +
