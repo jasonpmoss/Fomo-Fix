@@ -61,7 +61,7 @@ survey_predictions_df %<>%    arrange(desc(rating)) %>%   group_by(user) %>%   t
 
 restaurant_list<-get_restaurants(data.frame(unique(survey_predictions_df$item)))
 survey_predictions_df<-merge(survey_predictions_df,restaurant_list, by.x="item", by.y="business_id")
-write.csv(subset_pd_10, file = "survey_recommendation_result.csv", row.names = FALSE)
+write.csv(survey_predictions_df, file = "survey_recommendation_result.csv", row.names = FALSE)
 
 
 #----------------------- Doing recommendations for a specific user --------------
