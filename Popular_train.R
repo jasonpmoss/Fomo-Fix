@@ -1,7 +1,7 @@
 library(dplyr)
 library(recommenderlab)
 
-Popular_train<-function(ratings_matrix, norm = "center"){
+Popular_train<-function(ratings_matrix, norm = NULL){
   # Start the clock!
   ptm <- proc.time()
   

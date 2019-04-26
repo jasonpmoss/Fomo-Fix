@@ -4,7 +4,7 @@
 #INPUT: training dataset (mandatory). Nearest neightbors, distance method and normalization method (optional and with default values)
 #OUTPUT: the function returns the trained model and it also save it to disk
 
-UBCF_train_survey<-function(training_data, nearest_neighbors =30 , distance = "cosine", normalize_ratings = "Center"){
+UBCF_train_survey<-function(training_data, nearest_neighbors =100 , distance = "Jaccard", normalize_ratings = NULL){
   # Start the clock!
   #ptm <- proc.time()
   
