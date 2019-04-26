@@ -3,9 +3,9 @@ library(dplyr)
 library(recommenderlab)
 
 IBCF_train_survey<-function(training_data, 
-                     nearest_neighbors = 25, 
+                     nearest_neighbors = 100, 
                      distance = "cosine", 
-                     normalize_value= "center", 
+                     normalize_value= NULL, 
                      normalize_sim_matrix_value = "FALSE",
                      alpha_input = 0.5, 
                      na_as_zero_input = "FALSE"){
