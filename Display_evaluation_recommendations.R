@@ -31,7 +31,7 @@ display_roc_curves <- function(conf_mat){
                colour = fct_reorder2(as.factor(name), 
                                      FPR, TPR))) +
     geom_line() +
-    geom_label(aes(label = n_recommendations))  +
+    #geom_label(aes(label = n_recommendations))  +
     labs(title = "ROC curves", colour = "Model") +
     theme_grey(base_size = 14) + myChartAttr
 }
@@ -44,7 +44,7 @@ display_precision_recall_curves <- function(conf_mat){
              colour = fct_reorder2(as.factor(name),  
                                    precision, recall))) +
   geom_line() +
-  geom_label(aes(label = n_recommendations))  +
+  #geom_label(aes(label = n_recommendations))  +
   labs(title = "Precision-Recall curves", colour = "Model") +
   theme_grey(base_size = 14) + myChartAttr
 }
