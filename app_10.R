@@ -25,6 +25,7 @@ library(tidyr)
 library(shiny)
 library(shinyWidgets)
 library(shinyjs)
+library(bigrquery)
 #setwd("~/NYU/Courses/Capstone Project/FOMO Fix/Yelp/Data")
 st <- read_csv("Categories.txt", col_names = FALSE)
 st <- as.data.frame(st)
@@ -77,7 +78,7 @@ layout1 <-
     ,
     # Show a plot of the generated distribution
     mainPanel(
-      leafletOutput("mymap",height = 690)
+      leafletOutput("mymap1",height = 690)
     ))
 
 layout2 <-
@@ -121,7 +122,7 @@ layout2 <-
   ,
   # Show a plot of the generated distribution
   mainPanel(
-    leafletOutput("mymap",height = 838)
+    leafletOutput("mymap2",height = 838)
   )
 )
 
@@ -133,13 +134,15 @@ ui <- fluidPage(
   checkboxInput("adop", "Show advanced options", FALSE),
   tabsetPanel(id = "navbar",
               tabPanel(title = "Default", 
-                       value = "tab1"
+                       value = "tab1",
+                       layout1
               ),
               tabPanel(title = "Advanced",
-                       value = "tab2"
+                       value = "tab2",
+                       layout2
               )
   )
-  , layout2
+  
 )
 
 # Define server logic required to draw a histogram
@@ -152,7 +155,7 @@ server <- function(input, output) {
 
   #Output
   #output$recommendations <- renderPrint({
-  output$mymap <- renderLeaflet({  
+  output$mymap1 <- renderLeaflet({  
 
 #RAFA May-11: IMPORANT: if one model does not predict any restaurant, we need to be able to
 #display a message in the app or find a way to manage that scenario
@@ -166,22 +169,51 @@ server <- function(input, output) {
       predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 5)
     }
     else if(input$model == 2){
-        predicted_ratings<-predict_ratings_per_user(UBCF_model, ratings_mat, user, 5)
+        predicted_ratings<-predict_ratings_per_user(UBCF_N_J_100, ratings_mat, user, 5)
     }
     else  if(input$model == 3){
-        predicted_ratings<-predict_ratings_per_user(Popular_C, ratings_mat, user, 5)
+        predicted_ratings<-predict_ratings_per_user(Popular_N, ratings_mat, user, 5)
     }
     else if (input$model == 4){
-        predicted_ratings<-predict_ratings_per_user(IBCF_N_C_10, ratings_mat, user, 5)
+        predicted_ratings<-predict_ratings_per_user(IBCF_N_C_100, ratings_mat, user, 5)
     }
 
+    #filter recommendations and display them in the map
+    predictions<-predicted_ratings$Restaurant #to see only the restaurants name      
+    predictions<-predictions[1:input$n_recommendations] #get the first "n_recommendations"      
+    predictions %<>% as.data.frame()
+    res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
+  }) 
+  output$mymap2 <- renderLeaflet({  
+    
+    #RAFA May-11: IMPORANT: if one model does not predict any restaurant, we need to be able to
+    #display a message in the app or find a way to manage that scenario
+    #a warning is diplayed when this happend: FOMOFIX Warning in predict_ratings_per_user function: The model did not recommend any restaurant for this user
+    ## model == 1 : FOMO Fix
+    ## model == 2 : UBCF
+    ## model == 3 : Popularity
+    ## model == 4 : IBCF
+    user <- input$User
+    if (input$model == 1){
+      predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 5)
+    }
+    else if(input$model == 2){
+      predicted_ratings<-predict_ratings_per_user(UBCF_N_J_100, ratings_mat, user, 5)
+    }
+    else  if(input$model == 3){
+      predicted_ratings<-predict_ratings_per_user(Popular_N, ratings_mat, user, 5)
+    }
+    else if (input$model == 4){
+      predicted_ratings<-predict_ratings_per_user(IBCF_N_C_100, ratings_mat, user, 5)
+    }
+    
     #filter recommendations and display them in the map
     #IMPORANT: ARE WE FILTERING THE TOP n RECOMMENDATIONS??? make sure 
     predictions<-predicted_ratings$Restaurant #to see only the restaurants name      
     predictions<-predictions[1:input$n_recommendations] #get the first "n_recommendations"      
     predictions %<>% as.data.frame()
     res_plot(get_restaurants(predictions)) #important to use get_restaurants functions in the res_plot function call
-  }) 
+  })
 }
 
 # Run the application 
