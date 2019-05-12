@@ -29,6 +29,7 @@ full_set <- read_csv("full set without text.csv")
 ui <- dashboardPage(
   skin = "blue",
   dashboardHeader(title = "FOMO Fix",
+                  titleWidth = 300,
                   dropdownMenu(type = "messages",
                                messageItem(
                                  from = "FOMO Fix team",
@@ -62,11 +63,12 @@ ui <- dashboardPage(
                   
                 ),
   dashboardSidebar(
-    #collapsed = TRUE,
+    collapsed = TRUE,
     ## Sidebar content
     dashboardSidebar(
+      width = 300,
       sidebarMenu(
-        menuItem("Tune your recommendations", tabName = "dashboard", icon = icon("glyphicon glyphicon-cutlery", lib="glyphicon")),
+        # menuItem("Tune your recommendations", tabName = "dashboard", icon = icon("glyphicon glyphicon-cutlery", lib="glyphicon")),
         # menuItem("Advanced", tabName = "advanced", icon = icon("fas fa-tasks")),
         selectizeInput('User', 'Select User', 
                        choices = unlist(recc_data_test@data@Dimnames[1]),
@@ -80,25 +82,25 @@ ui <- dashboardPage(
                                     "What is trending?" = 3,
                                     "Where would I go? (safe)" = 4),
                      selected = 1),
-        sliderInput("n_recommendations", "Number of recommendations:", 1, 10, 5)
-        , p("_______________________________")
-        , strong("Mood Details")
+        sliderInput("n_recommendations", "Number of recommendations:", 1, 10, 10)
+        , p("______________________________________________________")
+        , strong("  Mood Details")
         , p("")
-        , strong("Surprise me:")
-        , p("Recommender based on FOMO Fix Hybrid model.")
-        , strong("Where would friends go:")
-        , p("Recommender based on user-based collaborative filtering")
-        , strong("What is trending:")
-        , p("Recommender based on popularity-based collaborative filtering.")
-        , strong("Where would I go:")
-        , p("Recommender based on item-based collaborative filtering")
+        , strong(em("Surprise me:"))
+        , p("  FOMO Fix Hybrid model.")
+        , strong(em("Where would friends go:"))
+        , p("  User-based collaborative filtering")
+        , strong(em("What is trending:"))
+        , p("  Popularity-based collaborative filtering.")
+        , strong(em("Where would I go:"))
+        , p("Item-based collaborative filtering")
         
       )
     )
   ),
   dashboardBody(
-    tabItems(
-      tabItem(tabName = "dashboard",
+    # tabItems(
+    #   tabItem(tabName = "dashboard",
         fluidRow(
           column(width = 8,
                  leafletOutput("mymap1",height = 450, width = "100%"),
@@ -125,17 +127,10 @@ ui <- dashboardPage(
           infoBoxOutput("businessBox",width = 3),
           infoBoxOutput("usersBox",width = 3),
           infoBoxOutput("reviewsBox",width = 3)
-        ),
-        fluidRow(
-          box(
-            width = NULL, background = "black",
-            "Mood Details:\n
-Surprise me:\n
-Recommender based on FOMO Fix Hybrid model."
-          )
         )
-      )
-    )
+
+    #   )
+    # )
   )
 )
 
@@ -189,7 +184,7 @@ server <- function(input, output) {
   
   output$successBox <- renderInfoBox({
     infoBox(
-      "Succesful Recommendations", "87%", icon = icon("thumbs-up", lib = "glyphicon"),
+      "Success Rate", "87%", icon = icon("thumbs-up", lib = "glyphicon"),
       color = "green"
     )
   })
@@ -211,7 +206,7 @@ server <- function(input, output) {
   output$reviewsBox <- renderInfoBox({
     infoBox(
       "#Reviews", 345.296, icon = icon("glyphicon glyphicon-pencil", lib="glyphicon"),
-      color = "red"
+      color = "blue"
     )
   })
 }
