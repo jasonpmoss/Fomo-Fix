@@ -8,14 +8,33 @@ library(magrittr)
 #---------------this function gets the list of business ids from the predictor and generates the restaurant dataframe----
 get_restaurants<-function(final_recommendations){
   
-  where_sql_statement_string<-""
+  with_sql_statement_string<-"WITH ordered_rest AS ("
   for (i in 1:nrow(final_recommendations)) {
-    temp_string<-ifelse (i< nrow(final_recommendations), paste("business_id= '",final_recommendations[i,1],"' or", sep=""),paste("business_id= '",final_recommendations[i,1],"'", sep=""))   
-    where_sql_statement_string<-paste(where_sql_statement_string,temp_string)
+    with_temp_string<-ifelse (i< nrow(final_recommendations), paste0("SELECT STRUCT('",
+                                                               final_recommendations[i,1],
+                                                               "' AS business_id, ", 
+                                                               i,
+                                                               " AS l_order) AS ordered_rest UNION ALL ",
+                                                               sep=""), paste0("SELECT STRUCT('",
+                                                                               final_recommendations[i,1],
+                                                                               "' AS business_id, ", 
+                                                                               i,
+                                                                               " AS l_order) AS ordered_rest )",
+                                                                               sep=""))   
+    with_sql_statement_string<-paste(with_sql_statement_string,with_temp_string)
   }
+
+  where_sql_statement_string <-" b.business_id = o.ordered_rest.business_id ORDER BY o.ordered_rest.l_order"
+
+      
+  # where_sql_statement_string <-""
+  # for (i in 1:nrow(final_recommendations)) {
+  #   where_temp_string<-ifelse (i< nrow(final_recommendations), paste("business_id= '",final_recommendations[i,1],"' or", sep=""),paste("business_id= '",final_recommendations[i,1],"'", sep=""))   
+  #   where_sql_statement_string<-paste(where_sql_statement_string,where_temp_string)
+  # }    
   
   sql_of_businesses_for_mapping<-"SELECT
-  business_id,
+  b.business_id,
   name,
   stars,
   review_count,
@@ -24,10 +43,11 @@ get_restaurants<-function(final_recommendations){
   latitude,
   longitude
   FROM
-  `fomofix-217307.fomofixds.business`
+  `fomofix-217307.fomofixds.business` b ,
+		ordered_rest o
   WHERE"
   
-  sql_of_businesses_for_mapping<-paste(sql_of_businesses_for_mapping, where_sql_statement_string)
+  sql_of_businesses_for_mapping<-paste(with_sql_statement_string,sql_of_businesses_for_mapping, where_sql_statement_string)
   
   project <- "fomofix-217307" #project ID 
   output <- bq_project_query(project, sql_of_businesses_for_mapping, destination_table = NULL, quiet = NA)
@@ -62,9 +82,10 @@ res_plot <- function(res_df){ #this function will take a subset of restaurants a
   restaurants_nv <- subset(restaurants,restaurants$state =="NV") #Update to read from Shiny
   m <- leaflet() %>%
     addTiles() %>%  # Add default OpenStreetMap map tiles
-    addMarkers(lng=res_df$longitude, lat=res_df$latitude, 100, res_df$name, icon = FOMO_icon) %>%
-    addPopups(res_df$longitude, res_df$latitude, content, options = popupOptions(closeButton = TRUE)) %>%
+    addMarkers(lng=res_df$longitude, lat=res_df$latitude, 100, 
+               label = res_df$name, 
+               labelOptions = labelOptions(noHide = T, direction = 'right', textsize='14px')) %>%
+#    addPopups(res_df$longitude, res_df$latitude, content, options = popupOptions(closeButton = TRUE)) %>%
     setView(-115.1400, 36.1719, zoom = 18)
-  #setView(-115.2873, 36.1434, zoom = 18)
   return(m %>% fitBounds(-115.2946, 36.1196, -115.0422, 36.2206))
 }

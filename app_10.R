@@ -157,9 +157,10 @@ server <- function(input, output) {
   #output$recommendations <- renderPrint({
   output$mymap1 <- renderLeaflet({  
 
-#RAFA May-11: IMPORANT: if one model does not predict any restaurant, we need to be able to
-#display a message in the app or find a way to manage that scenario
-#a warning is diplayed when this happend: FOMOFIX Warning in predict_ratings_per_user function: The model did not recommend any restaurant for this user
+    #RAFA May-11: IMPORANT: if one model does not predict any restaurant, we need to be able to
+    #display a message in the app or find a way to manage that scenario
+    #a warning is diplayed when this happend: FOMOFIX Warning in predict_ratings_per_user function: The model did not recommend any restaurant for this user
+    
     ## model == 1 : FOMO Fix
     ## model == 2 : UBCF
     ## model == 3 : Popularity
