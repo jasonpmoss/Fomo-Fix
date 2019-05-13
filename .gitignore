@@ -22,3 +22,4 @@ sentiment_user_defined_fn - without_two parameter.R
 sentiment_user_defined_fn.R
 IBCF_model_survey.rds
 UBCF_model_survey.rds
+survey_recommendation_result.csv
