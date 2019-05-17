@@ -71,8 +71,9 @@ ui <- dashboardPage(
         # menuItem("Tune your recommendations", tabName = "dashboard", icon = icon("glyphicon glyphicon-cutlery", lib="glyphicon")),
         # menuItem("Advanced", tabName = "advanced", icon = icon("fas fa-tasks")),
         selectizeInput('User', 'Select User', 
-                       choices = unlist(recc_data_test@data@Dimnames[1]),
-                       selected = unlist(recc_data_test@data@Dimnames[1])[1]
+                       choices = unlist(ratings_mat@data@Dimnames[1]),
+                       selected = "anindya"
+                       #selected = unlist(ratings_mat@data@Dimnames[1])[1]
                        ),
         # selectInput("city_list", label = "Select city for recommendation", 
         #             choices = city_list$City, selected = city_list$City[1]),
@@ -174,6 +175,7 @@ server <- function(input, output) {
     }
     
     #filter recommendations and display them in the map
+    source("map_recommendations.R")
     predictions<-predicted_ratings$Restaurant #to see only the restaurants name      
     predictions<-predictions[1:input$n_recommendations] #get the first "n_recommendations"      
     predictions %<>% as.data.frame()
