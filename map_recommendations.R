@@ -86,6 +86,6 @@ res_plot <- function(res_df){ #this function will take a subset of restaurants a
                label = res_df$name, 
                labelOptions = labelOptions(noHide = T, direction = 'right', textsize='14px')) %>%
 #    addPopups(res_df$longitude, res_df$latitude, content, options = popupOptions(closeButton = TRUE)) %>%
-    setView(-115.1400, 36.1719, zoom = 18)
-  return(m %>% fitBounds(-115.2946, 36.1196, -115.0422, 36.2206))
+    setView(-115.1400, 36.1719, zoom = 11)
+  return(m)# %>% fitBounds(-115.2946, 36.1196, -115.0422, 36.2206))
 }

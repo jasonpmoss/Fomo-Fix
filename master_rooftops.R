@@ -25,25 +25,25 @@ n_recommended <- 3
   
   #Popular model -> modify rooftops ratings to assign 5 stars to all ratings and include 
   #them in the ratings dataset
-  rooftops_df$stars <- rep(5, length(rooftops_df$business_id))
+  rooftops_df$stars <- rep(4.9, length(rooftops_df$business_id))
   ratings <- rbind(ratings, rooftops_df)
   
   #User-based model -> create 20 users having rated all 16 rooftops with 5 stars
-  user_names <- rep("anindya_friend_1",16)
-  for (i in 2:20){
+  user_names <- rep("fake_friend_1",16)
+  for (i in 2:200){
     user_names <- append(user_names, rep(paste0("anindya_friend_", i),16))
   }
-  business_names <- rep(rooftops_names,20)
+  business_names <- rep(rooftops_names,200)
   anindya_friends <- cbind(as.character(business_names), 
                            as.character(user_names), 
-                           as.integer(rep(5, 20*16)))
+                           as.integer(rep(5, 200*16)))
   colnames(anindya_friends) <- c("business_id", "user_id", "stars")
   ratings <- rbind(ratings, anindya_friends)
   
   #create anindya user
   anindya <- as.data.frame(cbind(
-    rooftops_names[1:13], 
-    rep("anindya",13),
+    rooftops_names[-c(13,15,16)], 
+    rep("Anindya G",13),
     rep(5,13)))
   
   colnames(anindya) <- c("business_id", "user_id", "stars")
@@ -99,7 +99,7 @@ Popular_sentiment_N <- Recommender(recc_data_train_sentiment, "Popular", param=l
 #Train
 source("model_training_hybrid.R")
 
-user <- "anindya"
+user <- "Anindya G"
 source("recommended_restaurants_per_user.R")
 predicted_ratings<-predict_ratings_per_user(Hybrid_model, ratings_mat, user, 10)
 predictions<-predicted_ratings$Restaurant #to see only the restaurants name 

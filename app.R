@@ -27,8 +27,8 @@ state_list <- read_xlsx("List_of_States.xlsx")
 full_set <- read_csv("full set without text.csv")
 
 ui <- dashboardPage(
-  skin = "blue",
-  dashboardHeader(title = "FOMO Fix",
+  skin = "red",
+  dashboardHeader(title = "fomoFIX",
                   titleWidth = 300,
                   dropdownMenu(type = "messages",
                                messageItem(
@@ -72,7 +72,7 @@ ui <- dashboardPage(
         # menuItem("Advanced", tabName = "advanced", icon = icon("fas fa-tasks")),
         selectizeInput('User', 'Select User', 
                        choices = unlist(ratings_mat@data@Dimnames[1]),
-                       selected = "anindya"
+                       selected = "Anindya G"
                        #selected = unlist(ratings_mat@data@Dimnames[1])[1]
                        ),
         # selectInput("city_list", label = "Select city for recommendation", 
@@ -104,7 +104,7 @@ ui <- dashboardPage(
     #   tabItem(tabName = "dashboard",
         fluidRow(
           column(width = 8,
-                 leafletOutput("mymap1",height = 450, width = "100%"),
+                 leafletOutput("mymap1",height = 550, width = "100%"),
                  p(), p(), p()
           
           # column(width = 3,
@@ -117,17 +117,17 @@ ui <- dashboardPage(
           ),
           column(width = 4,
             box(
-              width = 12, status = "info",
+              width = 12, status = "danger",
               title = "Top restaurants",
               tableOutput("packageTable")
             )
           )
-        ),
-        fluidRow(
-          infoBoxOutput("successBox",width = 3),
-          infoBoxOutput("businessBox",width = 3),
-          infoBoxOutput("usersBox",width = 3),
-          infoBoxOutput("reviewsBox",width = 3)
+        # ),
+        # fluidRow(
+        #   infoBoxOutput("successBox",width = 3),
+        #   infoBoxOutput("businessBox",width = 3),
+        #   infoBoxOutput("usersBox",width = 3),
+        #   infoBoxOutput("reviewsBox",width = 3)
         )
 
     #   )
@@ -157,6 +157,7 @@ server <- function(input, output) {
       predictions<-predictions[1:input$n_recommendations] #get the first "n_recommendations"      
       predictions %<>% as.data.frame()
       res_plot(get_restaurants(predictions))
+
     })
   
   output$packageTable <- renderTable({
@@ -184,33 +185,33 @@ server <- function(input, output) {
     predictions_display 
   }, rownames = TRUE, colnames = TRUE, digits = 1)
   
-  output$successBox <- renderInfoBox({
-    infoBox(
-      "Success Rate", "87%", icon = icon("thumbs-up", lib = "glyphicon"),
-      color = "green"
-    )
-  })
-  
-  output$businessBox <- renderInfoBox({
-    infoBox(
-      "#Restaurants", dim(recc_data_test)[2],  icon = icon("glyphicon glyphicon-cutlery", lib="glyphicon"),
-      color = "blue"
-    )
-  })
-  
-  output$usersBox <- renderInfoBox({
-    infoBox(
-      "#Users", dim(recc_data_test)[1], icon = icon("users"),
-      color = "blue"
-    )
-  })
-  
-  output$reviewsBox <- renderInfoBox({
-    infoBox(
-      "#Reviews", 345.296, icon = icon("glyphicon glyphicon-pencil", lib="glyphicon"),
-      color = "blue"
-    )
-  })
+  # output$successBox <- renderInfoBox({
+  #   infoBox(
+  #     "Success Rate", "69%", icon = icon("thumbs-up", lib = "glyphicon"),
+  #     color = "green"
+  #   )
+  # })
+  # 
+  # output$businessBox <- renderInfoBox({
+  #   infoBox(
+  #     "#Restaurants", 6267,  icon = icon("glyphicon glyphicon-cutlery", lib="glyphicon"),
+  #     color = "red"
+  #   )
+  # })
+  # 
+  # output$usersBox <- renderInfoBox({
+  #   infoBox(
+  #     "#Users", 86016, icon = icon("users"),
+  #     color = "red"
+  #   )
+  # })
+  # 
+  # output$reviewsBox <- renderInfoBox({
+  #   infoBox(
+  #     "#Reviews", 1022003, icon = icon("glyphicon glyphicon-pencil", lib="glyphicon"),
+  #     color = "red"
+  #   )
+  # })
 }
 
 shinyApp(ui, server)
